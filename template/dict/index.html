@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<!-- 引入头部 -->
+{{include "/public/header.html" .}}
+<body>
+
+<!-- 主体部分开始 -->
+<!-- 正文开始 -->
+<div class="layui-fluid" style="padding-bottom: 0;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding: 10px;">
+                    {{include "/dict/dict.html" .}}
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding: 10px;">
+                    {{include "/dict/dict_data.html" .}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 主体部分结束 -->
+
+<!-- 引入脚部 -->
+{{include "/public/footer.html" .}}
+</body>
+</html>

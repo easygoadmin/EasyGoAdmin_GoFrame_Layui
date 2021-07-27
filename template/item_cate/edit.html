@@ -1,0 +1,65 @@
+<form class="layui-form model-form" action="">
+	<input name="id" id="id" type="hidden" value="{{.info.Id}}">
+	<input name="pid" id="pid" type="hidden" value="{{.info.Pid}}">
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">栏目名称：</label>
+			<div class="layui-input-inline">
+				<input name="name" value="{{.info.Name}}" lay-verify="required" autocomplete="off" placeholder="请输入栏目名称" class="layui-input pinyin" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">所属站点：</label>
+			<div class="layui-input-inline">
+				{{select "item_id|1|所属站点|name|id" .itemList .info.ItemId}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">栏目拼音：</label>
+			<div class="layui-input-inline">
+				<input name="pinyin" value="{{.info.Pinyin}}" lay-verify="required" autocomplete="off" placeholder="请输入栏目拼音" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">栏目简拼：</label>
+			<div class="layui-input-inline">
+				<input name="code" value="{{.info.Code}}" lay-verify="required" autocomplete="off" placeholder="请输入栏目简拼" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">序号：</label>
+			<div class="layui-input-inline">
+				<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入序号" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">有无封面：</label>
+			<div class="layui-input-inline">
+				{{switch "is_cover" "有封面|无封面" .info.IsCover "cover"}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">栏目状态：</label>
+			<div class="layui-input-inline">
+				{{switch "status" "在用|停用" .info.Status}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item {{if eq .info.IsCover 1}}layui-hide{{end}} cover">
+		<label class="layui-form-label">栏目封面：</label>
+		{{upload_image "cover|封面|90x90|建议上传尺寸450x450" .info.Cover "" 0}}
+	</div>
+	<div class="layui-form-item layui-form-text" style="width:625px;">
+		<label class="layui-form-label">栏目说明：</label>
+		<div class="layui-input-block">
+			<textarea name="note" placeholder="请输入栏目说明" class="layui-textarea">{{.info.Note}}</textarea>
+		</div>
+	</div>
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>

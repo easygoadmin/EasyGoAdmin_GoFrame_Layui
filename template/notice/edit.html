@@ -1,0 +1,39 @@
+<form class="layui-form model-form" action="" style="width: 70%;">
+	<input name="id" id="id" type="hidden" value="{$info.id|default=0}">
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">通知标题：</label>
+			<div class="layui-input-inline">
+				<input name="title" value="{{.info.Title}}" lay-verify="required" autocomplete="off" placeholder="请输入通知标题" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">通知来源：</label>
+			<div class="layui-input-inline">
+				{{select "source|1|通知来源|name|id" .sourceList .info.Source}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">是否置顶：</label>
+			<div class="layui-input-inline">
+				{{switch "is_top" "已置顶|未置顶" .info.IsTop}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">通知状态：</label>
+			<div class="layui-input-inline">
+				{{switch "status" "已发布|未发布" .info.Status}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">通知内容：</label>
+		<div class="layui-input-block">
+			<textarea name="content" id="content" lay-verify="required" class="layui-textarea">{{.info.Content}}</textarea>
+			{{kindeditor "content" "default" "80%" "350"}}
+		</div>
+	</div>
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>

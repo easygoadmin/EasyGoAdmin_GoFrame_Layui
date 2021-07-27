@@ -1,0 +1,61 @@
+<form class="layui-form model-form" action="">
+	<input name="id" id="id" type="hidden" value="{{.info.Id}}">
+	<input name="pid" id="pid" type="hidden" value="{{.info.Pid}}">
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">城市名称：</label>
+			<div class="layui-input-inline">
+				<input name="name" value="{{.info.Name}}" lay-verify="required" autocomplete="off" placeholder="请输入城市名称" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">城市级别：</label>
+			<div class="layui-input-inline">
+				{{select "level|1|城市级别|name|id" .levelList .info.Level}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">城市编号：</label>
+			<div class="layui-input-inline">
+				<input name="citycode" value="{{.info.Citycode}}" lay-verify="required" autocomplete="off" placeholder="请输入城市编号（区号）" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">父级编号：</label>
+			<div class="layui-input-inline">
+				<input name="p_adcode" value="{{.info.PAdcode}}" lay-verify="required" autocomplete="off" placeholder="请输入父级地理编号" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">城市经度：</label>
+			<div class="layui-input-inline">
+				<input name="lng" value="{{.info.Lng}}" lay-verify="required|number" autocomplete="off" placeholder="请输入城市坐标中心点经度" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">城市纬度：</label>
+			<div class="layui-input-inline">
+				<input name="lat" value="{{.info.Lat}}" lay-verify="required|number" autocomplete="off" placeholder="请输入城市坐标中心点纬度" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">地理编号：</label>
+			<div class="layui-input-inline">
+				<input name="adcode" value="{{.info.Adcode}}" lay-verify="required" autocomplete="off" placeholder="请输入地理编号" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">排序号：</label>
+			<div class="layui-input-inline">
+				<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入序号" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>

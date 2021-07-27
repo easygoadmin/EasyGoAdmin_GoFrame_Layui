@@ -1,0 +1,35 @@
+<form class="layui-form model-form" action="">
+	<input name="id" id="id" type="hidden" value="{{.info.Id}}">
+	<input name="pid" id="pid" type="hidden" value="{{.info.Pid}}">
+	<div class="layui-form-item">
+		<label class="layui-form-label">部门名称：</label>
+		<div class="layui-input-block">
+			<input name="name" value="{{.info.Name}}" lay-verify="required" autocomplete="off" placeholder="请输入部门名称" class="layui-input" type="text">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">部门编码：</label>
+		<div class="layui-input-block">
+			<input name="code" value="{{.info.Code}}" lay-verify="required" autocomplete="off" placeholder="请输入部门编码" class="layui-input" type="text">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">部门全称：</label>
+		<div class="layui-input-block">
+			<input name="fullname" value="{{.info.Fullname}}" lay-verify="required" autocomplete="off" placeholder="请输入部门全称" class="layui-input" type="text">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">部门类型：</label>
+		<div class="layui-input-block">
+			{{select "type|1|部门类型|name|id" .typeList .info.Type}}
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">序号：</label>
+		<div class="layui-input-block">
+			<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入序号" class="layui-input" type="text">
+		</div>
+	</div>
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>

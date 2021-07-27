@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<!-- 引入头部 -->
+{include file="public/header" /}
+<body>
+
+<!-- 面包屑 -->
+{include file="public/crumb" /}
+
+<!-- 主体部分开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+        
+            <!-- 内容区 -->
+			{block name="content"}
+				内容区
+			{/block}
+			
+        </div>
+    </div>
+</div>
+<!-- 主体部分结束 -->
+
+<!-- 引入脚部 -->
+{include file="public/footer" /}
+</body>
+</html>
