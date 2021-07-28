@@ -17,7 +17,7 @@ func init() {
 
 	gview.Instance().BindFuncMap(gview.FuncMap{
 		"ossUrl":       function.GetOssUrl,
-		"common":       widget.Common,
+		"widget":       widget.Widget,
 		"query":        widget.Query,
 		"add":          widget.Add,
 		"edit":         widget.Edit,
@@ -35,5 +35,8 @@ func init() {
 		"item":         widget.Item,
 		"kindeditor":   widget.Kindeditor,
 		"date":         widget.Date,
+		"checkbox":     widget.Checkbox,
+		"radio":        widget.Radio,
+		"city":         widget.City,
 	})
 }

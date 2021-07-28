@@ -13,6 +13,7 @@ import (
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 )
@@ -181,11 +182,12 @@ func (s *adService) Status(req *model.AdStatusReq) (int64, error) {
 		return 0, gerror.New("记录不存在")
 	}
 
-	// 更新状态
-	info.Status = req.Status
-	info.UpdateUser = 1
-	info.UpdateTime = gtime.Now()
-	result, err := dao.Ad.Save(info)
+	// 设置状态
+	result, err := dao.Ad.Data(g.Map{
+		"status":      req.Status,
+		"update_user": 1,
+		"update_time": gtime.Now(),
+	}).Where(dao.Ad.Columns.Id, info.Id).Update()
 	if err != nil {
 		return 0, err
 	}

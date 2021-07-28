@@ -10,13 +10,13 @@ import (
 
 // Level is the golang structure for table sys_level.
 type Level struct {
-    Id         uint        `orm:"id,primary"  json:"id"`         // 主键ID             
+    Id         int         `orm:"id,primary"  json:"id"`         // 主键ID             
     Name       string      `orm:"name"        json:"name"`       // 职级名称           
-    Status     uint        `orm:"status"      json:"status"`     // 状态：1正常 2停用  
-    Sort       uint        `orm:"sort"        json:"sort"`       // 显示顺序           
-    CreateUser uint        `orm:"create_user" json:"createUser"` // 添加人             
+    Status     int         `orm:"status"      json:"status"`     // 状态：1正常 2停用  
+    Sort       int         `orm:"sort"        json:"sort"`       // 显示顺序           
+    CreateUser int         `orm:"create_user" json:"createUser"` // 添加人             
     CreateTime *gtime.Time `orm:"create_time" json:"createTime"` // 创建时间           
-    UpdateUser uint        `orm:"update_user" json:"updateUser"` // 更新人             
+    UpdateUser int         `orm:"update_user" json:"updateUser"` // 更新人             
     UpdateTime *gtime.Time `orm:"update_time" json:"updateTime"` // 更新时间           
-    Mark       uint        `orm:"mark"        json:"mark"`       // 有效标识           
+    Mark       int         `orm:"mark"        json:"mark"`       // 有效标识           
 }

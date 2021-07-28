@@ -158,3 +158,32 @@ func (c *cityCtl) Delete(r *ghttp.Request) {
 		})
 	}
 }
+
+func (c *cityCtl) GetChilds(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		// 参数验证
+		var req *model.CityChildReq
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+
+		// 调用获取子级城市
+		list, err := service.City.GetChilds(req.CityCode)
+		if err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "查询成功",
+			Data: list,
+		})
+	}
+}

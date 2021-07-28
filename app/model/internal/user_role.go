@@ -8,6 +8,6 @@ package internal
 
 // UserRole is the golang structure for table sys_user_role.
 type UserRole struct {
-    UserId uint `orm:"user_id" json:"userId"` // 人员ID  
-    RoleId uint `orm:"role_id" json:"roleId"` // 角色ID  
+    UserId int `orm:"user_id" json:"userId"` // 人员ID  
+    RoleId int `orm:"role_id" json:"roleId"` // 角色ID  
 }

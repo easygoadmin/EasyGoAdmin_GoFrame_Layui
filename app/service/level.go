@@ -11,6 +11,7 @@ import (
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/gtime"
 )
 
@@ -109,11 +110,13 @@ func (s *levelService) Status(req *model.LevelStatusReq) (int64, error) {
 	if info == nil {
 		return 0, gerror.New("记录不存在")
 	}
-	// 更新状态
-	info.Status = req.Status
-	info.UpdateUser = 1
-	info.UpdateTime = gtime.Now()
-	result, err := dao.Level.Save(info)
+
+	// 设置状态
+	result, err := dao.Level.Data(g.Map{
+		"status":      req.Status,
+		"update_user": 1,
+		"update_time": gtime.Now(),
+	}).Where(dao.Level.Columns.Id, info.Id).Update()
 	if err != nil {
 		return 0, err
 	}

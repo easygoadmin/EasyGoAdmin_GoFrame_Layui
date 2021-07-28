@@ -6,9 +6,89 @@ package model
 
 import (
 	"easygoadmin/app/model/internal"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // User is the golang structure for table sys_user.
 type User internal.User
 
 // Fill with you ideas below.
+
+type UserPageReq struct {
+	Realname string `p:"realname"` // 用户姓名
+	Page     int    `p:page`       // 页码
+	Limit    int    `p:limit`      // 每页数
+}
+
+type UserAddReq struct {
+	Realname     string      `p:"realname"      v:"required#真实姓名不能为空"`  // 真实姓名
+	Nickname     string      `p:"nickname"      v:"required#昵称不能为空"`    // 昵称
+	Gender       int         `p:"gender"        v:"required#性别不能为空"`    // 性别:1男 2女 3保密
+	Avatar       string      `p:"avatar"        v:"required#请上传头像"`     // 头像
+	Mobile       string      `p:"mobile"        v:"required#手机号不能为空"`   // 手机号码
+	Email        string      `p:"email"         v:"required#电子邮件不能为空"`  // 邮箱地址
+	Birthday     *gtime.Time `p:"birthday"      v:"required#出生日期不能为空"`  // 出生日期
+	DeptId       int         `p:"dept_id"       v:"required#请选择部门"`     // 部门ID
+	LevelId      int         `p:"level_id"      v:"required#请选择职级"`     // 职级ID
+	PositionId   int         `p:"position_id"   v:"required#请选择岗位"`     // 岗位ID
+	ProvinceCode string      `p:"province_code" v:"required#请选择省份"`     // 省份编号
+	CityCode     string      `p:"city_code"     v:"required#请选择城市"`     // 市区编号
+	DistrictCode string      `p:"district_code" v:"required#请选择县区"`     // 区县编号
+	Address      string      `p:"address"`                              // 详细地址
+	Username     string      `p:"username"      v:"required#登录用户名不能为空"` // 登录用户名
+	Password     string      `p:"password"`                             // 登录密码
+	Intro        string      `p:"intro"`                                // 个人简介
+	Status       int         `p:"status"        v:"required#请选择状态"`     // 状态：1正常 2禁用
+	Note         string      `p:"note"`                                 // 备注
+	Sort         int         `p:"sort"          v:"required#排序号不能为空"`   // 排序号
+}
+
+type UserUpdateReq struct {
+	Id           int64       `p:"id" v:"required#主键ID不能为空"`
+	Realname     string      `p:"realname"      v:"required#真实姓名不能为空"`  // 真实姓名
+	Nickname     string      `p:"nickname"      v:"required#昵称不能为空"`    // 昵称
+	Gender       int         `p:"gender"        v:"required#性别不能为空"`    // 性别:1男 2女 3保密
+	Avatar       string      `p:"avatar"        v:"required#请上传头像"`     // 头像
+	Mobile       string      `p:"mobile"        v:"required#手机号不能为空"`   // 手机号码
+	Email        string      `p:"email"         v:"required#电子邮件不能为空"`  // 邮箱地址
+	Birthday     *gtime.Time `p:"birthday"      v:"required#出生日期不能为空"`  // 出生日期
+	DeptId       int         `p:"dept_id"       v:"required#请选择部门"`     // 部门ID
+	LevelId      int         `p:"level_id"      v:"required#请选择职级"`     // 职级ID
+	PositionId   int         `p:"position_id"   v:"required#请选择岗位"`     // 岗位ID
+	ProvinceCode string      `p:"province_code" v:"required#请选择省份"`     // 省份编号
+	CityCode     string      `p:"city_code"     v:"required#请选择城市"`     // 市区编号
+	DistrictCode string      `p:"district_code" v:"required#请选择县区"`     // 区县编号
+	Address      string      `p:"address"`                              // 详细地址
+	Username     string      `p:"username"      v:"required#登录用户名不能为空"` // 登录用户名
+	Password     string      `p:"password"`                             // 登录密码
+	Intro        string      `p:"intro"`                                // 个人简介
+	Status       int         `p:"status"        v:"required#请选择状态"`     // 状态：1正常 2禁用
+	Note         string      `p:"note"`                                 // 备注
+	Sort         int         `p:"sort"          v:"required#排序号不能为空"`   // 排序号
+	RoleIds      string      `p:"role_ids" v:"required#请选择用户角色"`        // 用户角色
+}
+
+type UserDeleteReq struct {
+	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
+}
+
+// 设置状态
+type UserStatusReq struct {
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
+}
+
+// 重置密码
+type UserResetPwdReq struct {
+	Id int `p:"id" v:"required#主键ID不能为空"`
+}
+
+// 用户信息Vo
+type UserInfoVo struct {
+	User
+	GenderName   string      `json:"genderName"`   // 性别
+	LevelName    string      `json:"levelName"`    // 职级
+	PositionName string      `json:"positionName"` // 岗位
+	DeptName     string      `json:"deptName"`     // 部门
+	RoleIds      interface{} `json:"RoleIds"`      // 角色ID
+}

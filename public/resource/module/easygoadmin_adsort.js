@@ -46,7 +46,7 @@ layui.use(['func'], function () {
         func.tableIns(cols, "tableList");
 
         //【设置弹框】
-        func.setWin("广告位描述",700, 450);
+        func.setWin("广告位描述",750, 400);
 
     }
 });

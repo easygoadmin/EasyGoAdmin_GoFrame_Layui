@@ -16,9 +16,9 @@ import (
 )
 
 // 用户控制器管理对象
-var User = new(userCtl)
+var Login = new(loginCtl)
 
-type userCtl struct{}
+type loginCtl struct{}
 
 type LoginReq struct {
 	UserName string `p:"username" v:required|length:5,30#请输入登录账号|账号长度为：min-max位`
@@ -28,7 +28,7 @@ type LoginReq struct {
 }
 
 // 系统登录
-func (c *userCtl) Login(r *ghttp.Request) {
+func (c *loginCtl) Login(r *ghttp.Request) {
 	if r.IsAjaxRequest() {
 		r.Response.WriteJson(g.Map{
 			"code": 500,
@@ -39,7 +39,7 @@ func (c *userCtl) Login(r *ghttp.Request) {
 }
 
 // 验证码
-func (c *userCtl) Captcha(r *ghttp.Request) {
+func (c *loginCtl) Captcha(r *ghttp.Request) {
 	// 验证码参数配置：字符,公式,验证码配置
 	var configC = base64Captcha.ConfigCharacter{
 		Height: 60,
@@ -70,7 +70,7 @@ func (c *userCtl) Captcha(r *ghttp.Request) {
 }
 
 // 系统登录
-func (c *userCtl) SignIn(r *ghttp.Request) {
+func (c *loginCtl) SignIn(r *ghttp.Request) {
 	var req *LoginReq
 
 	// 获取参数并验证
@@ -92,7 +92,7 @@ func (c *userCtl) SignIn(r *ghttp.Request) {
 	}
 
 	// 系统登录
-	if err := service.User.SignIn(req.UserName, req.Password, r.Session); err != nil {
+	if err := service.Login.SignIn(req.UserName, req.Password, r.Session); err != nil {
 		// 登录错误
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: -1,

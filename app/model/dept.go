@@ -42,3 +42,9 @@ type DeptUpdateReq struct {
 type DeptDeleteReq struct {
 	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
 }
+
+// 部门树结构
+type DeptTreeNode struct {
+	Dept
+	Children []*DeptTreeNode `json:"children"` // 子栏目
+}

@@ -29,7 +29,7 @@ type NoticeColumns struct {
 	Id          string // 通知ID                     
     Title       string // 通知标题                   
     Content     string // 通知内容                   
-    Source      string // 来源：1内部通知 2外部新闻  
+    Source      string // 来源：1内部通知 2外部通知  
     IsTop       string // 是否置顶：1是 2否          
     Browse      string // 阅读量                     
     Status      string // 状态：1已发布 2待发布      

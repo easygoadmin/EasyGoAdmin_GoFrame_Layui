@@ -1,0 +1,122 @@
+<form class="layui-form model-form" action="">
+	<input name="id" id="id" type="hidden" value="{{.info.Id}}">
+	<div class="layui-form-item">
+		<label class="layui-form-label">头像：</label>
+		{{upload_image "avatar|头像|90x90|建议上传尺寸450x450|450x450" .info.Avatar "" 0}}
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">真实姓名：</label>
+			<div class="layui-input-inline">
+				<input name="realname" value="{{.info.Realname}}" lay-verify="required" autocomplete="off" placeholder="请输入真实姓名" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">性别：</label>
+			<div class="layui-input-inline">
+				{{select "gender|1|性别|name|id" "1=男,2=女,3=保密" .info.Gender}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">用户昵称：</label>
+			<div class="layui-input-inline">
+				<input name="nickname" value="{{.info.Nickname}}" lay-verify="required" autocomplete="off" placeholder="请输入人员昵称" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">所属部门：</label>
+			<div class="layui-input-inline">
+				{{select "dept_id|0|所属部门|name|id" .deptList .info.DeptId}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">手机号码：</label>
+			<div class="layui-input-inline">
+				<input name="mobile" value="{{.info.Mobile}}" lay-verify="required|phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input" type="tel">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">电子邮箱：</label>
+			<div class="layui-input-inline">
+				<input name="email" value="{{.info.Email}}" lay-verify="required|email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">职级：</label>
+			<div class="layui-input-inline">
+				{{select "level_id|1|职级|name|id" .levelList .info.LevelId}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">岗位：</label>
+			<div class="layui-input-inline">
+				{{select "position_id|1|岗位|name|id" .positionList .info.PositionId}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">出生日期：</label>
+			<div class="layui-input-inline">
+				{{date "birthday|1|出生日期|date" .info.Birthday}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">状态：</label>
+			<div class="layui-input-inline">
+				{{switch "status" "在用|禁用" .info.Status}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">用户名：</label>
+			<div class="layui-input-inline">
+				<input name="username" value="{{.info.Username}}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">密码：</label>
+			<div class="layui-input-inline">
+				<input name="password" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属城市：</label>
+		{{city .info.DistrictCode 3}}
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">详细地址：</label>
+			<div class="layui-input-inline">
+				<input name="address" value="{{.info.Address}}" lay-verify="required" autocomplete="off" placeholder="请输入详细地址" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">排序号：</label>
+			<div class="layui-input-inline">
+				<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入序号" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属角色：</label>
+		<div class="layui-input-block">
+			{{checkbox "role_ids|name|id" "1=测试1,2=测试2,3=测试3" .info.RoleIds}}
+		</div>
+	</div>
+	<div class="layui-form-item layui-form-text" style="width:665px;">
+		<label class="layui-form-label">备注：</label>
+		<div class="layui-input-block">
+			<textarea name="note" placeholder="请输入备注" class="layui-textarea">{{.info.Note}}</textarea>
+		</div>
+	</div>
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>

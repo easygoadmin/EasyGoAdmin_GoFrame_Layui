@@ -7,14 +7,13 @@
 package controller
 
 import (
-	"fmt"
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
 )
 
 // 控制器管理对象
@@ -120,7 +119,6 @@ func (c *configDataCtl) Update(r *ghttp.Request) {
 
 		// 调用更新方法
 		rows, err := service.ConfigData.Update(req)
-		fmt.Println(rows)
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

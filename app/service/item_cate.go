@@ -12,7 +12,6 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"errors"
-	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/text/gstr"
@@ -201,7 +200,6 @@ func (s *itemCateService) MakeList(data []*model.CateTreeNode) []map[string]stri
 			item["id"] = gconv.String(val.Id)
 			item["name"] = val.Name
 			cateList = append(cateList, item)
-			fmt.Println("222")
 
 			// 二级栏目
 			for _, v := range val.Children {
@@ -209,7 +207,6 @@ func (s *itemCateService) MakeList(data []*model.CateTreeNode) []map[string]stri
 				item2["id"] = gconv.String(v.Id)
 				item2["name"] = "|--" + v.Name
 				cateList = append(cateList, item2)
-				fmt.Println("333")
 
 				// 三级栏目
 				for _, vt := range v.Children {

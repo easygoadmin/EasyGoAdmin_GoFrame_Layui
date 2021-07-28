@@ -11,7 +11,6 @@ import (
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils/convert"
 	"errors"
-	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
@@ -28,7 +27,6 @@ func (s *menuService) GetPermissionList(userId int) interface{} {
 	if userId == 1 {
 		// 管理员(拥有全部权限)
 		menuList, _ := getTreeList()
-		//fmt.Print(menuList)
 		return menuList
 	} else {
 		// 非管理员
@@ -54,7 +52,6 @@ func makeTree(menu []*model.Menu, tn *model.TreeNode) {
 			child := &model.TreeNode{}
 			child.Menu = *c
 			tn.Children = append(tn.Children, child)
-			fmt.Println(child)
 			makeTree(menu, child)
 		}
 	}

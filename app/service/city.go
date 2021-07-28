@@ -135,3 +135,15 @@ func (s *cityService) Delete(ids string) (int64, error) {
 	}
 	return rows, nil
 }
+
+func (s *cityService) GetChilds(cityCode string) ([]*model.City, error) {
+	info, err := dao.City.Where("citycode=?", cityCode).FindOne()
+	if err != nil {
+		return nil, gerror.New("城市不能存在")
+	}
+	list, err := dao.City.Where("pid=? and mark=1", info.Id).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}

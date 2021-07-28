@@ -13,7 +13,6 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
-	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -94,7 +93,6 @@ func (c *itemCtl) Add(r *ghttp.Request) {
 		// 参数验证
 		var req *model.ItemAddReq
 		if err := r.Parse(&req); err != nil {
-			fmt.Println(req)
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
 				Msg:  err.Error(),

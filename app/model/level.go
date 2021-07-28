@@ -23,16 +23,16 @@ type LevelQueryReq struct {
 // 添加职级
 type LevelAddReq struct {
 	Name   string `p:"name"  v:"required#职级名称不能为空"`
-	Status uint   `p:"status"    v:"required#职级状态不能为空"`
-	Sort   uint   `p:"sort"  v:"required#显示顺序不能为空"`
+	Status int    `p:"status"    v:"required#职级状态不能为空"`
+	Sort   int    `p:"sort"  v:"required#显示顺序不能为空"`
 }
 
 // 编辑职级
 type LevelEditReq struct {
 	Id     int64  `p:"id" v:"required#主键ID不能为空"`
 	Name   string `p:"name"  v:"required#职级名称不能为空"`
-	Status uint   `p:"status"    v:"required#职级状态不能为空"`
-	Sort   uint   `p:"sort"  v:"required#显示顺序不能为空"`
+	Status int    `p:"status"    v:"required#职级状态不能为空"`
+	Sort   int    `p:"sort"  v:"required#显示顺序不能为空"`
 }
 
 // 删除职级
@@ -42,6 +42,6 @@ type LevelDeleteReq struct {
 
 // 设置状态
 type LevelStatusReq struct {
-	Id     uint `p:"id" v:"required#主键ID不能为空"`
-	Status uint `p:"status"    v:"required#职级状态不能为空"`
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#职级状态不能为空"`
 }

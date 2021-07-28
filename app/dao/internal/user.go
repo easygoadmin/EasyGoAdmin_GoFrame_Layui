@@ -26,37 +26,37 @@ type UserDao struct {
 
 // UserColumns defines and stores column names for table sys_user.
 type UserColumns struct {
-	Id          string // 主键ID                 
-    Realname    string // 真实姓名               
-    Nickname    string // 昵称                   
-    Gender      string // 性别:1男 2女 3保密     
-    Avatar      string // 头像                   
-    Mobile      string // 手机号码               
-    Email       string // 邮箱地址               
-    Birthday    string // 出生日期               
-    DeptId      string // 部门ID                 
-    LevelId     string // 职级ID                 
-    PositionId  string // 岗位ID                 
-    ProvinceId  string // 省份ID                 
-    CityId      string // 市区ID                 
-    DistrictId  string // 区县ID                 
-    Address     string // 详细地址               
-    CityName    string // 所属城市               
-    Username    string // 登录用户名             
-    Password    string // 登录密码               
-    Salt        string // 盐加密                 
-    Intro       string // 个人简介               
-    Status      string // 状态：1正常 2禁用      
-    Note        string // 备注                   
-    Sort        string // 显示顺序               
-    LoginNum    string // 登录次数               
-    LoginIp     string // 最近登录IP             
-    LoginTime   string // 最近登录时间           
-    CreateUser  string // 添加人                 
-    CreateTime  string // 创建时间               
-    UpdateUser  string // 更新人                 
-    UpdateTime  string // 更新时间               
-    Mark        string // 有效标识(1正常 0删除)
+	Id            string // 主键ID                 
+    Realname      string // 真实姓名               
+    Nickname      string // 昵称                   
+    Gender        string // 性别:1男 2女 3保密     
+    Avatar        string // 头像                   
+    Mobile        string // 手机号码               
+    Email         string // 邮箱地址               
+    Birthday      string // 出生日期               
+    DeptId        string // 部门ID                 
+    LevelId       string // 职级ID                 
+    PositionId    string // 岗位ID                 
+    ProvinceCode  string // 省份编号               
+    CityCode      string // 市区编号               
+    DistrictCode  string // 区县编号               
+    Address       string // 详细地址               
+    CityName      string // 所属城市               
+    Username      string // 登录用户名             
+    Password      string // 登录密码               
+    Salt          string // 盐加密                 
+    Intro         string // 个人简介               
+    Status        string // 状态：1正常 2禁用      
+    Note          string // 备注                   
+    Sort          string // 排序号                 
+    LoginNum      string // 登录次数               
+    LoginIp       string // 最近登录IP             
+    LoginTime     string // 最近登录时间           
+    CreateUser    string // 添加人                 
+    CreateTime    string // 创建时间               
+    UpdateUser    string // 更新人                 
+    UpdateTime    string // 更新时间               
+    Mark          string // 有效标识(1正常 0删除)
 }
 
 var (
@@ -66,37 +66,37 @@ var (
 		DB:    g.DB("default"),
 		Table: "sys_user",
 		Columns: UserColumns{
-			Id:         "id",           
-            Realname:   "realname",     
-            Nickname:   "nickname",     
-            Gender:     "gender",       
-            Avatar:     "avatar",       
-            Mobile:     "mobile",       
-            Email:      "email",        
-            Birthday:   "birthday",     
-            DeptId:     "dept_id",      
-            LevelId:    "level_id",     
-            PositionId: "position_id",  
-            ProvinceId: "province_id",  
-            CityId:     "city_id",      
-            DistrictId: "district_id",  
-            Address:    "address",      
-            CityName:   "city_name",    
-            Username:   "username",     
-            Password:   "password",     
-            Salt:       "salt",         
-            Intro:      "intro",        
-            Status:     "status",       
-            Note:       "note",         
-            Sort:       "sort",         
-            LoginNum:   "login_num",    
-            LoginIp:    "login_ip",     
-            LoginTime:  "login_time",   
-            CreateUser: "create_user",  
-            CreateTime: "create_time",  
-            UpdateUser: "update_user",  
-            UpdateTime: "update_time",  
-            Mark:       "mark",
+			Id:           "id",             
+            Realname:     "realname",       
+            Nickname:     "nickname",       
+            Gender:       "gender",         
+            Avatar:       "avatar",         
+            Mobile:       "mobile",         
+            Email:        "email",          
+            Birthday:     "birthday",       
+            DeptId:       "dept_id",        
+            LevelId:      "level_id",       
+            PositionId:   "position_id",    
+            ProvinceCode: "province_code",  
+            CityCode:     "city_code",      
+            DistrictCode: "district_code",  
+            Address:      "address",        
+            CityName:     "city_name",      
+            Username:     "username",       
+            Password:     "password",       
+            Salt:         "salt",           
+            Intro:        "intro",          
+            Status:       "status",         
+            Note:         "note",           
+            Sort:         "sort",           
+            LoginNum:     "login_num",      
+            LoginIp:      "login_ip",       
+            LoginTime:    "login_time",     
+            CreateUser:   "create_user",    
+            CreateTime:   "create_time",    
+            UpdateUser:   "update_user",    
+            UpdateTime:   "update_time",    
+            Mark:         "mark",
 		},
 	}
 )

@@ -23,7 +23,7 @@ func (c *indexCtl) Index(r *ghttp.Request) {
 	if function.IsLogin(r.Session) {
 		// 已登录
 		// 获取用户信息
-		user := service.User.GetProfile(r.Session)
+		user := service.Login.GetProfile(r.Session)
 		// 获取菜单列表
 		menuList := service.Menu.GetPermissionList(user.Id)
 		//fmt.Println(g.Map{

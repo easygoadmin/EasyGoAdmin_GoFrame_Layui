@@ -17,11 +17,23 @@ func init() {
 
 	/* 登录注册 */
 	s.Group("/", func(group *ghttp.RouterGroup) {
-		group.GET("/login", controller.User.Login)
-		group.GET("/captcha", controller.User.Captcha)
-		group.POST("/signin", controller.User.SignIn)
+		group.GET("/login", controller.Login.Login)
+		group.GET("/captcha", controller.Login.Captcha)
+		group.POST("/signin", controller.Login.SignIn)
 		group.GET("/index", controller.Index.Index)
 		group.GET("/main", controller.Index.Main)
+	})
+
+	/* 用户管理 */
+	s.Group("user", func(group *ghttp.RouterGroup) {
+		group.GET("/index", controller.User.Index)
+		group.POST("/list", controller.User.List)
+		group.GET("/edit", controller.User.Edit)
+		group.POST("/add", controller.User.Add)
+		group.POST("/update", controller.User.Update)
+		group.POST("/delete", controller.User.Delete)
+		group.POST("/setStatus", controller.User.Status)
+		group.POST("/resetPwd", controller.User.ResetPwd)
 	})
 
 	/* 职级管理 */
@@ -90,6 +102,7 @@ func init() {
 		group.POST("/add", controller.City.Add)
 		group.POST("/update", controller.City.Update)
 		group.POST("/delete", controller.City.Delete)
+		group.POST("/getChilds", controller.City.GetChilds)
 	})
 
 	/* 字典管理 */

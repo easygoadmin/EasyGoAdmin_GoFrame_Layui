@@ -55,3 +55,8 @@ type CityUpdateReq struct {
 type CityDeleteReq struct {
 	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
 }
+
+// 获取子级城市
+type CityChildReq struct {
+	CityCode string `p:id v:"required#上级城市编码不能为空"`
+}

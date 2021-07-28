@@ -22,7 +22,7 @@ layui.extend({
                 url = e.url,
                 done = e.done;
 
-            var html = "<link rel=\"stylesheet\" href=\"/static/assets/module/croppers/cropper.css\">\n" +
+            var html = "<link rel=\"stylesheet\" href=\"/resource/assets/module/croppers/cropper.css\">\n" +
                 "<div class=\"layui-fluid showImgEdit_" + name + "\" style=\"display: none\">\n" +
                 "    <div class=\"layui-form-item\" style=\"margin-top:0px;\">\n" +
                 "        <div class=\"layui-input-inline layui-btn-container\" style=\"width: auto;\">\n" +
@@ -114,7 +114,7 @@ layui.extend({
                                     layer.close(index);
                                     layer.msg(result.msg, {icon: 1});
                                     layer.closeAll('page');
-                                    return done(result.data);
+                                    return done(result.data.fileUrl);
                                 } else {
                                     layer.close(index);
                                     layer.alert(result.msg, {icon: 2});

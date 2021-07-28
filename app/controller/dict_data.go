@@ -7,11 +7,10 @@
 package controller
 
 import (
-	"fmt"
-	"github.com/gogf/gf/net/ghttp"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils/common"
+	"github.com/gogf/gf/net/ghttp"
 )
 
 // 控制器管理对象
@@ -88,7 +87,6 @@ func (c *dictDataCtl) Update(r *ghttp.Request) {
 
 		// 调用更新方法
 		rows, err := service.DictData.Update(req)
-		fmt.Println(rows)
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

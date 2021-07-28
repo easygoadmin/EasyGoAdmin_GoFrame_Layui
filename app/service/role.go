@@ -7,11 +7,12 @@
 package service
 
 import (
-	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // 中间件管理服务
@@ -125,13 +126,12 @@ func (s *roleService) Staus(req *model.RoleStatusReq) (int64, error) {
 		return 0, gerror.New("记录不存在")
 	}
 
-	// 对象赋值
-	info.Status = req.Status
-	info.UpdateUser = 1
-	info.UpdateTime = gtime.Now()
-
-	// 更新记录
-	result, err := dao.Role.Save(info)
+	// 设置状态
+	result, err := dao.Role.Data(g.Map{
+		"status":      req.Status,
+		"update_user": 1,
+		"update_time": gtime.Now(),
+	}).Where(dao.Role.Columns.Id, info.Id).Update()
 	if err != nil {
 		return 0, err
 	}

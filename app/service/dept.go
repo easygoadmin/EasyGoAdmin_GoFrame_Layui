@@ -7,11 +7,12 @@
 package service
 
 import (
-	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/os/gtime"
+	"reflect"
 )
 
 // 中间件管理服务
@@ -111,4 +112,47 @@ func (s *deptService) Delete(ids string) (int64, error) {
 		return 0, err
 	}
 	return rows, nil
+}
+
+// 获取子级菜单
+func (s *deptService) GetDeptTreeList() ([]*model.DeptTreeNode, error) {
+	var deptNode model.DeptTreeNode
+	// 查询列表
+	list, _ := dao.Dept.Where("mark=1").Fields("id,name,pid").Order("sort asc").FindAll()
+	makeDeptTree(list, &deptNode)
+	return deptNode.Children, nil
+}
+
+//递归生成分类列表
+func makeDeptTree(cate []*model.Dept, tn *model.DeptTreeNode) {
+	for _, c := range cate {
+		if c.Pid == tn.Id {
+			child := &model.DeptTreeNode{}
+			child.Dept = *c
+			tn.Children = append(tn.Children, child)
+			makeDeptTree(cate, child)
+		}
+	}
+}
+
+// 数据源转换
+func (s *deptService) MakeList(data []*model.DeptTreeNode) map[int]string {
+	deptList := make(map[int]string, 0)
+	if reflect.ValueOf(data).Kind() == reflect.Slice {
+		// 一级栏目
+		for _, val := range data {
+			deptList[val.Id] = val.Name
+
+			// 二级栏目
+			for _, v := range val.Children {
+				deptList[v.Id] = "|--" + v.Name
+
+				// 三级栏目
+				for _, vt := range v.Children {
+					deptList[vt.Id] = "|--|--" + vt.Name
+				}
+			}
+		}
+	}
+	return deptList
 }

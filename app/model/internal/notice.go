@@ -13,7 +13,7 @@ type Notice struct {
     Id         int         `orm:"id,primary"  json:"id"`         // 通知ID                     
     Title      string      `orm:"title"       json:"title"`      // 通知标题                   
     Content    string      `orm:"content"     json:"content"`    // 通知内容                   
-    Source     int         `orm:"source"      json:"source"`     // 来源：1内部通知 2外部新闻  
+    Source     int         `orm:"source"      json:"source"`     // 来源：1内部通知 2外部通知  
     IsTop      int         `orm:"is_top"      json:"isTop"`      // 是否置顶：1是 2否          
     Browse     int         `orm:"browse"      json:"browse"`     // 阅读量                     
     Status     int         `orm:"status"      json:"status"`     // 状态：1已发布 2待发布      
