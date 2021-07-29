@@ -1,0 +1,94 @@
+<div class="layui-tab layui-tab-brief" style="width: 665px;">
+    <ul class="layui-tab-title">
+        {{range $key,$val := .configList}}
+        <li {{if eq $key $.configId}}class="layui-this" {{end}}><a href="/configweb/index?configId={{$key}}">{{$val}}</a>
+        </li>
+        {{end}}
+    </ul>
+    <div class="layui-tab-content">
+        <form class="layui-form model-form" action="/configweb/index">
+            <input name="group_id" type="hidden" value="{{.configId}}">
+            {{range $key,$val := .itemList}}
+            {{if eq $val.type "hidden"}}
+            <!-- 隐藏域 -->
+            <input name="{{$val.code}}" id="{{$val.code}}" type="hidden" value="{{$val.value}}">
+            {{else}}
+            <div class="layui-form-item">
+                <label class="layui-form-label">{{$val.title}}：</label>
+                {{if eq $val.type "text"}}
+                <!-- 单行文本 -->
+                <div class="layui-input-block">
+                    <input name="{{$val.code}}" value="{{$val.value}}" lay-verify="required" autocomplete="off"
+                           placeholder="请输入{{$val.title}}" class="layui-input" type="text">
+                </div>
+                {{else if eq $val.type "number"}}
+                <!-- 数字文本 -->
+                <div class="layui-input-block">
+                    <input name="{{$val.code}}" value="{{$val.value}}" lay-verify="required|number"
+                           autocomplete="off" placeholder="请输入{{$val.title}}" class="layui-input" type="text">
+                </div>
+                {{else if eq $val.type "textarea"}}
+                <!-- 多行文本 -->
+                <div class="layui-input-block">
+                    <textarea name="{{$val.code}}" placeholder="请输入{{$val.title}}" class="layui-textarea">{{$val.value}}</textarea>
+                </div>
+                {{else if eq $val.type "password"}}
+                <div class="layui-input-block">
+                    <!-- 密码 -->
+                    <input name="{{$val.code}}" value="{{$val.value}}" placeholder="请输入{{$val.title}}"
+                           autocomplete="off" class="layui-input" type="password">
+                </div>
+                {{else if eq $val.type "radio"}}
+                <!-- 单选框 -->
+                <div class="layui-input-block">
+                    {{radio (printf "%s|name|id" $val.code) $val.optionsList $val.value}}
+                </div>
+                {{else if eq $val.type "checkbox"}}
+                <!-- 复选框 -->
+                <div class="layui-input-block">
+                    {{checkbox (printf "%s__checkbox|name|id" $val.code) $val.optionsList $val.value}}
+                </div>
+                {{else if eq $val.type "select"}}
+                <!-- 下拉框 -->
+                <div class="layui-input-block">
+                    {{select (printf "%s|1|%s|name|id" $val.code $val.title) $val.optionsList $val.value}}
+                </div>
+                {{else if eq $val.type "date"}}
+                <!-- 日期 -->
+                <div class="layui-input-block">
+                    {{date (printf "%s|1|结束时间|date" $val.code) $val.value}}
+                </div>
+                {{else if eq $val.type "datetime"}}
+                <!-- 时间 -->
+                <div class="layui-input-block">
+                    {{date (printf "%s|1|结束时间|datetime" $val.code) $val.value}}
+                </div>
+                {{else if eq $val.type "image"}}
+                    <!-- 单图 -->
+                    {{upload_image (printf "%s__upimage|头像|90x90|建议上传尺寸450x450" $val.code) $val.value "" 0}}
+                {{else if eq $val.type "images"}}
+                <!-- 多图 -->
+                <div class="layui-input-block">
+                    {{album (printf "%s__upimgs|图集|90x90|20|建议上传尺寸450x450" $val.code) $val.value "" 0}}
+                </div>
+                {{else if eq $val.type "file"}}
+                <!-- 单文件上传 -->
+                {{else if eq $val.type "files"}}
+                <!-- 多文件上传 -->
+                {{else if eq $val.type "ueditor"}}
+                <!-- 富文本编辑器 -->
+                <div class="layui-input-block" style="width:665px;">
+                    <textarea name="{{$val.code}}__ueditor" id="{{$val.code}}__ueditor" lay-verify="required"
+                              class="layui-textarea">{{$val.value}}</textarea>
+                    {{kindeditor (printf "%s__ueditor" $val.code) "default" "80%" "350"}}
+                </div>
+                {{else if eq $val.type "json"}}
+                <!-- JSON -->
+                {{end}}
+            </div>
+            {{end}}
+            {{end}}
+            {{submit "submit|立即保存,close|关闭" 1 ""}}
+        </form>
+    </div>
+</div>

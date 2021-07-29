@@ -32,6 +32,7 @@ func init() {
 		"icon":         widget.Icon,
 		"transfer":     widget.Transfer,
 		"upload_image": widget.UploadImage,
+		"album":        widget.Album,
 		"item":         widget.Item,
 		"kindeditor":   widget.Kindeditor,
 		"date":         widget.Date,

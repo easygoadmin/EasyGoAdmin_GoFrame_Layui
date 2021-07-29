@@ -56,3 +56,8 @@ type ConfigDataVo struct {
 	ConfigData
 	TypeName string `json:"typeName"`
 }
+
+// 配置管理中心
+type ConfigDataWeb struct {
+
+}

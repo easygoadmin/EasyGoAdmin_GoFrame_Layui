@@ -1,8 +1,8 @@
 /**
  *
  * @author 摆渡人
- * @since 2021/7/21
- * @File : config
+ * @since 2021/7/29
+ * @File : member_level
  */
 package service
 
@@ -15,39 +15,46 @@ import (
 )
 
 // 中间件管理服务
-var Config = new(configService)
+var MemberLevel = new(memberLevelService)
 
-type configService struct{}
+type memberLevelService struct{}
 
-func (s *configService) GetList(req *model.ConfigQueryReq) []model.Config {
-	// 创建查询对象
-	query := dao.Config.Where("mark=1")
+func (s *memberLevelService) GetList(req *model.MemberLevelPageReq) ([]model.MemberLevel, int, error) {
+	// 创建查询实例
+	query := dao.MemberLevel.Where("mark=1")
 	// 查询条件
 	if req != nil {
-		// 字典名称
+		// 等级名称
 		if req.Name != "" {
-			query = query.Where("name like ?", req.Name)
+			query = query.Where("name like ?", "%"+req.Name+"%")
 		}
+	}
+	// 查询记录总数
+	count, err := query.Count()
+	if err != nil {
+		return nil, 0, err
 	}
 	// 排序
 	query = query.Order("sort asc")
+	// 分页
+	query = query.Page(req.Page, req.Limit)
 	// 对象转换
-	var list []model.Config
+	var list []model.MemberLevel
 	query.Structs(&list)
-	return list
+	return list, count, err
 }
 
-func (s *configService) Add(req *model.ConfigAddReq) (int64, error) {
+func (s *memberLevelService) Add(req *model.MemberLevelAddReq) (int64, error) {
 	// 实例化对象
-	var entity model.Config
+	var entity model.MemberLevel
 	entity.Name = req.Name
 	entity.Sort = req.Sort
 	entity.CreateUser = 1
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
-	// 插入记录
-	result, err := dao.Config.Insert(entity)
+	// 插入数据
+	result, err := dao.MemberLevel.Insert(entity)
 	if err != nil {
 		return 0, err
 	}
@@ -57,13 +64,12 @@ func (s *configService) Add(req *model.ConfigAddReq) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-
 	return id, nil
 }
 
-func (s *configService) Update(req *model.ConfigUpdateReq) (int64, error) {
+func (s *memberLevelService) Update(req *model.MemberLevelUpdateReq) (int64, error) {
 	// 查询记录
-	info, err := dao.Config.FindOne("id=?", req.Id)
+	info, err := dao.MemberLevel.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
 	}
@@ -71,14 +77,14 @@ func (s *configService) Update(req *model.ConfigUpdateReq) (int64, error) {
 		return 0, gerror.New("记录不存在")
 	}
 
-	// 设置对象
+	// 设置参数
 	info.Name = req.Name
 	info.Sort = req.Sort
 	info.UpdateUser = 1
 	info.UpdateTime = gtime.Now()
 
-	// 更新数据
-	result, err := dao.Config.Save(info)
+	// 更新记录
+	result, err := dao.MemberLevel.Save(info)
 	if err != nil {
 		return 0, err
 	}
@@ -91,11 +97,11 @@ func (s *configService) Update(req *model.ConfigUpdateReq) (int64, error) {
 	return rows, nil
 }
 
-func (s *configService) Delete(ids string) (int64, error) {
+func (s *memberLevelService) Delete(ids string) (int64, error) {
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	// 删除记录
-	result, err := dao.Config.Delete("id in (?)", idsArr)
+	result, err := dao.MemberLevel.Delete("id in (?)", idsArr)
 	if err != nil {
 		return 0, err
 	}

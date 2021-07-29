@@ -202,4 +202,19 @@ func init() {
 		group.POST("/delete", controller.Notice.Delete)
 	})
 
+	/* 网站设置 */
+	s.Group("configweb", func(group *ghttp.RouterGroup) {
+		group.ALL("/index", controller.ConfigWeb.Index)
+	})
+
+	/* 会员等级 */
+	s.Group("memberlevel", func(group *ghttp.RouterGroup) {
+		group.GET("/index", controller.MemberLevel.Index)
+		group.POST("/list", controller.MemberLevel.List)
+		group.GET("/edit", controller.MemberLevel.Edit)
+		group.POST("/add", controller.MemberLevel.Add)
+		group.POST("/update", controller.MemberLevel.Update)
+		group.POST("/delete", controller.MemberLevel.Delete)
+	})
+
 }

@@ -12,3 +12,28 @@ import (
 type MemberLevel internal.MemberLevel
 
 // Fill with you ideas below.
+
+// 查询会员等级
+type MemberLevelPageReq struct {
+	Name  string `p:"name"` // 等级名称
+	Page  int    `p:page`   // 页码
+	Limit int    `p:limit`  // 每页数
+}
+
+// 添加会员等级
+type MemberLevelAddReq struct {
+	Name string `p:"name"        v:"name"` // 级别名称
+	Sort int    `p:"sort"        v:"sort"` // 排序号    
+}
+
+// 更新会员等级
+type MemberLevelUpdateReq struct {
+	Id   int    `p:"id" v:"required#主键ID不能为空"`
+	Name string `p:"name"        v:"name"` // 级别名称
+	Sort int    `p:"sort"        v:"sort"` // 排序号
+}
+
+// 删除会员等级
+type MemberLevelDeleteReq struct {
+	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
+}
