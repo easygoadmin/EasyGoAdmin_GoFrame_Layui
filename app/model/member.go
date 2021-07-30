@@ -6,9 +6,78 @@ package model
 
 import (
 	"easygoadmin/app/model/internal"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // Member is the golang structure for table ums_member.
 type Member internal.Member
 
 // Fill with you ideas below.
+
+// 分页查询条件
+type MemberPageReq struct {
+	Username string `p:"username"` // 用户名
+	Page     int    `p:page`       // 页码
+	Limit    int    `p:limit`      // 每页数
+}
+
+// 添加会员
+type MemberAddReq struct {
+	Username     string      `p:"username,unique" v:"required#用户名不能为空"`    // 用户名
+	MemberLevel  int         `p:"member_level"    v:"required#会员等级不能为空"`   // 会员等级
+	Realname     string      `p:"realname"        v:"required#真实姓名不能为空"`   // 真实姓名
+	Nickname     string      `p:"nickname"        v:"required#会员昵称不能为空"`   // 用户昵称
+	Gender       int         `p:"gender"          v:"required#会员性别不能为空"`   // 性别（1男 2女 3未知）
+	Avatar       string      `p:"avatar"          v:"required#会员头像不能为空"`   // 用户头像
+	Birthday     *gtime.Time `p:"birthday"        v:"required#会员出生日期不能为空"` // 出生日期
+	ProvinceCode string      `p:"province_code"   v:"required#请选择省份"`      // 户籍省份编号
+	CityCode     string      `p:"city_code"       v:"required#请选择城市"`      // 户籍城市编号
+	DistrictCode string      `p:"district_code"   v:"required#请选择县区"`      // 户籍区/县编号
+	Address      string      `p:"address"         v:"required#详细地址不能为空"`   // 详细地址
+	Intro        string      `p:"intro"`                                   // 个人简介
+	Signature    string      `p:"signature"`                               // 个性签名
+	Device       int         `p:"device"          v:"required#请选择设备类型"`    // 设备类型：1苹果 2安卓 3WAP站 4PC站 5后台添加
+	Source       int         `p:"source"          v:"required#请选择会员来源"`    // 来源：1、APP注册；2、后台添加；
+	Status       int         `p:"status"          v:"required#请选择会员状态"`    // 是否启用 1、启用  2、停用
+}
+
+// 更新会员
+type MemberUpdateReq struct {
+	Id           int         `p:"id" v:"required#主键ID不能为空"`
+	Username     string      `p:"username,unique" v:"required#用户名不能为空"`    // 用户名
+	MemberLevel  int         `p:"member_level"    v:"required#会员等级不能为空"`   // 会员等级
+	Realname     string      `p:"realname"        v:"required#真实姓名不能为空"`   // 真实姓名
+	Nickname     string      `p:"nickname"        v:"required#会员昵称不能为空"`   // 用户昵称
+	Gender       int         `p:"gender"          v:"required#会员性别不能为空"`   // 性别（1男 2女 3未知）
+	Avatar       string      `p:"avatar"          v:"required#会员头像不能为空"`   // 用户头像
+	Birthday     *gtime.Time `p:"birthday"        v:"required#会员出生日期不能为空"` // 出生日期
+	ProvinceCode string      `p:"province_code"   v:"required#请选择省份"`      // 户籍省份编号
+	CityCode     string      `p:"city_code"       v:"required#请选择城市"`      // 户籍城市编号
+	DistrictCode string      `p:"district_code"   v:"required#请选择县区"`      // 户籍区/县编号
+	Address      string      `p:"address"         v:"required#详细地址不能为空"`   // 详细地址
+	Intro        string      `p:"intro"`                                   // 个人简介
+	Signature    string      `p:"signature"`                               // 个性签名
+	Device       int         `p:"device"          v:"required#请选择设备类型"`    // 设备类型：1苹果 2安卓 3WAP站 4PC站 5后台添加
+	Source       int         `p:"source"          v:"required#请选择会员来源"`    // 来源：1、APP注册；2、后台添加；
+	Status       int         `p:"status"          v:"required#请选择会员状态"`    // 是否启用 1、启用  2、停用
+}
+
+// 删除会员
+type MemberDeleteReq struct {
+	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
+}
+
+// 设置状态
+type MemberStatusReq struct {
+	Id     int `p:"id"        v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
+}
+
+// 会员信息Vo
+type MemberInfoVo struct {
+	Member
+	GenderName string `json:"genderName"` // 性别
+	DeviceName string `json:"deviceName"` // 设备类型
+	SourceName string `json:"sourceName"` // 会员来源
+	CityName   string `json:"cityName"`   // 城市名称
+}

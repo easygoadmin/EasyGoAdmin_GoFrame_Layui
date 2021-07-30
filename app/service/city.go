@@ -12,6 +12,7 @@ import (
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/text/gstr"
 )
 
 // 中间件管理服务
@@ -146,4 +147,36 @@ func (s *cityService) GetChilds(cityCode string) ([]*model.City, error) {
 		return nil, err
 	}
 	return list, nil
+}
+
+func (s *cityService) GetCityName(cityCode string, delimiter string) string {
+	info, err := dao.City.Where("citycode=?", cityCode).FindOne()
+	if err != nil {
+		return ""
+	}
+	// 城市ID
+	cityId := info.Id
+	// 声明数组
+	list := make([]string, 0)
+	for {
+		if cityId <= 0 {
+			// 退出
+			break
+		}
+		// 业务处理
+		info, err := dao.City.FindOne("id=?", cityId)
+		if err != nil || info == nil {
+			break
+		}
+		// 上级栏目ID
+		cityId = info.Pid
+		// 加入数组
+		list = append(list, info.Name)
+	}
+	// 结果数据处理
+	if len(list) > 0 {
+		// 数组翻转
+		return gstr.Implode(delimiter, list)
+	}
+	return ""
 }

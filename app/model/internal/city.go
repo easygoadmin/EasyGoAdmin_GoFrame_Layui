@@ -5,24 +5,24 @@
 package internal
 
 import (
-    "github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // City is the golang structure for table sys_city.
 type City struct {
-    Id         int64       `orm:"id,primary"  json:"id"`         // 编号                                                 
-    Pid        int         `orm:"pid"         json:"pid"`        // 父级编号                                             
-    Level      int         `orm:"level"       json:"level"`      // 城市级别：1省 2市 3区                                
-    Name       string      `orm:"name"        json:"name"`       // 城市名称                                             
-    Citycode   string      `orm:"citycode"    json:"citycode"`   // 城市编号（区号）                                     
-    PAdcode    string      `orm:"p_adcode"    json:"pAdcode"`    // 父级地理编号                                         
-    Adcode     string      `orm:"adcode"      json:"adcode"`     // 地理编号                                             
-    Lng        uint        `orm:"lng"         json:"lng"`        // 城市坐标中心点经度（* 1e6）：如果是中国，此值是 1e7  
-    Lat        uint        `orm:"lat"         json:"lat"`        // 城市坐标中心点纬度（* 1e6）                          
-    Sort       int         `orm:"sort"        json:"sort"`       // 排序号                                               
-    CreateUser int         `orm:"create_user" json:"createUser"` // 添加人                                               
-    CreateTime *gtime.Time `orm:"create_time" json:"createTime"` // 添加时间                                             
-    UpdateUser int         `orm:"update_user" json:"updateUser"` // 更新人                                               
-    UpdateTime *gtime.Time `orm:"update_time" json:"updateTime"` // 更新时间                                             
-    Mark       int         `orm:"mark"        json:"mark"`       // 有效标记                                             
+	Id         int         `orm:"id,primary"  json:"id"`         // 编号
+	Pid        int         `orm:"pid"         json:"pid"`        // 父级编号
+	Level      int         `orm:"level"       json:"level"`      // 城市级别：1省 2市 3区
+	Name       string      `orm:"name"        json:"name"`       // 城市名称
+	Citycode   string      `orm:"citycode"    json:"citycode"`   // 城市编号（区号）
+	PAdcode    string      `orm:"p_adcode"    json:"pAdcode"`    // 父级地理编号
+	Adcode     string      `orm:"adcode"      json:"adcode"`     // 地理编号
+	Lng        uint        `orm:"lng"         json:"lng"`        // 城市坐标中心点经度（* 1e6）：如果是中国，此值是 1e7
+	Lat        uint        `orm:"lat"         json:"lat"`        // 城市坐标中心点纬度（* 1e6）
+	Sort       int         `orm:"sort"        json:"sort"`       // 排序号
+	CreateUser int         `orm:"create_user" json:"createUser"` // 添加人
+	CreateTime *gtime.Time `orm:"create_time" json:"createTime"` // 添加时间
+	UpdateUser int         `orm:"update_user" json:"updateUser"` // 更新人
+	UpdateTime *gtime.Time `orm:"update_time" json:"updateTime"` // 更新时间
+	Mark       int         `orm:"mark"        json:"mark"`       // 有效标记
 }

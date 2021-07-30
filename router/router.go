@@ -217,4 +217,15 @@ func init() {
 		group.POST("/delete", controller.MemberLevel.Delete)
 	})
 
+	/* 会员管理 */
+	s.Group("member", func(group *ghttp.RouterGroup) {
+		group.GET("/index", controller.Member.Index)
+		group.POST("/list", controller.Member.List)
+		group.GET("/edit", controller.Member.Edit)
+		group.POST("/add", controller.Member.Add)
+		group.POST("/update", controller.Member.Update)
+		group.POST("/delete", controller.Member.Delete)
+		group.POST("/setStatus", controller.Member.Status)
+	})
+
 }

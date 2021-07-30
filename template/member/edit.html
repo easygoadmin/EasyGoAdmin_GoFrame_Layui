@@ -1,0 +1,100 @@
+<form class="layui-form model-form" action="">
+	<input name="id" id="id" type="hidden" value="{{.info.Id}}">
+	<div class="layui-form-item">
+		<label class="layui-form-label">用户头像：</label>
+		{{upload_image "avatar|头像|90x90|建议上传尺寸450x450|450x450" .info.Avatar "" 0}}
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">真实姓名：</label>
+			<div class="layui-input-inline">
+				<input name="realname" value="{{.info.Realname}}" lay-verify="required" autocomplete="off" placeholder="请输入真实姓名" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">用户昵称：</label>
+			<div class="layui-input-inline">
+				<input name="nickname" value="{{.info.Nickname}}" lay-verify="required" autocomplete="off" placeholder="请输入用户昵称" class="layui-input" type="text">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">性别：</label>
+			<div class="layui-input-inline">
+				{{select "gender|1|性别|name|id" "1=男,2=女,3=保密" .info.Gender}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">会员等级：</label>
+			<div class="layui-input-inline">
+				{{select "member_level|1|会员等级|name|id" .memberLevelList .info.MemberLevel}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">用户名：</label>
+			<div class="layui-input-inline">
+				<input name="username" value="{{.info.Username}}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input" type="text">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">密码：</label>
+			<div class="layui-input-inline">
+				<input name="password" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">出生日期：</label>
+			<div class="layui-input-inline">
+				{{date "birthday|1|出生日期|date" .info.Birthday}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">会员状态：</label>
+			<div class="layui-input-inline">
+				{{switch "status" "正常|禁用" .info.Status}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">所属城市：</label>
+		{{city .info.DistrictCode 3}}
+	</div>
+	<div class="layui-form-item" style="width:665px;">
+		<label class="layui-form-label">详细地址：</label>
+		<div class="layui-input-block">
+			<input name="address" value="{{.info.Address}}" lay-verify="required" autocomplete="off" placeholder="请输入详细地址" class="layui-input" type="text">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">设备类型：</label>
+			<div class="layui-input-inline">
+				{{select "device|1|设备类型|name|id" .deviceList .info.Device}}
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">注册来源：</label>
+			<div class="layui-input-inline">
+				{{select "source|1|注册来源|name|id" .sourceList .info.Source}}
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item" style="width:665px;">
+		<label class="layui-form-label">个人简介：</label>
+		<div class="layui-input-block">
+			<textarea name="intro" placeholder="请输入个人简介" class="layui-textarea">{{.info.Intro}}</textarea>
+		</div>
+	</div>
+	<div class="layui-form-item" style="width:665px;">
+		<label class="layui-form-label">个性签名：</label>
+		<div class="layui-input-block">
+			<textarea name="signature" placeholder="请输入个性签名" class="layui-textarea">{{.info.Signature}}</textarea>
+		</div>
+	</div>
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>

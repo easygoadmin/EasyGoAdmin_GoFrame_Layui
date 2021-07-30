@@ -29,8 +29,8 @@ type MemberLevelAddReq struct {
 // 更新会员等级
 type MemberLevelUpdateReq struct {
 	Id   int    `p:"id" v:"required#主键ID不能为空"`
-	Name string `p:"name"        v:"name"` // 级别名称
-	Sort int    `p:"sort"        v:"sort"` // 排序号
+	Name string `p:"name"        v:"required#会员等级名称不能为空"` // 级别名称
+	Sort int    `p:"sort"        v:"required#会员排序号不能为空"`  // 排序号
 }
 
 // 删除会员等级
