@@ -84,7 +84,6 @@ func (s *memberService) Add(req *model.MemberAddReq) (int64, error) {
 	entity.Realname = req.Realname
 	entity.Nickname = req.Nickname
 	entity.Gender = req.Gender
-	entity.Avatar = req.Avatar
 	entity.Birthday = req.Birthday
 	entity.ProvinceCode = req.ProvinceCode
 	entity.CityCode = req.CityCode
@@ -98,6 +97,13 @@ func (s *memberService) Add(req *model.MemberAddReq) (int64, error) {
 	entity.CreateUser = 1
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
+
+	// 头像处理
+	avatar, err := utils.SaveImage(req.Avatar, "member")
+	if err != nil {
+		return 0, err
+	}
+	entity.Avatar = avatar
 
 	// 插入数据
 	result, err := dao.Member.Insert(entity)
@@ -127,7 +133,6 @@ func (s *memberService) Update(req *model.MemberUpdateReq) (int64, error) {
 	info.Realname = req.Realname
 	info.Nickname = req.Nickname
 	info.Gender = req.Gender
-	info.Avatar = req.Avatar
 	info.Birthday = req.Birthday
 	info.ProvinceCode = req.ProvinceCode
 	info.CityCode = req.CityCode
@@ -140,6 +145,13 @@ func (s *memberService) Update(req *model.MemberUpdateReq) (int64, error) {
 	info.Status = req.Status
 	info.UpdateUser = 1
 	info.UpdateTime = gtime.Now()
+
+	// 头像处理
+	avatar, err := utils.SaveImage(req.Avatar, "member")
+	if err != nil {
+		return 0, err
+	}
+	info.Avatar = avatar
 
 	// 调用更新方法
 	result, err := dao.Member.Save(info)
