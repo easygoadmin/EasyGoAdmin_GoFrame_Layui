@@ -7,11 +7,11 @@
 package service
 
 import (
-	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // 中间件管理服务
@@ -37,14 +37,14 @@ func (s *dictService) GetList(req *model.DictQueryReq) []model.Dict {
 	return list
 }
 
-func (s *dictService) Add(req *model.DictAddReq) (int64, error) {
+func (s *dictService) Add(req *model.DictAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Dict
 	entity.Name = req.Name
 	entity.Code = req.Code
 	entity.Sort = req.Sort
 	entity.Note = req.Note
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -63,7 +63,7 @@ func (s *dictService) Add(req *model.DictAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *dictService) Update(req *model.DictUpdateReq) (int64, error) {
+func (s *dictService) Update(req *model.DictUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Dict.FindOne("id=?", req.Id)
 	if err != nil {
@@ -78,7 +78,7 @@ func (s *dictService) Update(req *model.DictUpdateReq) (int64, error) {
 	info.Code = req.Code
 	info.Sort = req.Sort
 	info.Note = req.Note
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新数据

@@ -7,13 +7,14 @@
 package controller
 
 import (
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
 )
 
 // 控制器管理对象
@@ -90,7 +91,7 @@ func (c *levelCtl) Add(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		id, err := service.Level.Add(req)
+		id, err := service.Level.Add(req, utils.Uid(r.Session))
 		if err != nil || id <= 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -116,7 +117,7 @@ func (c *levelCtl) Update(r *ghttp.Request) {
 			})
 		}
 		// 调用更新方法
-		result, err := service.Level.Update(req)
+		result, err := service.Level.Update(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -166,7 +167,7 @@ func (c *levelCtl) Status(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		result, err := service.Level.Status(req)
+		result, err := service.Level.Status(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

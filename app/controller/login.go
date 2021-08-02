@@ -10,7 +10,6 @@ import (
 	"easygoadmin/app/service"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/mojocn/base64Captcha"
 )
@@ -30,11 +29,42 @@ type LoginReq struct {
 // 系统登录
 func (c *loginCtl) Login(r *ghttp.Request) {
 	if r.IsAjaxRequest() {
-		r.Response.WriteJson(g.Map{
-			"code": 500,
-			"msg":  "未登录或登录超时,请重新登录",
-		})
+		var req *LoginReq
+
+		// 获取参数并验证
+		if err := r.Parse(&req); err != nil {
+			// 返回错误信息
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		//
+		//// 校验验证码
+		//verifyRes := base64Captcha.VerifyCaptcha(req.IdKey, req.Captcha)
+		//if !verifyRes {
+		//	r.Response.WriteJsonExit(common.JsonResult{
+		//		Code: -1,
+		//		Msg:  "验证码不正确",
+		//	})
+		//}
+
+		// 系统登录
+		if err := service.Login.UserLogin(req.UserName, req.Password, r.Session); err != nil {
+			// 登录错误
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		} else {
+			// 登录成功
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: 0,
+				Msg:  "登录成功",
+			})
+		}
 	}
+	// 渲染模板
 	response.BuildTpl(r, "login.html").WriteTpl()
 }
 
@@ -67,42 +97,4 @@ func (c *loginCtl) Captcha(r *ghttp.Request) {
 		Data:  base64stringC,
 		Msg:   "操作成功",
 	})
-}
-
-// 系统登录
-func (c *loginCtl) SignIn(r *ghttp.Request) {
-	var req *LoginReq
-
-	// 获取参数并验证
-	if err := r.Parse(&req); err != nil {
-		// 返回错误信息
-		r.Response.WriteJsonExit(common.JsonResult{
-			Code: -1,
-			Msg:  err.Error(),
-		})
-	}
-
-	// 校验验证码
-	verifyRes := base64Captcha.VerifyCaptcha(req.IdKey, req.Captcha)
-	if !verifyRes {
-		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 500,
-			Msg:  "验证码不正确",
-		})
-	}
-
-	// 系统登录
-	if err := service.Login.SignIn(req.UserName, req.Password, r.Session); err != nil {
-		// 登录错误
-		r.Response.WriteJsonExit(common.JsonResult{
-			Code: -1,
-			Msg:  err.Error(),
-		})
-	} else {
-		// 登录成功
-		r.Response.WriteJsonExit(common.JsonResult{
-			Code: 0,
-			Msg:  "登录成功",
-		})
-	}
 }

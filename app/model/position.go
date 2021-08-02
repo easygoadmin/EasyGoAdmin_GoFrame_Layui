@@ -27,7 +27,7 @@ type PositionAddReq struct {
 }
 
 type PositionUpdateReq struct {
-	Id     int64  `p:id v:"required#主键ID不能为空"`
+	Id     int    `p:id v:"required#主键ID不能为空"`
 	Name   string `p:"name" v:"required#岗位名称不能为空"`
 	Status int    `p:sort v:"required#岗位状态不能为空"`
 	Sort   int    `p:sort v:"required#岗位排序不能为空"`

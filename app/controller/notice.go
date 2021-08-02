@@ -10,6 +10,7 @@ import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
 	"github.com/gogf/gf/frame/g"
@@ -96,7 +97,7 @@ func (c *noticeCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.Notice.Add(req)
+		id, err := service.Notice.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -124,7 +125,7 @@ func (c *noticeCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用更新方法
-		rows, err := service.Notice.Update(req)
+		rows, err := service.Notice.Update(req, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

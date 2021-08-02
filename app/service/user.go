@@ -13,6 +13,7 @@ import (
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 	"strings"
@@ -29,7 +30,13 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 	// 查询条件
 	if req != nil {
 		// 用户姓名
-		query = query.Where("realname like ?", "%"+req.Realname+"%")
+		if req.Realname != "" {
+			query = query.Where("realname like ?", "%"+req.Realname+"%")
+		}
+		// 性别
+		if req.Gender > 0 {
+			query = query.Where("gender=?", req.Gender)
+		}
 	}
 	// 查询记录总数
 	count, err := query.Count()
@@ -68,6 +75,10 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 	for _, v := range list {
 		item := model.UserInfoVo{}
 		item.User = v
+		// 头像
+		if v.Avatar != "" {
+			item.Avatar = utils.GetImageUrl(v.Avatar)
+		}
 		// 性别
 		if v.Gender > 0 {
 			item.GenderName = utils.GENDER_LIST[v.Gender]
@@ -89,7 +100,7 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 	return result, count, nil
 }
 
-func (s *userService) Add(req *model.UserAddReq) (int64, error) {
+func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.User
 	entity.Realname = req.Realname
@@ -121,6 +132,9 @@ func (s *userService) Add(req *model.UserAddReq) (int64, error) {
 		}
 		entity.Avatar = avatar
 	}
+	entity.CreateUser = userId
+	entity.CreateTime = gtime.Now()
+	entity.Mark = 1
 
 	// 插入对象
 	result, err := dao.User.Insert(entity)
@@ -136,7 +150,7 @@ func (s *userService) Add(req *model.UserAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *userService) Update(req *model.UserUpdateReq) (int64, error) {
+func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.User.FindOne("id=?", req.Id)
 	if err != nil {
@@ -180,6 +194,8 @@ func (s *userService) Update(req *model.UserUpdateReq) (int64, error) {
 		}
 		info.Avatar = avatar
 	}
+	info.CreateUser = userId
+	info.CreateTime = gtime.Now()
 
 	// 更新记录
 	result, err := dao.User.Save(info)
@@ -188,8 +204,6 @@ func (s *userService) Update(req *model.UserUpdateReq) (int64, error) {
 	}
 
 	// 删除用户角色关系
-	// 待完善
-	userId := 1
 	dao.UserRole.Delete("user_id=?", userId)
 	// 创建人员角色关系
 	roleIds := strings.Split(req.RoleIds, ",")
@@ -225,7 +239,7 @@ func (s *userService) Delete(ids string) (int64, error) {
 	return rows, nil
 }
 
-func (s *userService) Status(req *model.UserStatusReq) (int64, error) {
+func (s *userService) Status(req *model.UserStatusReq, userId int) (int64, error) {
 	info, err := dao.User.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
@@ -237,7 +251,7 @@ func (s *userService) Status(req *model.UserStatusReq) (int64, error) {
 	// 设置状态
 	result, err := dao.User.Data(g.Map{
 		"status":      req.Status,
-		"update_user": 1,
+		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.User.Columns.Id, info.Id).Update()
 	if err != nil {
@@ -250,7 +264,7 @@ func (s *userService) Status(req *model.UserStatusReq) (int64, error) {
 	return res, nil
 }
 
-func (s *userService) ResetPwd(id int) (int64, error) {
+func (s *userService) ResetPwd(id int, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.User.FindOne("id=?", id)
 	if err != nil {
@@ -268,7 +282,7 @@ func (s *userService) ResetPwd(id int) (int64, error) {
 	// 初始化密码
 	result, err := dao.User.Data(g.Map{
 		"password":    password,
-		"update_user": 1,
+		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.User.Columns.Id, info.Id).Update()
 	if err != nil {
@@ -280,5 +294,33 @@ func (s *userService) ResetPwd(id int) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+	return rows, nil
+}
+
+func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Session) (int64, error) {
+	// 用户ID
+	userId := utils.Uid(session)
+	// 更新用户信息
+	result, err := dao.User.Data(g.Map{
+		"realname": req.Realname,
+		"email":    req.Email,
+		"mobile":   req.Mobile,
+		"address":  req.Address,
+		"intro":    req.Intro,
+	}).Where("id", userId).Update()
+	if err != nil {
+		return 0, err
+	}
+
+	// 获取受影响行数
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return 0, gerror.New("更新失败")
+	}
+
+	// 获取信息
+	userInfo, _ := dao.User.FindOne("id=?", userId)
+	// 设置SESSON
+	session.Set("userInfo", userInfo)
 	return rows, nil
 }

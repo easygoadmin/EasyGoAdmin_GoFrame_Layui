@@ -100,7 +100,7 @@ func (c *itemCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.Item.Add(req)
+		id, err := service.Item.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -128,7 +128,7 @@ func (c *itemCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用更新方法
-		rows, err := service.Item.Update(req)
+		rows, err := service.Item.Update(req, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

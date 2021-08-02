@@ -60,7 +60,7 @@ func (s *uploadService) UpdImg(file *ghttp.UploadFile) (FileInfo, error) {
 	}
 
 	// 临时存储目录
-	savePath := utils.TempPath() + gtime.Date()
+	savePath := utils.TempPath() + "/" + gtime.Now().Format("Ymd")
 
 	// 创建文件夹
 	ok := utils.CreateDir(savePath)
@@ -78,7 +78,7 @@ func (s *uploadService) UpdImg(file *ghttp.UploadFile) (FileInfo, error) {
 	result := FileInfo{
 		FileName: file.Filename,
 		FileSize: file.Size,
-		FileUrl:  gstr.Replace(savePath, utils.UploadPath(), "\\") + "\\" + fileName,
+		FileUrl:  gstr.Replace(savePath, utils.UploadPath(), "") + "/" + fileName,
 	}
 	return result, nil
 }

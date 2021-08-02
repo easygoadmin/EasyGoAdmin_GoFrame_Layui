@@ -44,13 +44,13 @@ func (s *levelService) GetList(req *model.LevelQueryReq) ([]model.Level, int, er
 	return list, count, nil
 }
 
-func (s *levelService) Add(req *model.LevelAddReq) (int64, error) {
+func (s *levelService) Add(req *model.LevelAddReq, userId int) (int64, error) {
 	// 模型
 	var entity model.Level
 	entity.Name = req.Name
 	entity.Status = req.Status
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 	// 插入数据
@@ -66,7 +66,7 @@ func (s *levelService) Add(req *model.LevelAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *levelService) Update(req *model.LevelEditReq) (int64, error) {
+func (s *levelService) Update(req *model.LevelEditReq, userId int) (int64, error) {
 	// 查询当前记录是否存在
 	info, err := dao.Level.FindOne("id=?", req.Id)
 	if err != nil {
@@ -78,7 +78,7 @@ func (s *levelService) Update(req *model.LevelEditReq) (int64, error) {
 	info.Name = req.Name
 	info.Status = req.Status
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 	result, err := dao.Level.Save(info)
 	if err != nil {
@@ -102,7 +102,7 @@ func (s *levelService) Delete(Ids string) int64 {
 	return res
 }
 
-func (s *levelService) Status(req *model.LevelStatusReq) (int64, error) {
+func (s *levelService) Status(req *model.LevelStatusReq, userId int) (int64, error) {
 	info, err := dao.Level.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
@@ -114,7 +114,7 @@ func (s *levelService) Status(req *model.LevelStatusReq) (int64, error) {
 	// 设置状态
 	result, err := dao.Level.Data(g.Map{
 		"status":      req.Status,
-		"update_user": 1,
+		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.Level.Columns.Id, info.Id).Update()
 	if err != nil {

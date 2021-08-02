@@ -38,7 +38,7 @@
 		<div class="layui-inline">
 			<label class="layui-form-label">上级菜单：</label>
 			<div class="layui-input-inline">
-				{{select "pid|1|上级菜单|name|id" .menuList .info.Pid}}
+				{{select "pid|0|上级菜单|name|id" .menuList .info.Pid}}
 			</div>
 		</div>
 	</div>
@@ -64,9 +64,9 @@
 			</div>
 		</div>
 		<div class="layui-inline">
-			<label class="layui-form-label">公共菜单：</label>
+			<label class="layui-form-label">打开方式：</label>
 			<div class="layui-input-inline">
-				{{switch "IsPublic" "是|否" .info.IsPublic}}
+				{{select "target|1|打开方式|name|id" "1=内部打开,2=外部打开"  .info.Target}}
 			</div>
 		</div>
 	</div>
@@ -76,7 +76,7 @@
 			{{transfer "func|0|全部节点,已赋予节点|name|id|220x350" "1=列表,5=添加,10=修改,15=删除,20=详情,25=状态,30=批量删除,35=添加子级,40=全部展开,45=全部折叠" .funcList}}
 		</div>
 	</div>
-	<div class="layui-form-item layui-form-text" style="width:625px;">
+	<div class="layui-form-item layui-form-text" style="width:665px;">
 		<label class="layui-form-label">备注：</label>
 		<div class="layui-input-block">
 			<textarea name="note" placeholder="请输入备注" class="layui-textarea">{{.info.Note}}</textarea>

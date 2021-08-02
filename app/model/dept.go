@@ -23,6 +23,7 @@ type DeptAddReq struct {
 	Code     string `p:"code" v:"required#部门编码不能为空"`
 	Fullname string `p:"fullname" v:"required#部门全称不能为空"`
 	Type     int    `p:type v:"required#请选择部门类型"`
+	Pid      int    `p:"pid"` // 上级ID
 	Sort     int    `p:sort v:"required#部门排序不能为空"`
 	Note     string
 }
@@ -34,6 +35,7 @@ type DeptUpdateReq struct {
 	Code     string `p:"code" v:"required#部门编码不能为空"`
 	Fullname string `p:"fullname" v:"required#部门全称不能为空"`
 	Type     int    `p:type v:"required#请选择部门类型"`
+	Pid      int    `p:"pid"` // 上级ID
 	Sort     int    `p:sort v:"required#部门排序不能为空"`
 	Note     string
 }

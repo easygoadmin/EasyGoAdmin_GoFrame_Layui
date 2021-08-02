@@ -37,21 +37,22 @@ func (s *deptService) GetList(req *model.DeptPageReq) []model.Dept {
 	return list
 }
 
-func (s *deptService) Add(req *model.DeptAddReq) (int64, error) {
+func (s *deptService) Add(req *model.DeptAddReq, userId int) (int64, error) {
 	// 实例化对象
-	var data model.Dept
-	data.Name = req.Name
-	data.Code = req.Code
-	data.Fullname = req.Fullname
-	data.Type = req.Type
-	data.Sort = req.Sort
-	data.Note = req.Note
-	data.CreateUser = 1
-	data.CreateTime = gtime.Now()
-	data.Mark = 1
+	var entity model.Dept
+	entity.Name = req.Name
+	entity.Code = req.Code
+	entity.Fullname = req.Fullname
+	entity.Type = req.Type
+	entity.Pid = req.Pid
+	entity.Sort = req.Sort
+	entity.Note = req.Note
+	entity.CreateUser = userId
+	entity.CreateTime = gtime.Now()
+	entity.Mark = 1
 
 	// 插入记录
-	result, err := dao.Dept.Insert(data)
+	result, err := dao.Dept.Insert(entity)
 	if err != nil {
 		return 0, err
 	}
@@ -63,7 +64,7 @@ func (s *deptService) Add(req *model.DeptAddReq) (int64, error) {
 	}
 	return id, nil
 }
-func (s *deptService) Update(req *model.DeptUpdateReq) (int64, error) {
+func (s *deptService) Update(req *model.DeptUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Dept.FindOne("id=?", req.Id)
 	if err != nil {
@@ -79,9 +80,10 @@ func (s *deptService) Update(req *model.DeptUpdateReq) (int64, error) {
 	info.Code = req.Code
 	info.Fullname = req.Fullname
 	info.Type = req.Type
+	info.Pid = req.Pid
 	info.Sort = req.Sort
 	info.Note = req.Note
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

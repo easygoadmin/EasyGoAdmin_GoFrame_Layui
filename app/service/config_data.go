@@ -56,7 +56,7 @@ func (s *configDataService) GetList(req *model.ConfigDataPageReq) ([]model.Confi
 	return result, count, nil
 }
 
-func (s *configDataService) Add(req *model.ConfigDataAddReq) (int64, error) {
+func (s *configDataService) Add(req *model.ConfigDataAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.ConfigData
 	entity.Title = req.Title
@@ -67,7 +67,7 @@ func (s *configDataService) Add(req *model.ConfigDataAddReq) (int64, error) {
 	entity.Type = req.Type
 	entity.Sort = req.Sort
 	entity.Note = req.Note
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -86,7 +86,7 @@ func (s *configDataService) Add(req *model.ConfigDataAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *configDataService) Update(req *model.ConfigDataUpdateReq) (int64, error) {
+func (s *configDataService) Update(req *model.ConfigDataUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.ConfigData.FindOne("id=?", req.Id)
 	if err != nil {
@@ -105,7 +105,7 @@ func (s *configDataService) Update(req *model.ConfigDataUpdateReq) (int64, error
 	info.Type = req.Type
 	info.Sort = req.Sort
 	info.Note = req.Note
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

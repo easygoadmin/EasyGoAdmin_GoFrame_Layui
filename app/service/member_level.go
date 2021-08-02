@@ -44,12 +44,12 @@ func (s *memberLevelService) GetList(req *model.MemberLevelPageReq) ([]model.Mem
 	return list, count, err
 }
 
-func (s *memberLevelService) Add(req *model.MemberLevelAddReq) (int64, error) {
+func (s *memberLevelService) Add(req *model.MemberLevelAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.MemberLevel
 	entity.Name = req.Name
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -67,7 +67,7 @@ func (s *memberLevelService) Add(req *model.MemberLevelAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *memberLevelService) Update(req *model.MemberLevelUpdateReq) (int64, error) {
+func (s *memberLevelService) Update(req *model.MemberLevelUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.MemberLevel.FindOne("id=?", req.Id)
 	if err != nil {
@@ -80,7 +80,7 @@ func (s *memberLevelService) Update(req *model.MemberLevelUpdateReq) (int64, err
 	// 设置参数
 	info.Name = req.Name
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

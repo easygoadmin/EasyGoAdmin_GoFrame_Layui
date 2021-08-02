@@ -37,12 +37,12 @@ func (s *configService) GetList(req *model.ConfigQueryReq) []model.Config {
 	return list
 }
 
-func (s *configService) Add(req *model.ConfigAddReq) (int64, error) {
+func (s *configService) Add(req *model.ConfigAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Config
 	entity.Name = req.Name
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -61,7 +61,7 @@ func (s *configService) Add(req *model.ConfigAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *configService) Update(req *model.ConfigUpdateReq) (int64, error) {
+func (s *configService) Update(req *model.ConfigUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Config.FindOne("id=?", req.Id)
 	if err != nil {
@@ -74,7 +74,7 @@ func (s *configService) Update(req *model.ConfigUpdateReq) (int64, error) {
 	// 设置对象
 	info.Name = req.Name
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新数据

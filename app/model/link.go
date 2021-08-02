@@ -38,7 +38,7 @@ type LinkAddReq struct {
 
 // 修改友链
 type LinkUpdateReq struct {
-	Id       int64  `p:"id" v:"required#主键ID不能为空"`
+	Id       int    `p:"id" v:"required#主键ID不能为空"`
 	Name     string `p:"name"        v:"required#友链名称不能为空"` // 友链名称
 	Type     int    `p:"type"        v:"required#请选择友链类型"`  // 类型：1友情链接 2合作伙伴
 	Url      string `p:"url"`                               // 友链地址
@@ -54,6 +54,12 @@ type LinkUpdateReq struct {
 // 删除友链
 type LinkDeleteReq struct {
 	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
+}
+
+// 设置状态
+type LinkStatusReq struct {
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
 }
 
 // 友链信息

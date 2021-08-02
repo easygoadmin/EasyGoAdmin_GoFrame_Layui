@@ -7,7 +7,9 @@
 package controller
 
 import (
+	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/function"
 	"easygoadmin/app/utils/response"
 	"github.com/gogf/gf/frame/g"
@@ -23,18 +25,12 @@ func (c *indexCtl) Index(r *ghttp.Request) {
 	if function.IsLogin(r.Session) {
 		// 已登录
 		// 获取用户信息
-		user := service.Login.GetProfile(r.Session)
+		userInfo := service.Login.GetProfile(r.Session)
 		// 获取菜单列表
-		menuList := service.Menu.GetPermissionList(user.Id)
-		//fmt.Println(g.Map{
-		//	"realname": user.Realname,
-		//	"avatar":   function.GetImageUrl(user.Avatar),
-		//	"menuList": menuList,
-		//})
+		menuList := service.Menu.GetPermissionList(userInfo.Id)
 		// 渲染模板并绑定数据
 		response.BuildTpl(r, "index.html").WriteTpl(g.Map{
-			"realname": user.Realname,
-			"avatar":   function.GetImageUrl(user.Avatar),
+			"userInfo": userInfo,
 			"menuList": menuList,
 		})
 	} else {
@@ -45,4 +41,48 @@ func (c *indexCtl) Index(r *ghttp.Request) {
 
 func (c *indexCtl) Main(r *ghttp.Request) {
 	response.BuildTpl(r, "main.html").WriteTpl()
+}
+
+// 个人中心
+func (c *indexCtl) UserInfo(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		// 参数验证
+		var req *model.UserInfoReq
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		// 更新信息
+		_, err := service.User.UpdateUserInfo(req, r.Session)
+		if err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "更新成功",
+		})
+	}
+	// 获取用户信息
+	userInfo := service.Login.GetProfile(r.Session)
+	// 渲染模板
+	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
+		"mainTpl":  "user_info.html",
+		"userInfo": userInfo,
+	})
+}
+
+// 退出登录
+func (c *indexCtl) Logout(r *ghttp.Request) {
+	// 设置SESSION为空
+	r.Session.Set("userId", "")
+	r.Session.Set("userInfo", "")
+	// 重定向至登录页面
+	r.Response.RedirectTo("/login")
 }

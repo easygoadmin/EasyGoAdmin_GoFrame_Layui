@@ -112,7 +112,7 @@ func (c *memberCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.Member.Add(req)
+		id, err := service.Member.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -140,7 +140,7 @@ func (c *memberCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用更新方法
-		rows, err := service.Member.Update(req)
+		rows, err := service.Member.Update(req, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -193,7 +193,7 @@ func (c *memberCtl) Status(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		result, err := service.Member.Status(req)
+		result, err := service.Member.Status(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

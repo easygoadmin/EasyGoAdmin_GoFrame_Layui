@@ -44,7 +44,7 @@ func (s *dictDataService) GetList(req *model.DictDataPageReq) ([]model.DictData,
 	return list, count, nil
 }
 
-func (s *dictDataService) Add(req *model.DictDataAddReq) (int64, error) {
+func (s *dictDataService) Add(req *model.DictDataAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.DictData
 	entity.DictId = req.DictId
@@ -52,7 +52,7 @@ func (s *dictDataService) Add(req *model.DictDataAddReq) (int64, error) {
 	entity.Code = req.Code
 	entity.Sort = req.Sort
 	entity.Note = req.Note
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -71,7 +71,7 @@ func (s *dictDataService) Add(req *model.DictDataAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *dictDataService) Update(req *model.DictDataUpdateReq) (int64, error) {
+func (s *dictDataService) Update(req *model.DictDataUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.DictData.FindOne("id=?", req.Id)
 	if err != nil {
@@ -87,7 +87,7 @@ func (s *dictDataService) Update(req *model.DictDataUpdateReq) (int64, error) {
 	info.Code = req.Code
 	info.Sort = req.Sort
 	info.Note = req.Note
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

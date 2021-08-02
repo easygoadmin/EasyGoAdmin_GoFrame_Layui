@@ -54,7 +54,7 @@
     }
 
     /* 基本信息 */
-    #adminInfoForm .layui-form-item {
+    #userInfoSubmit .layui-form-item {
         margin-bottom: 25px;
     }
 
@@ -99,34 +99,34 @@
             <div class="layui-card-body" style="padding: 25px;">
                 <div class="text-center layui-text">
                     <div class="user-info-head" id="adminInfoHead">
-                        <img src="{if $adminInfo['avatar']}{$adminInfo['avatar_url']}{else}'__ADMIN__/assets/images/head.jpg'{/if}" alt=""/>
+                        <img src="{{if eq .userInfo.Avatar nil}}/resource/images/logo_mini.png{{else}}{{.userInfo.Avatar}}{{end}}" alt="用户头像"/>
                     </div>
-                    <h2 style="padding-top: 20px;">{$adminInfo['realname']}</h2>
-                    <p style="padding-top: 8px;">{$adminInfo['intro']?:''}</p>
+                    <h2 style="padding-top: 20px;">{{.userInfo.Username}}</h2>
+                    <p style="padding-top: 8px;">{{.userInfo.Intro}}</p>
                 </div>
                 <div class="layui-text" style="padding-top: 30px;">
                     <div class="user-info-list-item">
                         <i class="layui-icon layui-icon-username"></i>
-                        <p>{$adminInfo['position_name']?:''}</p>
+                        <p>{{.userInfo.Realname}}-{{.userInfo.Nickname}}</p>
                     </div>
                     <div class="user-info-list-item">
                         <i class="layui-icon layui-icon-release"></i>
-                        <p>{$adminInfo['level_name']?:''}</p>
+                        <p>{{.userInfo.Email}}</p>
                     </div>
                     <div class="user-info-list-item">
                         <i class="layui-icon layui-icon-location"></i>
-                        <p>{$adminInfo['city_name']?:''}</p>
+                        <p>{{.userInfo.Address}}</p>
                     </div>
                 </div>
                 <div class="layui-line-dash"></div>
                 <h3>标签</h3>
                 <div class="layui-badge-list" style="padding-top: 6px;">
-                    <span class="layui-badge layui-bg-gray">很有想法的</span>
-                    <span class="layui-badge layui-bg-gray">专注设计</span>
-                    <span class="layui-badge layui-bg-gray">辣~</span>
-                    <span class="layui-badge layui-bg-gray">大长腿</span>
-                    <span class="layui-badge layui-bg-gray">川妹子</span>
-                    <span class="layui-badge layui-bg-gray">海纳百川</span>
+                    <span class="layui-badge layui-bg-gray">Golang语言</span>
+                    <span class="layui-badge layui-bg-gray">GoFrame后端框架</span>
+                    <span class="layui-badge layui-bg-gray">Layui前端UI</span>
+                    <span class="layui-badge layui-bg-gray">Vue(前后端分离)</span>
+                    <span class="layui-badge layui-bg-gray">ElementUI(饿了吗)</span>
+                    <span class="layui-badge layui-bg-gray">AntDesign(蚂蚁)</span>
                 </div>
             </div>
         </div>
@@ -138,87 +138,49 @@
             <div class="layui-tab layui-tab-brief" lay-filter="adminInfoTab">
                 <ul class="layui-tab-title">
                     <li class="layui-this">基本信息</li>
-                    <li>账号绑定</li>
                 </ul>
                 <div class="layui-tab-content">
                     <!-- tab1 -->
                     <div class="layui-tab-item layui-show">
-                        <form class="layui-form" id="adminInfoForm" lay-filter="adminInfoForm"
+                        <form class="layui-form" id="userInfoSubmit" lay-filter="userInfoSubmit"
                               style="max-width: 400px;padding: 25px 10px 0 0;">
                             <div class="layui-form-item">
                                 <label class="layui-form-label layui-form-required">真实名称:</label>
                                 <div class="layui-input-block">
-                                    <input name="realname" value="{$adminInfo['realname']}" class="layui-input" lay-verify="required" required/>
+                                    <input name="realname" value="{{.userInfo.Realname}}" class="layui-input" lay-verify="required" required/>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label layui-form-required">邮箱:</label>
                                 <div class="layui-input-block">
-                                    <input name="email" value="{$adminInfo['email']}" class="layui-input" lay-verify="required" required/>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">个人简介:</label>
-                                <div class="layui-input-block">
-                                    <textarea name="intro" placeholder="个人简介" class="layui-textarea">{$adminInfo['intro']?:''}</textarea>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">街道地址:</label>
-                                <div class="layui-input-block">
-                                    <input name="address" value="{$adminInfo['address']?:''}" class="layui-input"/>
+                                    <input name="email" value="{{.userInfo.Email}}" class="layui-input" lay-verify="required" required/>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">联系电话:</label>
                                 <div class="layui-input-block">
-                                    <input name="mobile" value="{$adminInfo['mobile']}" lay-verify="required|phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input" type="tel">
+                                    <input name="mobile" value="{{.userInfo.Mobile}}" lay-verify="required|phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input" type="tel">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">街道地址:</label>
+                                <div class="layui-input-block">
+                                    <input name="address" value="{{.userInfo.Address}}" class="layui-input"/>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">个人简介:</label>
+                                <div class="layui-input-block">
+                                    <textarea name="intro" placeholder="个人简介" class="layui-textarea">{{.userInfo.Intro}}</textarea>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn" lay-filter="adminInfoSubmit" lay-submit>更新基本信息
+                                    <button class="layui-btn" lay-filter="userInfoSubmit" lay-submit>更新基本信息
                                     </button>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <!-- tab1 -->
-                    <div class="layui-tab-item" style="padding-bottom: 20px;">
-                        <div class="user-bd-list layui-text">
-                            <div class="user-bd-list-item">
-                                <div class="user-bd-list-lable">密保手机</div>
-                                <div class="user-bd-list-text">已绑定手机：138****8293</div>
-                                <a class="user-bd-list-oper">修改</a>
-                            </div>
-                            <div class="user-bd-list-item">
-                                <div class="user-bd-list-lable">密保邮箱</div>
-                                <div class="user-bd-list-text">已绑定邮箱：javaweb@vip.com</div>
-                                <a class="user-bd-list-oper">修改</a>
-                            </div>
-                            <div class="user-bd-list-item">
-                                <div class="user-bd-list-img">
-                                    <i class="layui-icon layui-icon-login-qq"
-                                       style="color: #3492ED;font-size: 48px;"></i>
-                                </div>
-                                <div class="user-bd-list-content">
-                                    <div class="user-bd-list-lable">绑定QQ</div>
-                                    <div class="user-bd-list-text">当前未绑定QQ账号</div>
-                                </div>
-                                <a class="user-bd-list-oper">绑定</a>
-                            </div>
-                            <div class="user-bd-list-item">
-                                <div class="user-bd-list-img">
-                                    <i class="layui-icon layui-icon-login-wechat"
-                                       style="color: #4DAF29;font-size: 48px;"></i>
-                                </div>
-                                <div class="user-bd-list-content">
-                                    <div class="user-bd-list-lable">绑定微信</div>
-                                    <div class="user-bd-list-text">当前未绑定绑定微信账号</div>
-                                </div>
-                                <a class="user-bd-list-oper">绑定</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

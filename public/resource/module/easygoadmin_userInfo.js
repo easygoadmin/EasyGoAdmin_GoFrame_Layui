@@ -25,7 +25,7 @@ layui.use(['form', 'element', 'admin', 'func'], function () {
 
     /* 监听表单提交 */
     form.on('submit(userInfoSubmit)', function (data) {
-        func.ajaxPost("/updateUserInfo", data.field);
+        func.ajaxPost("/userInfo", data.field);
         return false;
     });
 

@@ -12,7 +12,6 @@ import (
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
 	"encoding/json"
-	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/text/gstr"
@@ -56,7 +55,6 @@ func (c *configWeb) Index(r *ghttp.Request) {
 				}
 			} else if strings.Contains(key, "upimgs") {
 				// 多图上传
-				fmt.Println(val)
 				item := gstr.Split(key, "__")
 				// KEY值
 				key = item[0]
@@ -83,25 +81,25 @@ func (c *configWeb) Index(r *ghttp.Request) {
 				// TODO...
 			}
 
-			//// 查询记录
-			//info, err := dao.ConfigData.FindOne("code=?", key)
-			//if err != nil || info == nil {
-			//	continue
-			//}
-			//
-			//// 更新记录
-			//result, err := dao.ConfigData.Data(g.Map{
-			//	"value": val,
-			//}).Where("code=?", key).Update()
-			//if err != nil {
-			//	continue
-			//}
-			//
-			//// 获取受影响行数
-			//rows, _ := result.RowsAffected()
-			//if rows == 0 {
-			//	continue
-			//}
+			// 查询记录
+			info, err := dao.ConfigData.FindOne("code=?", key)
+			if err != nil || info == nil {
+				continue
+			}
+
+			// 更新记录
+			result, err := dao.ConfigData.Data(g.Map{
+				"value": val,
+			}).Where("code=?", key).Update()
+			if err != nil {
+				continue
+			}
+
+			// 获取受影响行数
+			rows, _ := result.RowsAffected()
+			if rows == 0 {
+				continue
+			}
 		}
 
 		// 返回结果
@@ -183,7 +181,7 @@ func (c *configWeb) Index(r *ghttp.Request) {
 	}
 
 	// 渲染模板
-	response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
+	response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
 		"mainTpl":    "config_web/index.html",
 		"configId":   configId,
 		"configList": configList,

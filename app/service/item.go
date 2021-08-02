@@ -7,13 +7,13 @@
 package service
 
 import (
-	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // 中间件管理服务
@@ -67,7 +67,7 @@ func (s *itemService) GetList(req *model.ItemPageReq) ([]model.ItemInfoVo, int, 
 	return result, count, nil
 }
 
-func (s *itemService) Add(req *model.ItemAddReq) (int64, error) {
+func (s *itemService) Add(req *model.ItemAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Item
 	entity.Name = req.Name
@@ -76,7 +76,7 @@ func (s *itemService) Add(req *model.ItemAddReq) (int64, error) {
 	entity.Status = req.Status
 	entity.Note = req.Name
 	entity.Sort = req.Status
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -101,7 +101,7 @@ func (s *itemService) Add(req *model.ItemAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *itemService) Update(req *model.ItemUpdateReq) (int64, error) {
+func (s *itemService) Update(req *model.ItemUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Item.FindOne("id=?", req.Id)
 	if err != nil {
@@ -125,7 +125,7 @@ func (s *itemService) Update(req *model.ItemUpdateReq) (int64, error) {
 		return 0, err
 	}
 	info.Image = image
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

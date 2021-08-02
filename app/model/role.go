@@ -22,16 +22,16 @@ type RolePageReq struct {
 type RoleAddReq struct {
 	Name   string `p:"name" v:"required#角色名称不能为空"`
 	Code   string `p:"code" v:"required#角色编码不能为空"`
-	Status uint   `p:status v:"required#角色状态不能为空"`
-	Sort   uint   `p:sort v:"required#角色排序不能为空"`
+	Status int    `p:status v:"required#角色状态不能为空"`
+	Sort   int    `p:sort v:"required#角色排序不能为空"`
 }
 
 type RoleUpdateReq struct {
-	Id     int64  `p:"id" v:"required#主键ID不能为空"`
+	Id     int    `p:"id" v:"required#主键ID不能为空"`
 	Name   string `p:"name" v:"required#角色名称不能为空"`
 	Code   string `p:"code" v:"required#角色编码不能为空"`
-	Status uint   `p:status v:"required#角色状态不能为空"`
-	Sort   uint   `p:sort v:"required#角色排序不能为空"`
+	Status int    `p:status v:"required#角色状态不能为空"`
+	Sort   int    `p:sort v:"required#角色排序不能为空"`
 }
 
 type RoleDeleteReq struct {
@@ -39,6 +39,6 @@ type RoleDeleteReq struct {
 }
 
 type RoleStatusReq struct {
-	Id     uint `p:"id" v:"required#主键ID不能为空"`
-	Status uint `p:"status"    v:"required#角色状态不能为空"`
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#角色状态不能为空"`
 }

@@ -9,6 +9,7 @@ package controller
 import (
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -58,7 +59,7 @@ func (c *dictDataCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.DictData.Add(req)
+		id, err := service.DictData.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -86,7 +87,7 @@ func (c *dictDataCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用更新方法
-		rows, err := service.DictData.Update(req)
+		rows, err := service.DictData.Update(req, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

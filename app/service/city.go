@@ -53,7 +53,7 @@ func (s *cityService) GetList(req *model.CityQueryReq) []model.CityInfoVo {
 	return result
 }
 
-func (s *cityService) Add(req *model.CityAddReq) (int64, error) {
+func (s *cityService) Add(req *model.CityAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.City
 	entity.Name = req.Name
@@ -65,7 +65,7 @@ func (s *cityService) Add(req *model.CityAddReq) (int64, error) {
 	entity.Lng = req.Lng
 	entity.Lat = req.Lat
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -83,7 +83,7 @@ func (s *cityService) Add(req *model.CityAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *cityService) Update(req *model.CityUpdateReq) (int64, error) {
+func (s *cityService) Update(req *model.CityUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.City.FindOne("id=?", req.Id)
 	if err != nil {
@@ -103,7 +103,7 @@ func (s *cityService) Update(req *model.CityUpdateReq) (int64, error) {
 	info.Lng = req.Lng
 	info.Lat = req.Lat
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

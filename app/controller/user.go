@@ -13,7 +13,6 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
-	"fmt"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/util/gutil"
@@ -60,6 +59,28 @@ func (c *userCtl) List(r *ghttp.Request) {
 }
 
 func (c *userCtl) Edit(r *ghttp.Request) {
+	// 获取职级
+	levelAll, _ := dao.Level.Where("status=1 and mark=1").All()
+	levelList := make(map[int]string, 0)
+	for _, v := range levelAll {
+		levelList[v.Id] = v.Name
+	}
+	// 获取岗位
+	positionAll, _ := dao.Position.Where("status=1 and mark=1").All()
+	positionList := make(map[int]string, 0)
+	for _, v := range positionAll {
+		positionList[v.Id] = v.Name
+	}
+	// 获取部门列表
+	deptData, _ := service.Dept.GetDeptTreeList()
+	deptList := service.Dept.MakeList(deptData)
+	// 获取角色
+	roleData, _ := dao.Role.Where("status=1 and mark=1").All()
+	roleList := make(map[int]string)
+	for _, v := range roleData {
+		roleList[v.Id] = v.Name
+	}
+
 	// 记录ID
 	id := r.GetQueryInt("id")
 	if id > 0 {
@@ -74,29 +95,14 @@ func (c *userCtl) Edit(r *ghttp.Request) {
 
 		var userInfo = model.UserInfoVo{}
 		userInfo.User = *info
-		// 角色ID
-		// 待完善
-		var roleList []model.UserRole
-		dao.UserRole.Where("user_id=?", 1).Structs(&roleList)
-		roleIds := gutil.ListItemValuesUnique(&roleList, "RoleId")
-		userInfo.RoleIds = roleIds
+		// 头像
+		userInfo.Avatar = utils.GetImageUrl(info.Avatar)
 
-		// 获取职级
-		levelAll, _ := dao.Level.Where("status=1 and mark=1").All()
-		levelList := make(map[int]string, 0)
-		for _, v := range levelAll {
-			levelList[v.Id] = v.Name
-		}
-		// 获取岗位
-		positionAll, _ := dao.Position.Where("status=1 and mark=1").All()
-		positionList := make(map[int]string, 0)
-		for _, v := range positionAll {
-			positionList[v.Id] = v.Name
-		}
-		// 获取部门列表
-		deptData, _ := service.Dept.GetDeptTreeList()
-		deptList := service.Dept.MakeList(deptData)
-		fmt.Println(deptList)
+		// 角色ID
+		var userRoleList []model.UserRole
+		dao.UserRole.Where("user_id=?", utils.Uid(r.Session)).Structs(&userRoleList)
+		roleIds := gutil.ListItemValuesUnique(&userRoleList, "RoleId")
+		userInfo.RoleIds = roleIds
 
 		// 渲染模板
 		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
@@ -106,11 +112,17 @@ func (c *userCtl) Edit(r *ghttp.Request) {
 			"levelList":    levelList,
 			"positionList": positionList,
 			"deptList":     deptList,
+			"roleList":     roleList,
 		})
 	} else {
 		// 添加
 		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
-			"mainTpl": "user/edit.html",
+			"mainTpl":      "user/edit.html",
+			"genderList":   utils.GENDER_LIST,
+			"levelList":    levelList,
+			"positionList": positionList,
+			"deptList":     deptList,
+			"roleList":     roleList,
 		})
 	}
 }
@@ -127,7 +139,7 @@ func (c *userCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.User.Add(req)
+		id, err := service.User.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -155,7 +167,7 @@ func (c *userCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用更新方法
-		rows, err := service.User.Update(req)
+		rows, err := service.User.Update(req, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -208,7 +220,7 @@ func (c *userCtl) Status(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		result, err := service.User.Status(req)
+		result, err := service.User.Status(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -235,7 +247,7 @@ func (c *userCtl) ResetPwd(r *ghttp.Request) {
 		}
 
 		// 调用重置密码方法
-		rows, err := service.User.ResetPwd(req.Id)
+		rows, err := service.User.ResetPwd(req.Id, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

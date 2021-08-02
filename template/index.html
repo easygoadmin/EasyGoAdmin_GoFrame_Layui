@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Easyeasygoadmin基于Golang快速开发框架</title>
+    <title>GoFrame+Layui【旗舰版】敏捷开发框架</title>
     <link href="/resource/assets/images/favicon.ico" rel="icon">
     <link rel="stylesheet" href="/resource/assets/libs/layui/css/layui.css"/>
     <link rel="stylesheet" href="/resource/assets/module/admin.css?v=318"/>
@@ -20,7 +20,7 @@
     <div class="layui-header">
         <div class="layui-logo">
             <img src="/resource/assets/images/logo.png"/>
-            <cite>&nbsp;&nbsp;拓恒水务巡检平台&emsp;</cite>
+            <cite>&nbsp;&nbsp;GoFrame+Layui 旗舰版&emsp;</cite>
         </div>
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item" lay-unselect>
@@ -61,14 +61,14 @@
             </li>
             <li class="layui-nav-item" lay-unselect>
                 <a>
-                    <img src="{{if eq .avatar nil}}/resource/images/logo_mini.png{{else}}{{.avatar}}{{end}}" class="layui-nav-img">
-                    <cite>{{.realname}}</cite>
+                    <img src="{{if eq .userInfo.Avatar nil}}/resource/images/logo_mini.png{{else}}{{.userInfo.Avatar}}{{end}}" class="layui-nav-img">
+                    <cite>{{.userInfo.Realname}}</cite>
                 </a>
                 <dl class="layui-nav-child">
-                    <dd lay-unselect><a ew-href="/index/userInfo">个人中心</a></dd>
+                    <dd lay-unselect><a ew-href="/userInfo">个人中心</a></dd>
                     <dd lay-unselect><a ew-event="psw">修改密码</a></dd>
                     <hr>
-                    <dd lay-unselect><a ew-event="logout" data-url="/login/logout">退出</a></dd>
+                    <dd lay-unselect><a ew-event="logout" data-url="/logout">退出</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item" lay-unselect>
@@ -84,15 +84,28 @@
             <ul class="layui-nav layui-nav-tree {{if gt $key 0}}layui-hide{{end}}" nav-id="xt{{$key}}" lay-filter="admin-side-nav" lay-shrink="_all" style="margin: 15px 0;">
                 {{range $ko, $vo := $val.Children}}
                 <li  class="layui-nav-item">
-                    {{if eq $vo.Url "#"}}
+                    {{if ne $vo.Children nil}}
                     <a><i class="layui-icon {{$vo.Icon}}"></i>&emsp;<cite>{{$vo.Name}}</cite></a>
                     {{else}}
-                    <a lay-href="{{$vo.Url}}"><i class="layui-icon {{$vo.Icon}}"></i>&emsp;<cite>{{$vo.Name}}</cite></a>
+                    <a {{if eq $vo.Target 2}}href="{{$vo.Url}}" target="_blank" {{else}}lay-href="{{$vo.Url}}"{{end}}><i class="layui-icon {{$vo.Icon}}"></i>&emsp;<cite>{{$vo.Name}}</cite></a>
                     {{end}}
+                    {{if ne $vo.Children nil}}
                     <dl class="layui-nav-child">
-                        {{range $k, $v := $vo.Children}}
-                        <dd><a lay-href="{{$v.Url}}">{{$v.Name}}</a></dd>
+                    {{range $k, $v := $vo.Children}}
+                        {{if eq $v.Children nil}}
+                        <dd><a {{if eq $v.Target 2}}href="{{$v.Url}}" target="_blank" {{else}}lay-href="{{$v.Url}}"{{end}}>{{$v.Name}}</a></dd>
+                        {{else}}
+                        <dd>
+                            <a>{{$v.Name}}</a>
+                            <dl class="layui-nav-child">
+                                {{range $kt, $vt := $v.Children}}
+                                <dd><a {{if eq $vt.Target 2}}href="{{$vt.Url}}" target="_blank" {{else}}lay-href="{{$vt.Url}}"{{end}}>{{$vt.Name}}</a></dd>
+                                {{end}}
+                            </dl>
+                        </dd>
                         {{end}}
+                    {{end}}
+                    {{end}}
                     </dl>
                 </li>
                 {{end}}

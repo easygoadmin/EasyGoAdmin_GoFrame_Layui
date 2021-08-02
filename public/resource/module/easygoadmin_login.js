@@ -17,7 +17,7 @@ layui.use(['layer', 'form', 'index'], function () {
         var loadIndex = layer.load(2);
         $.ajax({
             type: "POST",
-            url: '/signin',
+            url: '/login',
             data: JSON.stringify(data.field),
             contentType: "application/json",
             dataType: "json",

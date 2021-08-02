@@ -14,6 +14,7 @@ import (
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
+	"reflect"
 	"strings"
 )
 
@@ -26,7 +27,7 @@ type menuService struct{}
 func (s *menuService) GetPermissionList(userId int) interface{} {
 	if userId == 1 {
 		// 管理员(拥有全部权限)
-		menuList, _ := getTreeList()
+		menuList, _ := Menu.GetTreeList()
 		return menuList
 	} else {
 		// 非管理员
@@ -35,14 +36,14 @@ func (s *menuService) GetPermissionList(userId int) interface{} {
 }
 
 // 获取子级菜单
-func getTreeList() (interface{}, error) {
-	var catNet model.TreeNode
-	data, err := dao.Menu.Where("type<=3 and status=1 and mark=1").Fields("id,name,pid,icon,url").Order("sort").FindAll()
+func (s *menuService) GetTreeList() ([]*model.TreeNode, error) {
+	var menuNode model.TreeNode
+	data, err := dao.Menu.Where("type=0 and status=1 and mark=1").Fields("id,name,pid,icon,url,target").Order("sort").FindAll()
 	if err != nil {
 		return nil, errors.New("系统错误")
 	}
-	makeTree(data, &catNet)
-	return catNet.Children, nil
+	makeTree(data, &menuNode)
+	return menuNode.Children, nil
 }
 
 //递归生成分类列表
@@ -75,7 +76,7 @@ func (s *menuService) List(req *model.MenuQueryReq) []model.Menu {
 	return list
 }
 
-func (s *menuService) Add(req *model.MenuAddReq) (int64, error) {
+func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Menu
 	entity.Name = req.Name
@@ -86,10 +87,10 @@ func (s *menuService) Add(req *model.MenuAddReq) (int64, error) {
 	entity.Type = req.Type
 	entity.Permission = req.Permission
 	entity.Status = req.Status
-	entity.IsPublic = req.IsPublic
+	entity.Target = req.Target
 	entity.Note = req.Note
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -111,7 +112,7 @@ func (s *menuService) Add(req *model.MenuAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *menuService) Update(req *model.MenuUpdateReq) (int64, error) {
+func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Menu.FindOne("id=?", req.Id)
 	if err != nil {
@@ -130,10 +131,10 @@ func (s *menuService) Update(req *model.MenuUpdateReq) (int64, error) {
 	info.Type = req.Type
 	info.Permission = req.Permission
 	info.Status = req.Status
-	info.IsPublic = req.IsPublic
+	info.Target = req.Target
 	info.Note = req.Note
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新数据
@@ -157,6 +158,15 @@ func (s *menuService) Delete(ids string) (int64, error) {
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 
+	// 判断是否有子级
+	child, err := dao.Menu.Where("pid in (?)", idsArr).Count()
+	if err != nil {
+		return 0, err
+	}
+	if child > 0 {
+		return 0, gerror.New("有子级无法删除")
+	}
+
 	// 删除记录
 	result, err := dao.Menu.Delete("id in (?)", idsArr)
 	if err != nil {
@@ -173,7 +183,7 @@ func (s *menuService) Delete(ids string) (int64, error) {
 
 // 添加节点
 func setPermission(menuType int, funcIds string, url string, pid int) {
-	if menuType != 3 || funcIds == "" || url == "" {
+	if menuType == 0 || funcIds == "" || url == "" {
 		return
 	}
 	// 删除现有节点
@@ -235,11 +245,62 @@ func setPermission(menuType int, funcIds string, url string, pid int) {
 			entity.Pid = pid
 			entity.Type = 4
 			entity.Status = 1
-			entity.IsPublic = 2
+			entity.Target = 1
 			entity.Sort = value
 			// 插入节点
 			dao.Menu.Insert(entity)
 		}
-
 	}
+}
+
+//// 获取子级菜单
+//func (s *menuService) GetMenuTreeList(itemId int, pid int) ([]*model.MenuTreeNode, error) {
+//	var cateNote model.MenuTreeNode
+//	// 创建查询实例
+//	query := dao.Menu.Where("type=0 and mark=1")
+//	// 返回字段
+//	query.Fields("id,name,pid")
+//	// 排序
+//	query = query.Order("sort asc")
+//	// 查询所有
+//	data, err := query.FindAll()
+//	if err != nil {
+//		return nil, errors.New("系统错误")
+//	}
+//	makeMenuTree(data, &cateNote)
+//	return cateNote.Children, nil
+//}
+//
+////递归生成分类列表
+//func makeMenuTree(cate []*model.Menu, tn *model.MenuTreeNode) {
+//	for _, c := range cate {
+//		if c.Pid == tn.Id {
+//			child := &model.MenuTreeNode{}
+//			child.Menu = *c
+//			tn.Children = append(tn.Children, child)
+//			makeMenuTree(cate, child)
+//		}
+//	}
+//}
+
+// 数据源转换
+func (s *menuService) MakeList(data []*model.TreeNode) map[int]string {
+	menuList := make(map[int]string, 0)
+	if reflect.ValueOf(data).Kind() == reflect.Slice {
+		// 一级栏目
+		for _, val := range data {
+			menuList[val.Id] = val.Name
+
+			// 二级栏目
+			for _, v := range val.Children {
+				menuList[v.Id] = "|--" + v.Name
+
+				// 三级栏目
+				for _, vt := range v.Children {
+					menuList[vt.Id] = "|--|--" + vt.Name
+				}
+			}
+		}
+	}
+	return menuList
 }

@@ -16,6 +16,13 @@ layui.use(['func'], function () {
             , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
             , {field: 'realname', width: 100, title: '用户姓名', align: 'center'}
             , {
+                field: 'avatar', width: 80, title: '头像', align: 'center', templet: function (d) {
+                    if (d.avatar != "") {
+                        return '<a href="' + d.avatar + '" target="_blank"><img src="' + d.avatar + '" height="26" /></a>';
+                    }
+                }
+            }
+            , {
                 field: 'gender', width: 60, title: '性别', align: 'center', templet(d) {
                     var cls = "";
                     if (d.gender == 1) {

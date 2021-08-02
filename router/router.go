@@ -17,11 +17,13 @@ func init() {
 
 	/* 登录注册 */
 	s.Group("/", func(group *ghttp.RouterGroup) {
-		group.GET("/login", controller.Login.Login)
+		//group.GET("/", "", controller.Login.Login)
+		group.ALL("/login", controller.Login.Login)
 		group.GET("/captcha", controller.Login.Captcha)
-		group.POST("/signin", controller.Login.SignIn)
 		group.GET("/index", controller.Index.Index)
 		group.GET("/main", controller.Index.Main)
+		group.ALL("/userInfo", controller.Index.UserInfo)
+		group.GET("/logout", controller.Index.Logout)
 	})
 
 	/* 用户管理 */
@@ -148,6 +150,7 @@ func init() {
 		group.POST("/add", controller.Link.Add)
 		group.POST("/update", controller.Link.Update)
 		group.POST("/delete", controller.Link.Delete)
+		group.POST("/setStatus", controller.Link.Status)
 	})
 
 	/* 站点管理 */
@@ -226,6 +229,11 @@ func init() {
 		group.POST("/update", controller.Member.Update)
 		group.POST("/delete", controller.Member.Delete)
 		group.POST("/setStatus", controller.Member.Status)
+	})
+
+	/* 统计分析 */
+	s.Group("analysis", func(group *ghttp.RouterGroup) {
+		group.GET("/index", controller.Analysis.Index)
 	})
 
 }

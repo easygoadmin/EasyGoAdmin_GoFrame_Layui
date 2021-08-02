@@ -13,6 +13,7 @@ import (
 	"errors"
 	"github.com/gogf/gf/container/gmap"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/text/gstr"
 )
 
 // 中间件管理服务
@@ -23,7 +24,7 @@ type loginService struct{}
 var SessionList = gmap.New(true)
 
 // 系统登录
-func (s *loginService) SignIn(username, password string, session *ghttp.Session) error {
+func (s *loginService) UserLogin(username, password string, session *ghttp.Session) error {
 	// 获取用户信息
 	user, err := dao.User.FindOne("username=? and mark=1", username)
 	if err != nil {
@@ -52,5 +53,9 @@ func (s *loginService) SignIn(username, password string, session *ghttp.Session)
 // 获取个人信息
 func (s *loginService) GetProfile(session *ghttp.Session) (u *model.User) {
 	_ = session.GetStruct("userInfo", &u)
+	// 头像
+	if u.Avatar != "" && !gstr.Contains(u.Avatar, utils.ImgUrl()) {
+		u.Avatar = utils.GetImageUrl(u.Avatar)
+	}
 	return
 }

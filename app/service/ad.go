@@ -69,7 +69,7 @@ func (s *adService) GetList(req *model.AdPageReq) ([]model.AdInfoVo, int, error)
 	return result, count, err
 }
 
-func (s *adService) Add(req *model.AdAddReq) (int64, error) {
+func (s *adService) Add(req *model.AdAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Ad
 	entity.Title = req.Title
@@ -84,7 +84,7 @@ func (s *adService) Add(req *model.AdAddReq) (int64, error) {
 	entity.EndTime = req.EndTime
 	entity.Status = req.Status
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -111,7 +111,7 @@ func (s *adService) Add(req *model.AdAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *adService) Update(req *model.AdUpdateReq) (int64, error) {
+func (s *adService) Update(req *model.AdUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Ad.FindOne("id=?", req.Id)
 	if err != nil {
@@ -133,7 +133,7 @@ func (s *adService) Update(req *model.AdUpdateReq) (int64, error) {
 	info.EndTime = req.EndTime
 	info.Status = req.Status
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 广告封面
@@ -173,7 +173,7 @@ func (s *adService) Delete(ids string) (int64, error) {
 	return rows, nil
 }
 
-func (s *adService) Status(req *model.AdStatusReq) (int64, error) {
+func (s *adService) Status(req *model.AdStatusReq, userId int) (int64, error) {
 	info, err := dao.Ad.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
@@ -185,7 +185,7 @@ func (s *adService) Status(req *model.AdStatusReq) (int64, error) {
 	// 设置状态
 	result, err := dao.Ad.Data(g.Map{
 		"status":      req.Status,
-		"update_user": 1,
+		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.Ad.Columns.Id, info.Id).Update()
 	if err != nil {

@@ -16,6 +16,7 @@ type User internal.User
 
 type UserPageReq struct {
 	Realname string `p:"realname"` // 用户姓名
+	Gender   int    `p:gender`     // 性别:1男 2女 3保密
 	Page     int    `p:page`       // 页码
 	Limit    int    `p:limit`      // 每页数
 }
@@ -41,10 +42,11 @@ type UserAddReq struct {
 	Status       int         `p:"status"        v:"required#请选择状态"`     // 状态：1正常 2禁用
 	Note         string      `p:"note"`                                 // 备注
 	Sort         int         `p:"sort"          v:"required#排序号不能为空"`   // 排序号
+	RoleIds      string      `p:"role_ids" v:"required#请选择用户角色"`        // 用户角色
 }
 
 type UserUpdateReq struct {
-	Id           int64       `p:"id" v:"required#主键ID不能为空"`
+	Id           int         `p:"id" v:"required#主键ID不能为空"`
 	Realname     string      `p:"realname"      v:"required#真实姓名不能为空"`  // 真实姓名
 	Nickname     string      `p:"nickname"      v:"required#昵称不能为空"`    // 昵称
 	Gender       int         `p:"gender"        v:"required#性别不能为空"`    // 性别:1男 2女 3保密
@@ -81,6 +83,16 @@ type UserStatusReq struct {
 // 重置密码
 type UserResetPwdReq struct {
 	Id int `p:"id" v:"required#主键ID不能为空"`
+}
+
+// 用户中心
+type UserInfoReq struct {
+	Realname string `p:"realname"      v:"required#真实姓名不能为空"` // 真实姓名
+	Avatar   string `p:"avatar"`                              // 头像
+	Mobile   string `p:"mobile"        v:"required#手机号不能为空"`  // 手机号码
+	Email    string `p:"email"         v:"required#电子邮件不能为空"` // 邮箱地址
+	Address  string `p:"address"`                             // 详细地址
+	Intro    string `p:"intro"`                               // 个人简介
 }
 
 // 用户信息Vo

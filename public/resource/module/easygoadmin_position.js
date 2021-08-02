@@ -15,11 +15,18 @@ layui.use(['func'], function () {
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
             , {field: 'name', width: 200, title: '岗位名称', align: 'center'}
-            , {field: 'status', width: 100, title: '状态', align: 'center', templet: '#statusTpl'}
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet(d) {
+                    if (d.status == 1) {
+                        // 在用
+                        return '<span class="layui-btn layui-btn-normal layui-btn-xs">在用</span>';
+                    } else {
+                        // 停用
+                        return '<span class="layui-btn layui-btn-primary layui-btn-xs">停用</span>';
+                    }
+                }
+            }
             , {field: 'sort', width: 100, title: '显示顺序', align: 'center'}
-            , {field: 'createUserName', width: 100, title: '添加人', align: 'center'}
             , {field: 'createTime', width: 180, title: '添加时间', align: 'center'}
-            , {field: 'updateUserName', width: 100, title: '更新人', align: 'center'}
             , {field: 'updateTime', width: 180, title: '更新时间', align: 'center'}
             , {fixed: 'right', width: 150, title: '功能操作', align: 'center', toolbar: '#toolBar'}
         ];

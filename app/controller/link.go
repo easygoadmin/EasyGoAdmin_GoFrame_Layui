@@ -105,7 +105,7 @@ func (c *linkCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.Link.Add(req)
+		id, err := service.Link.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -133,7 +133,7 @@ func (c *linkCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用更新方法
-		rows, err := service.Link.Update(req)
+		rows, err := service.Link.Update(req, utils.Uid(r.Session))
 		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -173,6 +173,30 @@ func (c *linkCtl) Delete(r *ghttp.Request) {
 		r.Response.WriteJsonExit(common.JsonResult{
 			Code: 0,
 			Msg:  "删除成功",
+		})
+	}
+}
+
+func (c *linkCtl) Status(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		var req *model.LinkStatusReq
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		result, err := service.Link.Status(req, utils.Uid(r.Session))
+		if err != nil || result == 0 {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		// 保存成功
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "设置成功",
 		})
 	}
 }

@@ -45,14 +45,14 @@ func (s *roleService) GetList(req *model.RolePageReq) ([]model.Role, int, error)
 	return list, count, nil
 }
 
-func (s *roleService) Add(req *model.RoleAddReq) (int64, error) {
+func (s *roleService) Add(req *model.RoleAddReq, userId int) (int64, error) {
 	// 实例化模型
 	var entity model.Role
 	entity.Name = req.Name
 	entity.Code = req.Code
 	entity.Status = req.Status
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -70,7 +70,7 @@ func (s *roleService) Add(req *model.RoleAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *roleService) Update(req *model.RoleUpdateReq) (int64, error) {
+func (s *roleService) Update(req *model.RoleUpdateReq, userId int) (int64, error) {
 	// 获取记录信息
 	info, err := dao.Role.FindOne("id=?", req.Id)
 	if err != nil {
@@ -85,7 +85,7 @@ func (s *roleService) Update(req *model.RoleUpdateReq) (int64, error) {
 	info.Code = req.Code
 	info.Status = req.Status
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 	result, err := dao.Role.Save(info)
 	if err != nil {
@@ -116,7 +116,7 @@ func (s *roleService) Delete(ids string) (int64, error) {
 	return count, nil
 }
 
-func (s *roleService) Staus(req *model.RoleStatusReq) (int64, error) {
+func (s *roleService) Staus(req *model.RoleStatusReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Role.FindOne("id=?", req.Id)
 	if err != nil {
@@ -129,7 +129,7 @@ func (s *roleService) Staus(req *model.RoleStatusReq) (int64, error) {
 	// 设置状态
 	result, err := dao.Role.Data(g.Map{
 		"status":      req.Status,
-		"update_user": 1,
+		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.Role.Columns.Id, info.Id).Update()
 	if err != nil {

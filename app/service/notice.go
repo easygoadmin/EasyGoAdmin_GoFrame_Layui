@@ -58,14 +58,14 @@ func (s *noticeService) GetList(req *model.NoticePageReq) ([]model.NoticeInfoVo,
 	return result, count, nil
 }
 
-func (s *noticeService) Add(req *model.NoticeAddReq) (int64, error) {
+func (s *noticeService) Add(req *model.NoticeAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Notice
 	entity.Title = req.Title
 	entity.Content = req.Content
 	entity.Source = req.Source
 	entity.Status = req.Status
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -84,7 +84,7 @@ func (s *noticeService) Add(req *model.NoticeAddReq) (int64, error) {
 
 }
 
-func (s *noticeService) Update(req *model.NoticeUpdateReq) (int64, error) {
+func (s *noticeService) Update(req *model.NoticeUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Notice.FindOne("id=?", req.Id)
 	if err != nil {
@@ -99,7 +99,7 @@ func (s *noticeService) Update(req *model.NoticeUpdateReq) (int64, error) {
 	info.Content = req.Content
 	info.Source = req.Source
 	info.Status = req.Status
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

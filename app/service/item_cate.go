@@ -46,7 +46,7 @@ func (s *itemCateService) GetList(req *model.ItemCateQueryReq) []model.ItemCate 
 	return list
 }
 
-func (s *itemCateService) Add(req *model.ItemCateAddReq) (int64, error) {
+func (s *itemCateService) Add(req *model.ItemCateAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.ItemCate
 	entity.Name = req.Name
@@ -71,7 +71,7 @@ func (s *itemCateService) Add(req *model.ItemCateAddReq) (int64, error) {
 		// 没封面
 		entity.Cover = ""
 	}
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -89,7 +89,7 @@ func (s *itemCateService) Add(req *model.ItemCateAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *itemCateService) Update(req *model.ItemCateUpdateReq) (int64, error) {
+func (s *itemCateService) Update(req *model.ItemCateUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.ItemCate.FindOne("id=?", req.Id)
 	if err != nil {
@@ -122,7 +122,7 @@ func (s *itemCateService) Update(req *model.ItemCateUpdateReq) (int64, error) {
 		// 没封面
 		info.Cover = ""
 	}
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

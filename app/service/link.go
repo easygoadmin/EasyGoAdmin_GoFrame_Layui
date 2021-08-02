@@ -7,13 +7,14 @@
 package service
 
 import (
-	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // 中间件管理服务
@@ -77,7 +78,7 @@ func (s *linkService) GetList(req *model.LinkPageReq) ([]model.LinkInfoVo, int, 
 	return result, count, nil
 }
 
-func (s *linkService) Add(req *model.LinkAddReq) (int64, error) {
+func (s *linkService) Add(req *model.LinkAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Link
 	entity.Name = req.Name
@@ -87,12 +88,20 @@ func (s *linkService) Add(req *model.LinkAddReq) (int64, error) {
 	entity.CateId = req.CateId
 	entity.Platform = req.Platform
 	entity.Form = req.Form
-	entity.Image = req.Image
 	entity.Status = req.Status
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
+
+	// 图片处理
+	if req.Image != "" {
+		image, err := utils.SaveImage(req.Image, "link")
+		if err != nil {
+			return 0, err
+		}
+		entity.Image = image
+	}
 
 	// 插入数据
 	result, err := dao.Link.Insert(entity)
@@ -108,7 +117,7 @@ func (s *linkService) Add(req *model.LinkAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *linkService) Update(req *model.LinkUpdateReq) (int64, error) {
+func (s *linkService) Update(req *model.LinkUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Link.FindOne("id=?", req.Id)
 	if err != nil {
@@ -135,8 +144,17 @@ func (s *linkService) Update(req *model.LinkUpdateReq) (int64, error) {
 	info.Form = req.Form
 	info.Status = req.Status
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
+
+	// 图片处理
+	if req.Image != "" {
+		image, err := utils.SaveImage(req.Image, "link")
+		if err != nil {
+			return 0, err
+		}
+		info.Image = image
+	}
 
 	// 更新记录
 	result, err := dao.Link.Save(info)
@@ -167,4 +185,29 @@ func (s *linkService) Delete(ids string) (int64, error) {
 		return 0, err
 	}
 	return rows, nil
+}
+
+func (s *linkService) Status(req *model.LinkStatusReq, userId int) (int64, error) {
+	info, err := dao.Link.FindOne("id=?", req.Id)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+
+	// 设置状态
+	result, err := dao.Link.Data(g.Map{
+		"status":      req.Status,
+		"update_user": userId,
+		"update_time": gtime.Now(),
+	}).Where(dao.Level.Columns.Id, info.Id).Update()
+	if err != nil {
+		return 0, err
+	}
+	res, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return res, nil
 }

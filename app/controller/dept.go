@@ -10,6 +10,7 @@ import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/response"
 	"github.com/gogf/gf/frame/g"
@@ -66,16 +67,6 @@ func (c *deptCtl) Edit(r *ghttp.Request) {
 		})
 	} else {
 		// 添加
-		//var list []model.Position
-		//dao.Position.Structs(&list)
-		//data := make([]map[int]string, 0)
-		//if len(list) > 0 {
-		//	for _, v := range list {
-		//		info := make(map[int]string)
-		//		info[v.Id] = v.Name
-		//		data = append(data, info)
-		//	}
-		//}
 		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
 			"mainTpl":  "dept/edit.html",
 			"typeList": common.DEPT_TYPE_LIST,
@@ -94,7 +85,7 @@ func (c *deptCtl) Add(r *ghttp.Request) {
 		}
 
 		// 调用添加方法
-		id, err := service.Dept.Add(req)
+		id, err := service.Dept.Add(req, utils.Uid(r.Session))
 		if err != nil || id == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -120,7 +111,7 @@ func (c *deptCtl) Update(r *ghttp.Request) {
 		}
 
 		// 调用编辑方法
-		result, err := service.Dept.Update(req)
+		result, err := service.Dept.Update(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
@@ -148,6 +139,18 @@ func (c *deptCtl) Delete(r *ghttp.Request) {
 		}
 
 		// 调用删除方法
+		rows, err := service.Dept.Delete(req.Ids)
+		if err != nil || rows == 0 {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
 
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "删除成功",
+		})
 	}
 }

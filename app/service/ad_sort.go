@@ -73,7 +73,7 @@ func (s *adSortService) GetList(req *model.AdSortPageReq) ([]model.AdSortInfoVo,
 	return result, count, nil
 }
 
-func (s *adSortService) Add(req *model.AdSortAddReq) (int64, error) {
+func (s *adSortService) Add(req *model.AdSortAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.AdSort
 	entity.Description = req.Description
@@ -82,7 +82,7 @@ func (s *adSortService) Add(req *model.AdSortAddReq) (int64, error) {
 	entity.LocId = req.LocId
 	entity.Platform = req.Platform
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -100,7 +100,7 @@ func (s *adSortService) Add(req *model.AdSortAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *adSortService) Update(req *model.AdSortUpdateReq) (int64, error) {
+func (s *adSortService) Update(req *model.AdSortUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.AdSort.FindOne("id=?", req.Id)
 	if err != nil {
@@ -117,7 +117,7 @@ func (s *adSortService) Update(req *model.AdSortUpdateReq) (int64, error) {
 	info.LocId = req.LocId
 	info.Platform = req.Platform
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 更新记录

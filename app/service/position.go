@@ -7,11 +7,11 @@
 package service
 
 import (
-	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils/convert"
+	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // 中间件管理服务
@@ -44,13 +44,13 @@ func (s *positionService) GetList(req *model.PositionQueryReq) ([]model.Position
 	return list, count, nil
 }
 
-func (s *positionService) Add(req *model.PositionAddReq) (int64, error) {
+func (s *positionService) Add(req *model.PositionAddReq, userId int) (int64, error) {
 	// 实例化模型
 	var entity model.Position
 	entity.Name = req.Name
 	entity.Status = req.Status
 	entity.Sort = req.Sort
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -68,7 +68,7 @@ func (s *positionService) Add(req *model.PositionAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *positionService) Update(req *model.PositionUpdateReq) (int64, error) {
+func (s *positionService) Update(req *model.PositionUpdateReq, userId int) (int64, error) {
 	// 获取记录信息
 	info, err := dao.Position.FindOne("id=?", req.Id)
 	if err != nil {
@@ -81,7 +81,7 @@ func (s *positionService) Update(req *model.PositionUpdateReq) (int64, error) {
 	info.Name = req.Name
 	info.Status = req.Status
 	info.Sort = req.Sort
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 	// 调用更新方法
 	result, err := dao.Position.Save(info)

@@ -19,7 +19,7 @@ type Menu struct {
     Type       int         `orm:"type"        json:"type"`       // 类型：1模块 2导航 3菜单 4节点  
     Permission string      `orm:"permission"  json:"permission"` // 权限标识                       
     Status     int         `orm:"status"      json:"status"`     // 是否显示：1显示 2不显示        
-    IsPublic   int         `orm:"is_public"   json:"isPublic"`   // 是否公共：1是 2否              
+    Target     int         `orm:"target"      json:"target"`     // 打开方式：1内部打开 2外部打开  
     Note       string      `orm:"note"        json:"note"`       // 菜单备注                       
     Sort       int         `orm:"sort"        json:"sort"`       // 显示顺序                       
     CreateUser int         `orm:"create_user" json:"createUser"` // 添加人                         

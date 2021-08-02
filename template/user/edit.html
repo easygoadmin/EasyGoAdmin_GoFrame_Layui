@@ -28,7 +28,7 @@
 		<div class="layui-inline">
 			<label class="layui-form-label">所属部门：</label>
 			<div class="layui-input-inline">
-				{{select "dept_id|0|所属部门|name|id" .deptList .info.DeptId}}
+				{{select "dept_id|1|所属部门|name|id" .deptList .info.DeptId}}
 			</div>
 		</div>
 	</div>
@@ -90,13 +90,13 @@
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">所属城市：</label>
-		{{city .info.DistrictCode 3}}
+		{{city .info.DistrictCode 3 1}}
 	</div>
 	<div class="layui-form-item">
 		<div class="layui-inline">
 			<label class="layui-form-label">详细地址：</label>
 			<div class="layui-input-inline">
-				<input name="address" value="{{.info.Address}}" lay-verify="required" autocomplete="off" placeholder="请输入详细地址" class="layui-input" type="text">
+				<input name="address" value="{{.info.Address}}" lay-verify="" autocomplete="off" placeholder="请输入详细地址" class="layui-input" type="text">
 			</div>
 		</div>
 		<div class="layui-inline">
@@ -109,7 +109,7 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">所属角色：</label>
 		<div class="layui-input-block">
-			{{checkbox "role_ids|name|id" "1=测试1,2=测试2,3=测试3" .info.RoleIds}}
+			{{checkbox "role_ids|name|id" .roleList .info.RoleIds}}
 		</div>
 	</div>
 	<div class="layui-form-item layui-form-text" style="width:665px;">

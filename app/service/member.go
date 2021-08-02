@@ -76,7 +76,7 @@ func (s *memberService) GetList(req *model.MemberPageReq) ([]model.MemberInfoVo,
 	return result, count, nil
 }
 
-func (s *memberService) Add(req *model.MemberAddReq) (int64, error) {
+func (s *memberService) Add(req *model.MemberAddReq, userId int) (int64, error) {
 	// 实例化对象
 	var entity model.Member
 	entity.Username = req.Username
@@ -94,7 +94,7 @@ func (s *memberService) Add(req *model.MemberAddReq) (int64, error) {
 	entity.Device = req.Device
 	entity.Source = req.Source
 	entity.Status = req.Status
-	entity.CreateUser = 1
+	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
@@ -119,7 +119,7 @@ func (s *memberService) Add(req *model.MemberAddReq) (int64, error) {
 	return id, nil
 }
 
-func (s *memberService) Update(req *model.MemberUpdateReq) (int64, error) {
+func (s *memberService) Update(req *model.MemberUpdateReq, userId int) (int64, error) {
 	// 查询记录
 	info, err := dao.Member.FindOne("id=?", req.Id)
 	if err != nil {
@@ -143,7 +143,7 @@ func (s *memberService) Update(req *model.MemberUpdateReq) (int64, error) {
 	info.Device = req.Device
 	info.Source = req.Source
 	info.Status = req.Status
-	info.UpdateUser = 1
+	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 
 	// 头像处理
@@ -183,7 +183,7 @@ func (s *memberService) Delete(ids string) (int64, error) {
 	return rows, nil
 }
 
-func (s *memberService) Status(req *model.MemberStatusReq) (int64, error) {
+func (s *memberService) Status(req *model.MemberStatusReq, userId int) (int64, error) {
 	info, err := dao.Member.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
@@ -195,7 +195,7 @@ func (s *memberService) Status(req *model.MemberStatusReq) (int64, error) {
 	// 设置状态
 	result, err := dao.Member.Data(g.Map{
 		"status":      req.Status,
-		"update_user": 1,
+		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.Member.Columns.Id, info.Id).Update()
 	if err != nil {

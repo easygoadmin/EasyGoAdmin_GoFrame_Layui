@@ -35,7 +35,7 @@ type MenuColumns struct {
     Type        string // 类型：1模块 2导航 3菜单 4节点  
     Permission  string // 权限标识                       
     Status      string // 是否显示：1显示 2不显示        
-    IsPublic    string // 是否公共：1是 2否              
+    Target      string // 打开方式：1内部打开 2外部打开  
     Note        string // 菜单备注                       
     Sort        string // 显示顺序                       
     CreateUser  string // 添加人                         
@@ -61,7 +61,7 @@ var (
             Type:       "type",         
             Permission: "permission",   
             Status:     "status",       
-            IsPublic:   "is_public",    
+            Target:     "target",       
             Note:       "note",         
             Sort:       "sort",         
             CreateUser: "create_user",  
