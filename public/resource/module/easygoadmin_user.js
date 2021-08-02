@@ -14,16 +14,8 @@ layui.use(['func'], function () {
         var cols = [
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'realname', width: 100, title: '用户姓名', align: 'center'}
-            , {
-                field: 'avatar', width: 80, title: '头像', align: 'center', templet: function (d) {
-                    if (d.avatar != "") {
-                        return '<a href="' + d.avatar + '" target="_blank"><img src="' + d.avatar + '" height="26" /></a>';
-                    }
-                }
-            }
-            , {
-                field: 'gender', width: 60, title: '性别', align: 'center', templet(d) {
+            , {field: 'realname', width: 120, title: '用户姓名', align: 'center'}
+            , {field: 'gender', width: 60, title: '性别', align: 'center', templet(d) {
                     var cls = "";
                     if (d.gender == 1) {
                         // 男
@@ -39,22 +31,18 @@ layui.use(['func'], function () {
                 }
             }
             , {field: 'nickname', width: 100, title: '用户昵称', align: 'center'}
-            , {field: 'username', width: 100, title: '登录名', align: 'center'}
-            , {
-                field: 'avatar', width: 80, title: '头像', align: 'center', templet: function (d) {
-                    var avatarStr = "";
-                    if (d.avatarUrl) {
-                        avatarStr = '<a href="' + d.avatarUrl + '" target="_blank"><img src="' + d.avatarUrl + '" height="26" /></a>';
+            , {field: 'avatar', width: 80, title: '头像', align: 'center', templet: function (d) {
+                    if (d.avatar != "") {
+                        return '<a href="' + d.avatar + '" target="_blank"><img src="' + d.avatar + '" height="26" /></a>';
                     }
-                    return avatarStr;
                 }
             }
-            , {
-                field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
+            , {field: 'username', width: 100, title: '登录名', align: 'center'}
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
                     return '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.status == 1 ? 'checked' : '') + '>';
                 }
             }
-            , {field: 'deptName', width: 120, title: '所属部门', align: 'center'}
+            , {field: 'deptName', width: 150, title: '所属部门', align: 'center'}
             , {field: 'levelName', width: 120, title: '职级名称', align: 'center'}
             , {field: 'positionName', width: 120, title: '岗位名称', align: 'center'}
             , {field: 'mobile', width: 130, title: '手机号码', align: 'center'}
@@ -78,6 +66,8 @@ layui.use(['func'], function () {
                     var url = cUrl + "/resetPwd";
                     func.ajaxPost(url, {'id': data.id}, function (data, success) {
                         console.log("重置密码：" + (success ? "成功" : "失败"));
+                        // 关闭弹窗
+                        layer.close(index);
                     })
                 });
             }

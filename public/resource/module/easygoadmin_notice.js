@@ -20,16 +20,18 @@ layui.use(['func'], function () {
                 var cls = "";
                 if (d.source == 1) {
                     cls = "layui-btn-normal";
-                } 
+                } else if (d.source == 2) {
+                    cls = "layui-btn-primary"
+                }
 				return '<span class="layui-btn ' + cls + ' layui-btn-xs">'+d.sourceName+'</span>';
             }}
             , {field: 'isTop', width: 100, title: '是否置顶', align: 'center', templet(d) {
                 if (d.isTop == 1) {
                     // 已置顶
-                    return '<span class="layui-btn layui-btn-normal layui-btn-xs">已置顶</span>';
+                    return '<span class="layui-btn layui-btn-primary layui-btn-xs">已置顶</span>';
                 } else if (d.isTop == 2) {
                     // 未置顶
-                    return '<span class="layui-btn layui-btn-dangerlayui-btn-xs">未置顶</span>';
+                    return '<span class="layui-btn layui-btn-danger layui-btn-xs">未置顶</span>';
                 }
             }}
             , {field: 'status', width: 100, title: '发布状态', align: 'center', templet(d) {

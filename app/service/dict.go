@@ -26,7 +26,7 @@ func (s *dictService) GetList(req *model.DictQueryReq) []model.Dict {
 	if req != nil {
 		// 字典名称
 		if req.Name != "" {
-			query = query.Where("name like ?", req.Name)
+			query = query.Where("name like ?", "%"+req.Name+"%")
 		}
 	}
 	// 排序

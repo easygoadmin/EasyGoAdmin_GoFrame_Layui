@@ -127,9 +127,9 @@ layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
         cols: [[
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'name', width: 100, title: '字典项名称', align: 'center'}
-            , {field: 'code', width: 100, title: '字典项编码', align: 'center'}
-            , {field: 'sort', width: 100, title: '显示顺序', align: 'center'}
+            , {field: 'name', width: 200, title: '字典项名称', align: 'center'}
+            , {field: 'code', width: 150, title: '字典项编码', align: 'center'}
+            , {field: 'sort', width: 80, title: '排序号', align: 'center'}
             , {field: 'note', width: 200, title: '备注', align: 'center'}
             , {field: 'createTime', width: 180, title: '添加时间', align: 'center'}
             , {field: 'updateTime', width: 180, title: '更新时间', align: 'center'}

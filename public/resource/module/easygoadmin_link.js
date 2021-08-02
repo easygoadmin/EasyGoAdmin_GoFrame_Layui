@@ -15,9 +15,14 @@ layui.use(['func'], function () {
         var cols = [
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', width: 80, title: 'ID', align: 'center', sort: true, fixed: 'left'}
-            , {field: 'name', width: 200, title: '友链名称', align: 'center'}
-            , {
-                field: 'type', width: 100, title: '类型', align: 'center', templet(d) {
+            , {field: 'name', width: 250, title: '友链名称', align: 'center'}
+            , {field: 'image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
+                    if (d.image != "") {
+                        return '<a href="' + d.image + '" target="_blank"><img src="' + d.image + '" height="26" /></a>';
+                    }
+                }
+            }
+            , {field: 'type', width: 100, title: '类型', align: 'center', templet(d) {
                     var cls = "";
                     if (d.type == 1) {
                         // 友情链接
@@ -29,13 +34,11 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.typeName + '</span>';
                 }
             }
-            , {
-                field: 'url', width: 200, title: '友链地址', align: 'center', templet(d) {
+            , {field: 'url', width: 200, title: '友链地址', align: 'center', templet(d) {
                     return "<a href='" + d.url + "' target='_blank'>" + d.url + "</a>";
                 }
             }
-            , {
-                field: 'platform', width: 100, title: '平台', align: 'center', templet(d) {
+            , {field: 'platform', width: 100, title: '平台', align: 'center', templet(d) {
                     var cls = "";
                     if (d.platform == 1) {
                         // PC站
@@ -53,8 +56,7 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.platformName + '</span>';
                 }
             }
-            , {
-                field: 'form', width: 100, title: '友链形式', align: 'center', templet(d) {
+            , {field: 'form', width: 100, title: '友链形式', align: 'center', templet(d) {
                     var cls = "";
                     if (d.form == 1) {
                         // 文字链接
@@ -66,8 +68,7 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.formName + '</span>';
                 }
             }
-            , {
-                field: 'image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
+            , {field: 'image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
                     var imageStr = "";
                     if (d.imageUrl) {
                         imageStr = '<a href="' + d.imageUrl + '" target="_blank"><img src="' + d.imageUrl + '" height="26" /></a>';
@@ -75,8 +76,7 @@ layui.use(['func'], function () {
                     return imageStr;
                 }
             }
-            , {
-                field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
+            , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
                     return '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.status == 1 ? 'checked' : '') + '>';
                 }
             }

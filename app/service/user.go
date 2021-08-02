@@ -118,11 +118,16 @@ func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 	entity.DistrictCode = req.DistrictCode
 	entity.Address = req.Address
 	entity.Username = req.Username
-	entity.Password = req.Password
 	entity.Intro = req.Intro
 	entity.Status = req.Status
 	entity.Note = req.Note
 	entity.Sort = req.Sort
+
+	// 密码
+	if req.Password != "" {
+		password, _ := utils.Md5(req.Password + req.Username)
+		entity.Password = password
+	}
 
 	// 头像处理
 	if req.Avatar != "" {

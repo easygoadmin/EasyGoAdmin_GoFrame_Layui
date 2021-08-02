@@ -31,7 +31,23 @@ func (s *menuService) GetPermissionList(userId int) interface{} {
 		return menuList
 	} else {
 		// 非管理员
-		return nil
+		// 创建查询实例
+		query := dao.Menu.As("m").Clone()
+		// 内联查询
+		query = query.InnerJoin("sys_role_menu as r", "m.id = r.menu_id")
+		query = query.InnerJoin("sys_user_role ur", "ur.role_id=r.role_id")
+		query = query.Where("ur.user_id=? AND m.type=0 AND m.`status`=1 AND m.mark=1", userId)
+		// 获取字段
+		query.Fields("m.*")
+		// 排序
+		query = query.Order("m.id asc")
+		// 数据转换
+		var list []*model.Menu
+		query.Structs(&list)
+		// 数据处理
+		var menuNode model.TreeNode
+		makeTree(list, &menuNode)
+		return menuNode.Children
 	}
 }
 

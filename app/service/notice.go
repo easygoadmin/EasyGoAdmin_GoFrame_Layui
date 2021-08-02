@@ -63,6 +63,7 @@ func (s *noticeService) Add(req *model.NoticeAddReq, userId int) (int64, error) 
 	var entity model.Notice
 	entity.Title = req.Title
 	entity.Content = req.Content
+	entity.IsTop = req.IsTop
 	entity.Source = req.Source
 	entity.Status = req.Status
 	entity.CreateUser = userId
@@ -97,6 +98,7 @@ func (s *noticeService) Update(req *model.NoticeUpdateReq, userId int) (int64, e
 	// 设置参数
 	info.Title = req.Title
 	info.Content = req.Content
+	info.IsTop = req.IsTop
 	info.Source = req.Source
 	info.Status = req.Status
 	info.UpdateUser = userId

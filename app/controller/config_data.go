@@ -162,3 +162,27 @@ func (c *configDataCtl) Delete(r *ghttp.Request) {
 		})
 	}
 }
+
+func (c *configDataCtl) Status(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		var req *model.ConfigDataStatusReq
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		result, err := service.ConfigData.Status(req, utils.Uid(r.Session))
+		if err != nil || result == 0 {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		// 保存成功
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "设置成功",
+		})
+	}
+}

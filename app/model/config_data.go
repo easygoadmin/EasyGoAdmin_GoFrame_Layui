@@ -51,13 +51,14 @@ type ConfigDataDeleteReq struct {
 	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
 }
 
+// 设置状态
+type ConfigDataStatusReq struct {
+	Id     int `p:"id" v:"required#主键ID不能为空"`
+	Status int `p:"status"    v:"required#状态不能为空"`
+}
+
 // 配置数据列表
 type ConfigDataVo struct {
 	ConfigData
 	TypeName string `json:"typeName"`
-}
-
-// 配置管理中心
-type ConfigDataWeb struct {
-
 }

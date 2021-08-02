@@ -24,7 +24,7 @@ type configCtl struct{}
 func (c *configCtl) Index(r *ghttp.Request) {
 	// 渲染模板
 	response.BuildTpl(r, "config/index.html").WriteTpl(g.Map{
-		"configDataTpl": "config/config_data.html",
+		"configDataTpl":  "config/config_data.html",
 		"configTypeList": common.CONFIG_DATA_TYPE_LIST,
 	})
 }

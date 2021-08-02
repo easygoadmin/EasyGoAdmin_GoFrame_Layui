@@ -12,6 +12,7 @@ import (
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/gtime"
 )
 
@@ -137,4 +138,29 @@ func (s *configDataService) Delete(ids string) (int64, error) {
 		return 0, err
 	}
 	return rows, nil
+}
+
+func (s *configDataService) Status(req *model.ConfigDataStatusReq, userId int) (int64, error) {
+	info, err := dao.ConfigData.FindOne("id=?", req.Id)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+
+	// 设置状态
+	result, err := dao.ConfigData.Data(g.Map{
+		"status":      req.Status,
+		"update_user": userId,
+		"update_time": gtime.Now(),
+	}).Where(dao.ConfigData.Columns.Id, info.Id).Update()
+	if err != nil {
+		return 0, err
+	}
+	res, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return res, nil
 }

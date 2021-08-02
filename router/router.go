@@ -140,6 +140,7 @@ func init() {
 		group.POST("/add", controller.ConfigData.Add)
 		group.POST("/update", controller.ConfigData.Update)
 		group.POST("/delete", controller.ConfigData.Delete)
+		group.POST("/setStatus", controller.ConfigData.Status)
 	})
 
 	/* 友链管理 */
@@ -234,6 +235,13 @@ func init() {
 	/* 统计分析 */
 	s.Group("analysis", func(group *ghttp.RouterGroup) {
 		group.GET("/index", controller.Analysis.Index)
+	})
+
+	/* 代码生成器 */
+	s.Group("generate", func(group *ghttp.RouterGroup) {
+		group.GET("/index", controller.Generate.Index)
+		group.POST("/list", controller.Generate.List)
+		group.POST("/generate", controller.Generate.Generate)
 	})
 
 }

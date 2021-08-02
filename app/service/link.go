@@ -57,6 +57,10 @@ func (s *linkService) GetList(req *model.LinkPageReq) ([]model.LinkInfoVo, int, 
 	for _, v := range list {
 		item := model.LinkInfoVo{}
 		item.Link = v
+		// 友链图片
+		if v.Image != "" {
+			item.Image = utils.GetImageUrl(v.Image)
+		}
 		// 友链类型
 		typeName, ok := common.LINK_TYPE_LIST[v.Type]
 		if ok {

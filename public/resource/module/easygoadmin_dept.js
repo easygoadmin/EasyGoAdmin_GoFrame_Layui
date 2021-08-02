@@ -13,7 +13,7 @@ layui.use(['func'], function () {
         //【TABLE列数组】
         var cols = [
               {field: 'id', width: 80, title: 'ID', align: 'center', sort: true}
-            , {field: 'name', width: 200, title: '部门名称', align: 'left'}
+            , {field: 'name', width: 250, title: '部门名称', align: 'left'}
             , {field: 'code', width: 100, title: '部门编码', align: 'center'}
             , {field: 'fullname', width: 200, title: '部门全称', align: 'center'}
             , {field: 'type', width: 100, title: '类型', align: 'center', templet(d) {
@@ -25,10 +25,10 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn layui-btn-warm layui-btn-xs">子公司</span>';
                 } else if (d.type == 3) {
                     // 部门
-                    return '<span class="layui-btn layui-btn-warm layui-btn-xs">部门</span>';
+                    return '<span class="layui-btn layui-btn-danger layui-btn-xs">部门</span>';
                 } else if (d.type == 4) {
                     // 小组
-                    return '<span class="layui-btn layui-btn-warm layui-btn-xs">小组</span>';
+                    return '<span class="layui-btn layui-btn-primary layui-btn-xs">小组</span>';
                 }
             }}
             , {field: 'note', width: 200, title: '备注', align: 'center'}
