@@ -196,7 +196,7 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 ## 🍻  安全&缺陷
 如果你发现了一个安全漏洞或缺陷，请发送邮件到 1175401194@qq.com,所有的安全漏洞都将及时得到解决。
 
-## ✨  鸣谢
+## ✨  特别鸣谢
 感谢[GoFrame](https://goframe.org/#all-updates)、[Layui](http://www.layui.com)等优秀开源项目。
 
 ## 📚 版权信息
