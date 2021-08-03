@@ -22,6 +22,7 @@ go.sum
 
 document
 app/utils
+app/widget
 
 node_modules/
 src/

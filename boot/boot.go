@@ -2,7 +2,7 @@ package boot
 
 import (
 	"easygoadmin/app/utils/function"
-	"easygoadmin/app/utils/widget"
+	"easygoadmin/app/widget"
 	_ "easygoadmin/packed"
 	"github.com/gogf/gf/os/gview"
 
