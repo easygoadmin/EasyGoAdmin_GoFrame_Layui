@@ -68,7 +68,7 @@ Beego+AntdVue前后端分离版 | 采用Beego、Vue、AntDesign等框架研发�
 Gin+AntdVue前后端分离版 | 采用Gin、Vue、AntDesign等框架研发前后端分离版本 | https://gitee.com/easygoadmin/EasyGoAdmin_Gin_AntdVue
 Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前后端分离版本 | https://gitee.com/easygoadmin/EasyGoAdmin_Iris_AntdVue
 
-## 项目结构
+## 🍪 项目结构
 
 ```
 ├── app             // 应用目录
