@@ -17,7 +17,7 @@ func init() {
 
 	/* 登录注册 */
 	s.Group("/", func(group *ghttp.RouterGroup) {
-		//group.GET("/", "", controller.Login.Login)
+		group.GET("/", controller.Login.Login)
 		group.ALL("/login", controller.Login.Login)
 		group.GET("/captcha", controller.Login.Captcha)
 		group.GET("/index", controller.Index.Index)
