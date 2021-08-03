@@ -1,4 +1,6 @@
-# EasyGoAdmin_GoFrame_Layui
+<p align="center">
+    <img src="https://images.gitee.com/uploads/images/2021/0803/150932_211843b7_478496.png" width="620" height="120" />
+</p>
 
 一款基于GoFrame和Layui精心打造的一款模块化、高性能、企业级的Golang敏捷开发框架，本着简化开发、提升开发效率的初衷触发，框架自研了一套个性化的组件，实现了插拔式的组件化开发方式，比如：单图上传、多图上传、下拉选择、开关按钮、单选按钮、多选按钮、图片裁剪等等一系列个性化、轻量级的组件，是一款真正意义上实现组件式开发的敏捷开发框架
 
