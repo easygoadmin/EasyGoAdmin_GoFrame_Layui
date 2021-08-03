@@ -26,8 +26,8 @@ func (s *adSortService) GetList(req *model.AdSortPageReq) ([]model.AdSortInfoVo,
 	// 查询条件
 	if req != nil {
 		// 广告位名称
-		if req.Name != "" {
-			query = query.Where("name like ?", "%"+req.Name+"%")
+		if req.Description != "" {
+			query = query.Where("description like ?", "%"+req.Description+"%")
 		}
 	}
 	// 查询记录总数

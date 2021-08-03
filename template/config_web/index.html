@@ -80,7 +80,7 @@
                 <div class="layui-input-block" style="width:665px;">
                     <textarea name="{{$val.code}}__ueditor" id="{{$val.code}}__ueditor" lay-verify="required"
                               class="layui-textarea">{{$val.value}}</textarea>
-                    {{kindeditor (printf "%s__ueditor" $val.code) "default" "80%" "350"}}
+                    {{kindeditor (printf "%s__ueditor" $val.code) "default" "80%" 350}}
                 </div>
                 {{else if eq $val.type "json"}}
                 <!-- JSON -->

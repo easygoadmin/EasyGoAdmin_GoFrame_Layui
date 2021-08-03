@@ -55,10 +55,10 @@
 		<label class="layui-form-label">栏目封面：</label>
 		{{upload_image "cover|封面|90x90|建议上传尺寸450x450" .info.Cover "" 0}}
 	</div>
-	<div class="layui-form-item layui-form-text" style="width:625px;">
-		<label class="layui-form-label">栏目说明：</label>
+	<div class="layui-form-item layui-form-text" style="width:665px;">
+		<label class="layui-form-label">备注：</label>
 		<div class="layui-input-block">
-			<textarea name="note" placeholder="请输入栏目说明" class="layui-textarea">{{.info.Note}}</textarea>
+			<textarea name="note" placeholder="请输入备注" class="layui-textarea">{{.info.Note}}</textarea>
 		</div>
 	</div>
 	{{submit "submit|立即保存,close|关闭" 1 ""}}

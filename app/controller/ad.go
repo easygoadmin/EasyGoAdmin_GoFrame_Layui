@@ -70,6 +70,11 @@ func (c *adCtl) Edit(r *ghttp.Request) {
 			})
 		}
 
+		// 广告图片
+		if info.Cover != "" {
+			info.Cover = utils.GetImageUrl(info.Cover)
+		}
+
 		// 广告位列表
 		list, _ := dao.AdSort.Where("mark=1").All()
 		adSortList := make(map[int]string, 0)

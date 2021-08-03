@@ -53,6 +53,12 @@ type ItemCateDeleteReq struct {
 	Ids string `p:"ids"  v:"required#请选择要删除的数据记录"`
 }
 
+// 栏目信息
+type ItemCateInfoVo struct {
+	ItemCate
+	ItemName string `json:"itemName"` // 栏目名称
+}
+
 // 栏目树结构
 type CateTreeNode struct {
 	ItemCate

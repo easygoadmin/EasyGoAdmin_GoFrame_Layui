@@ -15,9 +15,9 @@ type AdSort internal.AdSort
 
 // 列表查询条件
 type AdSortPageReq struct {
-	Name  string `p:"name"` // 广告位名称
-	Page  int    `p:page`   // 页码
-	Limit int    `p:limit`  // 每页数
+	Description string `p:"name"` // 广告位描述
+	Page        int    `p:page`   // 页码
+	Limit       int    `p:limit`  // 每页数
 }
 
 // 添加广告位

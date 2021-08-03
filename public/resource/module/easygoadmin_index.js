@@ -1,1 +1,300 @@
-!function(t){var o={};function e(r){if(o[r])return o[r].exports;var l=o[r]={i:r,l:!1,exports:{}};return t[r].call(l.exports,l,l.exports,e),l.l=!0,l.exports}e.m=t,e.c=o,e.d=function(t,o,r){e.o(t,o)||Object.defineProperty(t,o,{enumerable:!0,get:r})},e.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},e.t=function(t,o){if(1&o&&(t=e(t)),8&o)return t;if(4&o&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(e.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&o&&"string"!=typeof t)for(var l in t)e.d(r,l,function(o){return t[o]}.bind(null,l));return r},e.n=function(t){var o=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(o,"a",o),o},e.o=function(t,o){return Object.prototype.hasOwnProperty.call(t,o)},e.p="",e(e.s=4)}({4:function(t,o,e){e(5)},5:function(o,e){layui.define(["jquery","form","larryTab","laytpl","larry"],function(o){var e=layui.$,r=(layui.form,layui.larryTab({tab_elem:"#larry_tab",tabMax:30})),l=layui.layer,a=layui.laytpl,n=(layui.larry,layui.larryms),i=(e(window),e("body"));function s(){f({Display:"block",UserPhoto:e("#user_photo").attr("src"),UserName:e("#uname").text()}),layui.data("larryms",{key:"lockscreen",value:"locked"}),function o(){var r=new Date;var l=r.getHours();var a=r.getMinutes();var n=r.getSeconds();a=a<10?"0"+a:a;n=n<10?"0"+n:n;e("#time").html(l+":"+a+":"+n);t=setTimeout(function(){o()},500)}()}function f(t){var o="larry_lock_screen",r=document.createElement("div"),n=a(['<div class="lock-screen" style="display: {{d.Display}};">','<div class="lock-wrapper" id="lock-screen">','<div id="time"></div>','<div class="lock-box">','<img src="{{d.UserPhoto}}" alt="">',"<h1>{{d.UserName}}</h1>",'<form action="" class="layui-form lock-form">','<div class="layui-form-item">','<input type="password" id="unlock_pass" name="lock_password" lay-verify="pass" placeholder="锁屏状态，请输入密码解锁" autocomplete="off" class="layui-input"  autofocus="">',"</div>",'<div class="layui-form-item">','<span class="layui-btn larry-btn" id="unlock">立即解锁</span>',"</div>","</form>","</div>","</div>","</div>"].join("")).render(t),s=document.getElementById(o);r.id=o,r.innerHTML=n,s&&i[0].removeChild(s),"none"!==t.Display?i[0].appendChild(r):e("#larry_lock_screen").empty(),e("#unlock").off("click").on("click",function(){var t,o;t=e("#user_photo").attr("src"),o=e("#uname").text(),"p@ssw0rd"===e("#unlock_pass").val()?f({Display:"none",UserPhoto:t,UserName:o}):l.tips("请输入正确的密码解锁",e("#unlock"),{tips:[2,"#FF5722"],time:1e3}),layui.data("larryms",{key:"lockscreen",value:"unlock"})}),e("#unlock_pass").keypress(function(t){if(window.event&&13==window.event.keyCode)return e("#unlock").click(),!1})}"locked"===layui.data("larryms").lockscreen&&s(),r.menuSet({type:"POST",url:layui.cache.menusUrl,left_menu:"#larryms_left_menu",leftFilter:"LarrySide"}),r.menu(),r.config.tabSession&&r.session(function(t){t.getItem("tabMenu")&&e("#larry_tab_title li.layui-this").trigger("click")}),e("#larryms_version").text(n.version),e("#menufold").on("click",function(){e("#larry_layout").hasClass("larryms-fold")?(e("#larry_layout").addClass("larryms-unfold").removeClass("larryms-fold"),e(this).children("i").addClass("yun-fold-left").removeClass("yun-icon-collapse-left")):(e("#larry_layout").addClass("larryms-fold").removeClass("larryms-unfold"),e(this).children("i").addClass("yun-icon-collapse-left").removeClass("yun-fold-left"))}),e("#larryTheme").on("click",function(){l.open({type:1,id:"larry_theme_R",title:!1,anim:Math.ceil(6*Math.random()),offset:"r",closeBtn:!1,shade:.2,shadeClose:!0,skin:"layui-anim layui-anim-rl larryms-layer-right",area:"320px",success:function(t,o){var e=layui.cache.base+"templets/style/theme.css";layui.link(e),n.htmlRender("templets/theme",t)}})}),e("#clearCached").off("click").on("click",function(){n.cleanCached("larry_menu"),l.alert("缓存清除完成!本地存储数据也清理成功！",{icon:1,title:"系统提示",end:function(){top.location.reload()}})}),e("#logout").off("click").on("click",function(){var t=e(this).data("url");n.logOut(t)}),e("#fullScreen").bind("click",function(){n.fullScreen(e(this))}),e("#lock").mouseover(function(){l.tips("请按Alt+L快速锁屏！",e(this),{tips:[1,"#FF5722"],time:1500})}),e("#lock").off("click").on("click",function(){s()}),e(document).keydown(function(){return function(t){var o;window.event?o=t.keyCode:t.which&&(o=t.which);t.altKey&&76==o&&s()}(arguments[0])});var d=function(){this.themeColor={default:{topColor:"#1b8fe6",topThis:"#1958A6",topBottom:"#01AAED",leftColor:"#2f3a4f",leftRight:"#258ED8",navThis:"#1492DD",titBottom:"#1E9FFF",footColor:"#245c87",name:"default"},deepBlue:{topColor:"#1b8fe6",topThis:"#1958A6",topBottom:"#01AAED",leftColor:"#2f3a4f",leftRight:"#258ED8",navThis:"#1492DD",titBottom:"#1E9FFF",footColor:"#245c87",name:"deepBlue"},green:{topColor:"#2a877b",topThis:"#5FB878",topBottom:"#50A66F",leftColor:"#343742",leftRight:"#50A66F",navThis:"#56a66c",titBottom:"#50A66F",footColor:"#3e4e63",name:"green"},navy:{topColor:"#2f4056",topThis:"#0d51a9",topBottom:"#01AAED",leftColor:"#393d49",leftRight:"#1E9FFF",navThis:"#1E9FFF",titBottom:"#01AAED",footColor:"#343742",name:"navy"},orange:{topColor:"#F39C34",topThis:"#CD7013",topBottom:"#FF5722",leftColor:"#1d1f26",leftRight:"#FFB800",navThis:"#df7700",titBottom:"#FFB800",footColor:"#f2f2f2",footFont:"#666",name:"orange"},pink:{topColor:"#ff1493",topThis:"#ed1188",topBottom:"#ed1188",leftColor:"#1d1f26",leftRight:"#ed1188",navThis:"#ed1188",titBottom:"#ff1493",footColor:"#f2f2f2",footFont:"#666",name:"pink"},purple:{topColor:"#912cee",topThis:"#8927e4",topBottom:"#8927e4",leftColor:"#1d1f26",leftRight:"#912cee",navThis:"#912cee",titBottom:"#912cee",footColor:"#f2f2f2",footFont:"#666",name:"purple"},lightgreen:{topColor:"#20B2AA",topThis:"#37C6C0",topBottom:"#37C6C0",leftColor:"#1d1f26",leftRight:"#20B2AA",navThis:"#20B2AA",titBottom:"#20B2AA",footColor:"#f2f2f2",footFont:"#666",name:"lightgreen"},lightred:{topColor:"#d969e9",topThis:"#b943ca",topBottom:"#b943ca",leftColor:"#1d1f26",leftRight:"#d969e9",navThis:"#b943ca",titBottom:"#d969e9",footColor:"#f2f2f2",footFont:"#666",name:"lightred"},navyblue:{topColor:"#252b75",topThis:"#252961",topBottom:"#2f3367",leftColor:"#1d1f26",leftRight:"#252b75",navThis:"#252961",titBottom:"#252b75",footColor:"#f2f2f2",footFont:"#666",name:"navyblue"},dangreen:{topColor:"#7ac372",topThis:"#3baf2e",topBottom:"#3baf2e",leftColor:"#1d1f26",leftRight:"#7ac372",navThis:"#7ac372",titBottom:"#7ac372",footColor:"#f2f2f2",footFont:"#666",name:"dangreen"},skyblue:{topColor:"#7e9cfe",topThis:"#6b88fe",topBottom:"#6b88fe",leftColor:"#1d1f26",leftRight:"#7e9cfe",navThis:"#7e9cfe",titBottom:"#7e9cfe",footColor:"#f2f2f2",footFont:"#666",name:"skyblue"}}};function m(){"on"!==e("#larry_footer").data("show")?(e("#larry_footer").hide(),e("#larry_right").css({bottom:"0px"})):(e("#larry_footer").show(),e("#larry_right").css({bottom:"40px"}))}d.prototype.theme=function(t){var o="Larryms_theme_style",e=document.createElement("style"),r=layui.data("larryms"),l=a([".layui-header{background-color:{{d.topColor}} !important;border-bottom:3px solid {{d.topBottom}};}",".larryms-extend{border-left:1px solid {{d.topThis}} }",".larryms-nav-bar{background-color:{{d.topBottom}} !important;}",".larryms-extend .larryms-nav li.larryms-this{background:{{d.topThis}} !important; }",".larryms-extend .larryms-nav li.larryms-nav-item:hover{background:{{d.topThis}} !important; }",".larryms-extend .larryms-nav li.larryms-this:hover{background:{{d.topThis}} }",".larryms-fold .larryms-header .larryms-topbar-left .larryms-switch{border-left:1px solid {{d.topThis}} !important;}",".larryms-extend  ul.layui-nav li.layui-nav-item:hover{background:{{d.topThis}} !important;}",".larryms-topbar-right .layui-nav-bar{background-color: {{d.navThis}} !important;}",".larryms-nav-tree .larryms-this,",".larryms-nav-tree .larryms-this>a{background-color:{{d.navThis}} !important;}",".larryms-body .larryms-left{border-right:2px solid {{d.leftRight}} !important;}",".layui-bg-black{background-color:{{d.leftColor}} !important;}",".larryms-body .larryms-left{background:{{d.leftColor}} !important;}","ul.larryms-tab-title .layui-this{background:{{d.navThis}} !important;}",".larryms-right .larryms-tab .larryms-title-box{border-bottom:1px solid  {{d.titBottom}};}",".larryms-right .larryms-tab .larryms-title-box .larryms-tab-title{border-bottom:1px solid  {{d.titBottom}};}",".larryms-layout .larryms-footer{background:{{d.footColor}} !important;color:{{d.footFont}} !important;}"].join("")).render(t),n=document.getElementById(o);"styleSheet"in e?(e.setAttribute("type","text/css"),e.styleSheet.cssText=l):e.innerHTML=l,e.id=o,n&&i[0].removeChild(n),i[0].appendChild(e),r.theme=r.theme||{},layui.each(t,function(t,o){r.theme[t]=o}),layui.data("larryms",{key:"theme",value:r.theme})},d.prototype.init=function(){var t=layui.data("larryms").theme,o=layui.data("larryms").systemSet;void 0!==t&&(console.log(t.name),this.theme(t),"default"==t.name&&e("#Larryms_theme_style").empty()),void 0!==o?(r.tabSet({tabSession:o.tabCache,autoRefresh:o.tabRefresh}),e("#larry_footer").data("show",o.footSet)):layui.data("larryms",{key:"systemSet",value:{tabCache:r.config.tabSession,tabRefresh:r.config.autoRefresh,fullScreen:!1,footSet:e("#larry_footer").data("show")}}),m()},d.prototype.footInit=function(t){e("#larry_footer").data("show",t),m()},e(window).on("resize",function(){var t=e(window).width();t>=1200?(e("#larry_layout").removeClass("larryms-mobile-layout"),e("#larry_layout").addClass("larryms-unfold").removeClass("larryms-fold"),e("#menufold").children("i.larry-icon").addClass("yun-fold-left").removeClass("yun-icon-collapse-left")):t>767&&t<1200?(e("#larry_layout").removeClass("larryms-mobile-layout"),e("#larry_layout").addClass("larryms-fold").removeClass("larryms-unfold"),e("#menufold").children("i.larry-icon").addClass("yun-icon-collapse-left").removeClass("yun-fold-left")):t<=767&&t>319?(e("#larry_layout").removeClass("larryms-fold"),e("#larry_layout").removeClass("larryms-unfold")):t<=319&&n.error("主人别拖了，没有屏幕宽度小于320的，布局会乱的！",n.tit[1])}).resize();var c=new d;c.init(),o("Index",c)})}});
+layui.define(['layer', 'element', 'admin'], function (exports) {
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var element = layui.element;
+    var admin = layui.admin;
+    var setter = admin.setter;
+    var headerDOM = '.layui-layout-admin>.layui-header';
+    var sideDOM = '.layui-layout-admin>.layui-side>.layui-side-scroll';
+    var bodyDOM = '.layui-layout-admin>.layui-body';
+    var tabDOM = bodyDOM + '>.layui-tab';
+    var titleDOM = bodyDOM + '>.layui-body-header';
+    var tabFilter = 'admin-pagetabs';
+    var navFilter = 'admin-side-nav';
+    var tabEndCall = {};  // Tab关闭的事件回调
+    var mIsAddTab = false;  // 是否是添加Tab，添加Tab的时候切换不自动刷新
+    var index = {homeUrl: undefined, mTabPosition: undefined, mTabList: []};
+
+    /** 渲染主体部分 */
+    index.loadView = function (param) {
+        if (!param.menuPath) return layer.msg('url不能为空', {icon: 2, anim: 6});
+        if (setter.pageTabs) {  // 多标签模式
+            var flag;  // 选项卡是否已添加
+            $(tabDOM + '>.layui-tab-title>li').each(function () {
+                if ($(this).attr('lay-id') === param.menuPath) flag = true;
+            });
+            if (!flag) {  // 添加选项卡
+                if (index.mTabList.length + 1 >= setter.maxTabNum) {
+                    layer.msg('最多打开' + setter.maxTabNum + '个选项卡', {icon: 2, anim: 6});
+                    return admin.activeNav(index.mTabPosition);
+                }
+                mIsAddTab = true;
+                element.tabAdd(tabFilter, {
+                    id: param.menuPath, title: '<span class="title">' + (param.menuName || '') + '</span>',
+                    content: '<iframe class="admin-iframe" lay-id="' + param.menuPath + '" src="' + param.menuPath +
+                        '" onload="layui.index.hideLoading(this);" frameborder="0"></iframe>'
+                });
+                admin.showLoading({elem: $('iframe[lay-id="' + param.menuPath + '"]').parent(), size: ''});
+                if (param.menuPath !== index.homeUrl) index.mTabList.push(param);  // 记录tab
+                if (setter.cacheTab) admin.putTempData('indexTabs', index.mTabList);  // 缓存tab
+            }
+            if (!param.noChange) element.tabChange(tabFilter, param.menuPath);  // 切换到此tab
+        } else {  // 单标签模式
+            admin.activeNav(param.menuPath);
+            var $contentDom = $(bodyDOM + '>div>.admin-iframe');
+            if ($contentDom.length === 0) {
+                $(bodyDOM).html([
+                    '<div class="layui-body-header">',
+                    '   <span class="layui-body-header-title"></span>',
+                    '   <span class="layui-breadcrumb pull-right" lay-filter="admin-body-breadcrumb" style="visibility: visible;"></span>',
+                    '</div>',
+                    '<div style="-webkit-overflow-scrolling: touch;">',
+                    '   <iframe class="admin-iframe" lay-id="', param.menuPath, '" src="', param.menuPath, '"',
+                    '      onload="layui.index.hideLoading(this);" frameborder="0"></iframe>',
+                    '</div>'].join(''));
+                admin.showLoading({elem: $('iframe[lay-id="' + param.menuPath + '"]').parent(), size: ''});
+            } else {
+                admin.showLoading({elem: $contentDom.parent(), size: ''});
+                $contentDom.attr('lay-id', param.menuPath).attr('src', param.menuPath);
+            }
+            $('[lay-filter="admin-body-breadcrumb"]').html(index.getBreadcrumbHtml(param.menuPath));
+            index.mTabList.splice(0, index.mTabList.length);
+            if (param.menuPath === index.homeUrl) {
+                index.mTabPosition = undefined;
+                index.setTabTitle($(param.menuName).text() || $(sideDOM + ' [lay-href="' + index.homeUrl + '"]').text() || '主页');
+            } else {
+                index.mTabPosition = param.menuPath;
+                index.mTabList.push(param);
+                index.setTabTitle(param.menuName);
+            }
+            if (!setter.cacheTab) return;
+            admin.putTempData('indexTabs', index.mTabList);
+            admin.putTempData('tabPosition', index.mTabPosition);
+        }
+        if (admin.getPageWidth() <= 768) admin.flexible(true); // 移动端自动收起侧导航
+    };
+
+    /** 加载主页 */
+    index.loadHome = function (param) {
+        var cacheTabs = admin.getTempData('indexTabs');  // 获取缓存tab
+        var cachePosition = admin.getTempData('tabPosition');
+        var recover = (param.loadSetting === undefined || param.loadSetting) && (setter.cacheTab && cacheTabs && cacheTabs.length > 0);
+        index.homeUrl = param.menuPath;
+        param.noChange = cachePosition ? recover : false;
+        if (setter.pageTabs || !recover) index.loadView(param);
+        if (recover) {  // 恢复缓存tab
+            for (var i = 0; i < cacheTabs.length; i++) {
+                cacheTabs[i].noChange = cacheTabs[i].menuPath !== cachePosition;
+                if (!cacheTabs[i].noChange || (setter.pageTabs && !param.onlyLast)) index.loadView(cacheTabs[i]);
+            }
+        }
+        admin.removeLoading(undefined, false);
+    };
+
+    /** 打开tab */
+    index.openTab = function (param) {
+        if (window !== top && !admin.isTop() && top.layui && top.layui.index) return top.layui.index.openTab(param);
+        if (param.end) tabEndCall[param.url] = param.end;
+        index.loadView({menuPath: param.url, menuName: param.title});
+    };
+
+    /** 关闭tab */
+    index.closeTab = function (url) {
+        if (window !== top && !admin.isTop() && top.layui && top.layui.index) return top.layui.index.closeTab(url);
+        element.tabDelete(tabFilter, url);
+    };
+
+    /** 设置是否记忆Tab */
+    index.setTabCache = function (isCache) {
+        if (window !== top && !admin.isTop() && top.layui && top.layui.index) return top.layui.index.setTabCache(isCache);
+        admin.putSetting('cacheTab', isCache);
+        if (!isCache) return index.clearTabCache();
+        admin.putTempData('indexTabs', index.mTabList);
+        admin.putTempData('tabPosition', index.mTabPosition);
+    };
+
+    /** 清除tab记忆 */
+    index.clearTabCache = function () {
+        admin.putTempData('indexTabs', null);
+        admin.putTempData('tabPosition', null);
+    };
+
+    /** 设置tab标题 */
+    index.setTabTitle = function (title, tabId) {
+        if (window !== top && !admin.isTop() && top.layui && top.layui.index) return top.layui.index.setTabTitle(title, tabId);
+        if (setter.pageTabs) {
+            if (!tabId) tabId = $(tabDOM + '>.layui-tab-title>li.layui-this').attr('lay-id');
+            if (tabId) $(tabDOM + '>.layui-tab-title>li[lay-id="' + tabId + '"] .title').html(title || '');
+        } else if (title) {
+            $(titleDOM + '>.layui-body-header-title').html(title);
+            $(titleDOM).addClass('show');
+            $(headerDOM).css('box-shadow', '0 1px 0 0 rgba(0, 0, 0, .03)');
+        } else {
+            $(titleDOM).removeClass('show');
+            $(headerDOM).css('box-shadow', '');
+        }
+    };
+
+    /** 自定义tab标题 */
+    index.setTabTitleHtml = function (html) {
+        if (window !== top && !admin.isTop() && top.layui && top.layui.index) return top.layui.index.setTabTitleHtml(html);
+        if (setter.pageTabs) return;
+        if (!html) return $(titleDOM).removeClass('show');
+        $(titleDOM).html(html);
+        $(titleDOM).addClass('show');
+    };
+
+    /** 获取面包屑 */
+    index.getBreadcrumb = function (tabId) {
+        if (!tabId) tabId = $(bodyDOM + '>div>.admin-iframe').attr('lay-id');
+        var breadcrumb = [];
+        var $href = $(sideDOM).find('[lay-href="' + tabId + '"]');
+        if ($href.length > 0) breadcrumb.push($href.text().replace(/(^\s*)|(\s*$)/g, ''));
+        while (true) {
+            $href = $href.parent('dd').parent('dl').prev('a');
+            if ($href.length === 0) break;
+            breadcrumb.unshift($href.text().replace(/(^\s*)|(\s*$)/g, ''));
+        }
+        return breadcrumb;
+    };
+
+    /** 获取面包屑结构 */
+    index.getBreadcrumbHtml = function (tabId) {
+        var breadcrumb = index.getBreadcrumb(tabId);
+        var htmlStr = tabId === index.homeUrl ? '' : ('<a ew-href="' + index.homeUrl + '">首页</a>');
+        for (var i = 0; i < breadcrumb.length - 1; i++) {
+            if (htmlStr) htmlStr += '<span lay-separator="">/</span>';
+            htmlStr += ('<a><cite>' + breadcrumb[i] + '</cite></a>');
+        }
+        return htmlStr;
+    };
+
+    /** 关闭loading */
+    index.hideLoading = function (url) {
+        if (typeof url !== 'string') url = $(url).attr('lay-id');
+        admin.removeLoading($('iframe[lay-id="' + url + '"],' + bodyDOM + ' iframe[lay-id]').parent(), false);
+    };
+
+    /** 移动设备遮罩层 */
+    var siteShadeDom = '.layui-layout-admin .site-mobile-shade';
+    if ($(siteShadeDom).length === 0) $('.layui-layout-admin').append('<div class="site-mobile-shade"></div>');
+    $(siteShadeDom).click(function () {
+        admin.flexible(true);
+    });
+
+    /** 补充tab的dom */
+    if (setter.pageTabs && $(tabDOM).length === 0) {
+        $(bodyDOM).html([
+            '<div class="layui-tab" lay-allowClose="true" lay-filter="', tabFilter, '" lay-autoRefresh="', setter.tabAutoRefresh == 'true', '">',
+            '   <ul class="layui-tab-title"></ul><div class="layui-tab-content"></div>',
+            '</div>',
+            '<div class="layui-icon admin-tabs-control layui-icon-prev" ew-event="leftPage"></div>',
+            '<div class="layui-icon admin-tabs-control layui-icon-next" ew-event="rightPage"></div>',
+            '<div class="layui-icon admin-tabs-control layui-icon-down">',
+            '   <ul class="layui-nav" lay-filter="admin-pagetabs-nav">',
+            '      <li class="layui-nav-item" lay-unselect>',
+            '         <dl class="layui-nav-child layui-anim-fadein">',
+            '            <dd ew-event="closeThisTabs" lay-unselect><a>关闭当前标签页</a></dd>',
+            '            <dd ew-event="closeOtherTabs" lay-unselect><a>关闭其它标签页</a></dd>',
+            '            <dd ew-event="closeAllTabs" lay-unselect><a>关闭全部标签页</a></dd>',
+            '         </dl>',
+            '      </li>',
+            '   </ul>',
+            '</div>'
+        ].join(''));
+        element.render('nav', 'admin-pagetabs-nav');
+    }
+
+    /** 侧导航点击监听 */
+    element.on('nav(' + navFilter + ')', function (elem) {
+        var $that = $(elem);
+        var href = $that.attr('lay-href');
+        if (!href || href === '#') return;
+        if (href.indexOf('javascript:') === 0) return new Function(href.substring(11))();
+        var name = $that.attr('ew-title') || $that.text().replace(/(^\s*)|(\s*$)/g, '');
+        var end = $that.attr('ew-end');
+        try {
+            if (end) end = new Function(end);
+            else end = undefined;
+        } catch (e) {
+            console.error(e);
+        }
+        index.openTab({url: href, title: name, end: end});
+        layui.event.call(this, 'admin', 'side({*})', {href: href});
+    });
+
+    /** tab切换监听 */
+    element.on('tab(' + tabFilter + ')', function () {
+        var layId = $(this).attr('lay-id');
+        index.mTabPosition = (layId !== index.homeUrl ? layId : undefined);  // 记录当前Tab位置
+        if (setter.cacheTab) admin.putTempData('tabPosition', index.mTabPosition);
+        admin.activeNav(layId);
+        admin.rollPage('auto');
+        if ($(tabDOM).attr('lay-autoRefresh') == 'true' && !mIsAddTab) admin.refresh(layId, true);  // 切换tab刷新
+        mIsAddTab = false;
+        layui.event.call(this, 'admin', 'tab({*})', {layId: layId});
+    });
+
+    /** tab删除监听 */
+    element.on('tabDelete(' + tabFilter + ')', function (data) {
+        var mTab = index.mTabList[data.index - 1];
+        if (mTab) {
+            index.mTabList.splice(data.index - 1, 1);
+            if (setter.cacheTab) admin.putTempData('indexTabs', index.mTabList);
+            tabEndCall[mTab.menuPath] && tabEndCall[mTab.menuPath].call();
+            layui.event.call(this, 'admin', 'tabDelete({*})', {layId: mTab.menuPath});
+        }
+        if ($(tabDOM + '>.layui-tab-title>li.layui-this').length === 0)
+            $(tabDOM + '>.layui-tab-title>li:last').trigger('click');  // 解决删除后可能无选中bug
+    });
+
+    /** 多系统切换事件 */
+    $(document).off('click.navMore').on('click.navMore', '[nav-bind]', function () {
+        var navId = $(this).attr('nav-bind');
+        $('ul[lay-filter="' + navFilter + '"]').addClass('layui-hide');
+        $('ul[nav-id="' + navId + '"]').removeClass('layui-hide');
+        $(headerDOM + '>.layui-nav .layui-nav-item').removeClass('layui-this');
+        $(this).parent('.layui-nav-item').addClass('layui-this');
+        if (admin.getPageWidth() <= 768) admin.flexible(false);  // 展开侧边栏
+        layui.event.call(this, 'admin', 'nav({*})', {navId: navId});
+    });
+
+    /** 开启Tab右键菜单 */
+    if (setter.openTabCtxMenu && setter.pageTabs) {
+        layui.use('contextMenu', function () {
+            if (!layui.contextMenu) return;
+            $(tabDOM + '>.layui-tab-title').off('contextmenu.tab').on('contextmenu.tab', 'li', function (e) {
+                var layId = $(this).attr('lay-id');
+                layui.contextMenu.show([{
+                    icon: 'layui-icon layui-icon-refresh',
+                    name: '刷新当前',
+                    click: function () {
+                        element.tabChange(tabFilter, layId);
+                        if ('true' != $(tabDOM).attr('lay-autoRefresh')) admin.refresh(layId);
+                    }
+                }, {
+                    icon: 'layui-icon layui-icon-close-fill ctx-ic-lg',
+                    name: '关闭当前',
+                    click: function () {
+                        admin.closeThisTabs(layId);
+                    }
+                }, {
+                    icon: 'layui-icon layui-icon-unlink',
+                    name: '关闭其他',
+                    click: function () {
+                        admin.closeOtherTabs(layId);
+                    }
+                }, {
+                    icon: 'layui-icon layui-icon-close ctx-ic-lg',
+                    name: '关闭全部',
+                    click: function () {
+                        admin.closeAllTabs();
+                    }
+                }], e.clientX, e.clientY);
+                return false;
+            });
+        });
+    }
+
+    exports('index', index);
+});

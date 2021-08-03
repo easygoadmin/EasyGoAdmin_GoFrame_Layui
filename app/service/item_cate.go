@@ -24,7 +24,7 @@ var ItemCate = new(itemCateService)
 
 type itemCateService struct{}
 
-func (s *itemCateService) GetList(req *model.ItemCateQueryReq) []model.ItemCate {
+func (s *itemCateService) GetList(req *model.ItemCateQueryReq) []model.ItemCateInfoVo {
 	// 创建查询对象
 	query := dao.ItemCate.Where("mark=1")
 	// 查询条件
@@ -43,7 +43,21 @@ func (s *itemCateService) GetList(req *model.ItemCateQueryReq) []model.ItemCate 
 	// 对象转换
 	var list []model.ItemCate
 	query.Structs(&list)
-	return list
+
+	// 数据处理
+	var result []model.ItemCateInfoVo
+	for _, v := range list {
+		item := model.ItemCateInfoVo{}
+		item.ItemCate = v
+		// 获取栏目
+		if v.ItemId > 0 {
+			itemInfo, _ := dao.Item.FindOne("id=?", item.ItemId)
+			item.ItemName = itemInfo.Name
+		}
+		// 加入数组
+		result = append(result, item)
+	}
+	return result
 }
 
 func (s *itemCateService) Add(req *model.ItemCateAddReq, userId int) (int64, error) {
@@ -55,7 +69,7 @@ func (s *itemCateService) Add(req *model.ItemCateAddReq, userId int) (int64, err
 	entity.Pinyin = req.Pinyin
 	entity.Code = req.Code
 	entity.Status = req.Status
-	entity.Name = req.Name
+	entity.Note = req.Note
 	entity.Sort = req.Sort
 
 	// 封面
@@ -106,7 +120,7 @@ func (s *itemCateService) Update(req *model.ItemCateUpdateReq, userId int) (int6
 	info.Pinyin = req.Pinyin
 	info.Code = req.Code
 	info.Status = req.Status
-	info.Name = req.Name
+	info.Note = req.Note
 	info.Sort = req.Sort
 
 	// 封面

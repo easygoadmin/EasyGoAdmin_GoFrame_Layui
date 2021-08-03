@@ -35,7 +35,7 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn layui-btn-danger layui-btn-xs">停用</span>';
                 }
             }}
-            , {field: 'sort', width: 100, title: '排序', align: 'center'}
+            , {field: 'sort', width: 100, title: '排序号', align: 'center'}
             , {field: 'note', width: 200, title: '备注', align: 'center'}
             , {field: 'createTime', width: 180, title: '添加时间', align: 'center'}
             , {field: 'updateTime', width: 180, title: '更新时间', align: 'center'}

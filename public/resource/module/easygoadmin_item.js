@@ -26,7 +26,10 @@ layui.use(['func'], function () {
                 }
 				return '<span class="layui-btn ' + cls + ' layui-btn-xs">'+d.typeName+'</span>';
             }}
-            , {field: 'url', width: 200, title: '站点地址', align: 'center'}
+            , {field: 'url', width: 200, title: '站点地址', align: 'center', templet(d) {
+                    return "<a href='" + d.url + "' target='_blank'>" + d.url + "</a>";
+                }
+            }
             , {field: 'image', width: 100, title: '站点图片', align: 'center', templet: function (d) {
                 if (d.image) {
                     return '<a href="' + d.image + '" target="_blank"><img src="' + d.image + '" height="26" /></a>';

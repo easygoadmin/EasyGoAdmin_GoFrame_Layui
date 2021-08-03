@@ -68,6 +68,12 @@ func (c *itemCateCtl) Edit(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
+
+		// 封面
+		if info.IsCover == 1 && info.Cover != "" {
+			info.Cover = utils.GetImageUrl(info.Cover)
+		}
+
 		// 渲染模板
 		response.BuildTpl(r, "public/layout.html").WriteTpl(g.Map{
 			"mainTpl":  "item_cate/edit.html",

@@ -51,6 +51,10 @@ func (s *adService) GetList(req *model.AdPageReq) ([]model.AdInfoVo, int, error)
 	for _, v := range list {
 		item := model.AdInfoVo{}
 		item.Ad = v
+		// 广告封面
+		if v.Cover != "" {
+			item.Cover = utils.GetImageUrl(v.Cover)
+		}
 		// 广告类型
 		if v.Type > 0 {
 			item.TypeName = common.AD_TYPE_LIST[v.Type]
@@ -89,11 +93,16 @@ func (s *adService) Add(req *model.AdAddReq, userId int) (int64, error) {
 	entity.Mark = 1
 
 	// 广告封面
-	cover, err := utils.SaveImage(req.Cover, "ad")
-	if err != nil {
-		return 0, err
+	if req.Type == 1 {
+		// 图片
+		cover, err := utils.SaveImage(req.Cover, "ad")
+		if err != nil {
+			return 0, err
+		}
+		entity.Cover = cover
+	} else {
+		entity.Cover = ""
 	}
-	entity.Cover = cover
 
 	// 插入数据
 	result, err := dao.Ad.Insert(entity)
@@ -137,11 +146,16 @@ func (s *adService) Update(req *model.AdUpdateReq, userId int) (int64, error) {
 	info.UpdateTime = gtime.Now()
 
 	// 广告封面
-	cover, err := utils.SaveImage(req.Cover, "ad")
-	if err != nil {
-		return 0, err
+	if req.Type == 1 {
+		// 图片
+		cover, err := utils.SaveImage(req.Cover, "ad")
+		if err != nil {
+			return 0, err
+		}
+		info.Cover = cover
+	} else {
+		info.Cover = ""
 	}
-	info.Cover = cover
 
 	// 更新信息
 	result, err := dao.Ad.Save(info)
