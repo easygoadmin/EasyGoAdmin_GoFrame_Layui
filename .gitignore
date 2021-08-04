@@ -27,6 +27,7 @@ app/widget
 node_modules/
 src/
 dist/
+template/tpl/
 package.json
 package-lock.json
 webpack.config.js
