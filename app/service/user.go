@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 用户管理-服务类
+ * @author 半城风雨
  * @since 2021/7/27
  * @File : user
  */
@@ -101,6 +111,9 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 }
 
 func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化对象
 	var entity model.User
 	entity.Realname = req.Realname
@@ -156,6 +169,9 @@ func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 }
 
 func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.User.FindOne("id=?", req.Id)
 	if err != nil {
@@ -228,6 +244,9 @@ func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error
 }
 
 func (s *userService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	// 删除记录
@@ -245,6 +264,9 @@ func (s *userService) Delete(ids string) (int64, error) {
 }
 
 func (s *userService) Status(req *model.UserStatusReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	info, err := dao.User.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
@@ -270,6 +292,9 @@ func (s *userService) Status(req *model.UserStatusReq, userId int) (int64, error
 }
 
 func (s *userService) ResetPwd(id int, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.User.FindOne("id=?", id)
 	if err != nil {
@@ -303,6 +328,9 @@ func (s *userService) ResetPwd(id int, userId int) (int64, error) {
 }
 
 func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Session) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 用户ID
 	userId := utils.Uid(session)
 	// 更新用户信息

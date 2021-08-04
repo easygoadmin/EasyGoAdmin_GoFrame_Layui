@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 职级管理-控制器
+ * @author 半城风雨
  * @since 2021/5/20
  * @File : level
  */
@@ -141,20 +151,21 @@ func (c *levelCtl) Delete(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
-		result := service.Level.Delete(req.Ids)
-		if result > 0 {
-			// 删除成功
-			r.Response.WriteJsonExit(common.JsonResult{
-				Code: 0,
-				Msg:  "删除成功",
-			})
-		} else {
-			// 删除失败
+
+		// 调用删除方法
+		rows, err := service.Level.Delete(req.Ids)
+		if err != nil || rows == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,
-				Msg:  "删除失败",
+				Msg:  err.Error(),
 			})
 		}
+
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "删除成功",
+		})
 	}
 }
 

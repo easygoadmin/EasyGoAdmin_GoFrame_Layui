@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 代码生成器-控制器
+ * @author 半城风雨
  * @since 2021/8/2
  * @File : generate
  */
@@ -13,6 +23,7 @@ import (
 	"easygoadmin/app/utils/response"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/util/gconv"
 )
 
 // 控制器管理对象
@@ -56,8 +67,18 @@ func (c *generateCtl) List(r *ghttp.Request) {
 }
 
 func (c *generateCtl) Generate(r *ghttp.Request) {
+	// 调用生成方法
+	count, err := service.Generate.Generate(r)
+	if err != nil {
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: -1,
+			Msg:  err.Error(),
+		})
+	}
+
+	// 返回结果
 	r.Response.WriteJsonExit(common.JsonResult{
-		Code: -1,
-		Msg:  "功能开发中,请耐心等待...",
+		Code: 0,
+		Msg:  "本次共生成【" + gconv.String(count) + "】个模块",
 	})
 }

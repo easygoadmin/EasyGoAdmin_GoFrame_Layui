@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 岗位管理-服务类
+ * @author 半城风雨
  * @since 2021/7/15
  * @File : position
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
@@ -45,6 +56,9 @@ func (s *positionService) GetList(req *model.PositionQueryReq) ([]model.Position
 }
 
 func (s *positionService) Add(req *model.PositionAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化模型
 	var entity model.Position
 	entity.Name = req.Name
@@ -69,6 +83,9 @@ func (s *positionService) Add(req *model.PositionAddReq, userId int) (int64, err
 }
 
 func (s *positionService) Update(req *model.PositionUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 获取记录信息
 	info, err := dao.Position.FindOne("id=?", req.Id)
 	if err != nil {
@@ -97,6 +114,9 @@ func (s *positionService) Update(req *model.PositionUpdateReq, userId int) (int6
 }
 
 func (s *positionService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	idsArr := convert.ToInt64Array(ids, ",")
 	result, err := dao.Position.Delete("id in (?)", idsArr)
 	if err != nil {

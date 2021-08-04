@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 菜单管理-服务类
+ * @author 半城风雨
  * @since 2021/5/19
  * @File : menu
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"errors"
 	"github.com/gogf/gf/errors/gerror"
@@ -93,6 +104,9 @@ func (s *menuService) List(req *model.MenuQueryReq) []model.Menu {
 }
 
 func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化对象
 	var entity model.Menu
 	entity.Name = req.Name
@@ -129,6 +143,9 @@ func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 }
 
 func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.Menu.FindOne("id=?", req.Id)
 	if err != nil {
@@ -171,6 +188,9 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 }
 
 func (s *menuService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 
@@ -268,36 +288,6 @@ func setPermission(menuType int, funcIds string, url string, pid int) {
 		}
 	}
 }
-
-//// 获取子级菜单
-//func (s *menuService) GetMenuTreeList(itemId int, pid int) ([]*model.MenuTreeNode, error) {
-//	var cateNote model.MenuTreeNode
-//	// 创建查询实例
-//	query := dao.Menu.Where("type=0 and mark=1")
-//	// 返回字段
-//	query.Fields("id,name,pid")
-//	// 排序
-//	query = query.Order("sort asc")
-//	// 查询所有
-//	data, err := query.FindAll()
-//	if err != nil {
-//		return nil, errors.New("系统错误")
-//	}
-//	makeMenuTree(data, &cateNote)
-//	return cateNote.Children, nil
-//}
-//
-////递归生成分类列表
-//func makeMenuTree(cate []*model.Menu, tn *model.MenuTreeNode) {
-//	for _, c := range cate {
-//		if c.Pid == tn.Id {
-//			child := &model.MenuTreeNode{}
-//			child.Menu = *c
-//			tn.Children = append(tn.Children, child)
-//			makeMenuTree(cate, child)
-//		}
-//	}
-//}
 
 // 数据源转换
 func (s *menuService) MakeList(data []*model.TreeNode) map[int]string {

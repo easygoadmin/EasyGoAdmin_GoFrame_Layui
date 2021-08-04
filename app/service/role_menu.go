@@ -1,19 +1,30 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 角色菜单-服务类
+ * @author 半城风雨
  * @since 2021/7/15
  * @File : rolemenu
  */
 package service
 
 import (
+	"easygoadmin/app/dao"
+	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
+	"easygoadmin/app/utils/convert"
+	"easygoadmin/app/utils/function"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/gogf/gf/util/gutil"
-	"easygoadmin/app/dao"
-	"easygoadmin/app/model"
-	"easygoadmin/app/utils/convert"
-	"easygoadmin/app/utils/function"
 )
 
 var RoleMenu = new(roleMenuService)
@@ -52,6 +63,9 @@ func (s *roleMenuService) GetRoleMenuList(roleId int64) ([]model.RoleMenuInfo, e
 }
 
 func (s *roleMenuService) Save(req *model.RoleMenuSaveReq) error {
+	if utils.AppDebug() {
+		return gerror.New("演示环境，暂无权限操作")
+	}
 	itemArr := convert.ToInt64Array(req.MenuIds, ",")
 	if len(itemArr) == 0 {
 		return gerror.New("请选择权限节点")

@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 城市管理-服务类
+ * @author 半城风雨
  * @since 2021/7/19
  * @File : city
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
@@ -54,6 +65,9 @@ func (s *cityService) GetList(req *model.CityQueryReq) []model.CityInfoVo {
 }
 
 func (s *cityService) Add(req *model.CityAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化对象
 	var entity model.City
 	entity.Name = req.Name
@@ -84,6 +98,9 @@ func (s *cityService) Add(req *model.CityAddReq, userId int) (int64, error) {
 }
 
 func (s *cityService) Update(req *model.CityUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.City.FindOne("id=?", req.Id)
 	if err != nil {
@@ -122,6 +139,9 @@ func (s *cityService) Update(req *model.CityUpdateReq, userId int) (int64, error
 }
 
 func (s *cityService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	// 删除记录

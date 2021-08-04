@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 配置管理-服务类
+ * @author 半城风雨
  * @since 2021/7/21
  * @File : config
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
@@ -38,6 +49,9 @@ func (s *configService) GetList(req *model.ConfigQueryReq) []model.Config {
 }
 
 func (s *configService) Add(req *model.ConfigAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化对象
 	var entity model.Config
 	entity.Name = req.Name
@@ -62,6 +76,9 @@ func (s *configService) Add(req *model.ConfigAddReq, userId int) (int64, error) 
 }
 
 func (s *configService) Update(req *model.ConfigUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.Config.FindOne("id=?", req.Id)
 	if err != nil {
@@ -92,6 +109,9 @@ func (s *configService) Update(req *model.ConfigUpdateReq, userId int) (int64, e
 }
 
 func (s *configService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	// 删除记录

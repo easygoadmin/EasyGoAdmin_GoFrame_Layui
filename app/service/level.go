@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 职级管理-服务类
+ * @author 半城风雨
  * @since 2021/7/13
  * @File : level
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
@@ -45,7 +56,10 @@ func (s *levelService) GetList(req *model.LevelQueryReq) ([]model.Level, int, er
 }
 
 func (s *levelService) Add(req *model.LevelAddReq, userId int) (int64, error) {
-	// 模型
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	// 实例化对象
 	var entity model.Level
 	entity.Name = req.Name
 	entity.Status = req.Status
@@ -67,7 +81,10 @@ func (s *levelService) Add(req *model.LevelAddReq, userId int) (int64, error) {
 }
 
 func (s *levelService) Update(req *model.LevelEditReq, userId int) (int64, error) {
-	// 查询当前记录是否存在
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	// 查询记录
 	info, err := dao.Level.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
@@ -92,17 +109,24 @@ func (s *levelService) Update(req *model.LevelEditReq, userId int) (int64, error
 }
 
 // 删除
-func (s *levelService) Delete(Ids string) int64 {
+func (s *levelService) Delete(Ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	idsArr := convert.ToInt64Array(Ids, ",")
 	result, err := dao.Level.Delete("id in (?)", idsArr)
 	if err != nil {
-		return 0
+		return 0, err
 	}
-	res, err := result.RowsAffected()
-	return res
+	// 获取受影响行数
+	rows, err := result.RowsAffected()
+	return rows, nil
 }
 
 func (s *levelService) Status(req *model.LevelStatusReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	info, err := dao.Level.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err

@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 角色管理-控制器
+ * @author 半城风雨
  * @since 2021/7/15
  * @File : role
  */
@@ -164,7 +174,7 @@ func (c *roleCtl) Status(r *ghttp.Request) {
 		}
 
 		// 调用设置方法
-		result, err := service.Role.Staus(req, utils.Uid(r.Session))
+		result, err := service.Role.Status(req, utils.Uid(r.Session))
 		if err != nil || result == 0 {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

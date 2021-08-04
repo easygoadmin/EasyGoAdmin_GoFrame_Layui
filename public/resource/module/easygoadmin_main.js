@@ -1,15 +1,17 @@
 // +----------------------------------------------------------------------
-// | RXThink [ WE CAN DO IT JUST THINK IT ]
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2017-2019 http://rxthink.cn All rights reserved.
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
 // +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// | 官方网站: http://www.easygoadmin.vip
 // +----------------------------------------------------------------------
-// | Author: 牧羊人 <rxthink@gmail.com>
+// | Author: 半城风雨 <easygoadmin@163.com>
 // +----------------------------------------------------------------------
 
 /**
- * @name 后台首页
+ * 欢迎页
+ * @author 半城风雨
+ * @since 2021/7/26
  */
 layui.define(['jquery'], function (exports) {
     "use strict";

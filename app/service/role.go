@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 角色管理-服务类
+ * @author 半城风雨
  * @since 2021/7/15
  * @File : role
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
@@ -46,6 +57,9 @@ func (s *roleService) GetList(req *model.RolePageReq) ([]model.Role, int, error)
 }
 
 func (s *roleService) Add(req *model.RoleAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化模型
 	var entity model.Role
 	entity.Name = req.Name
@@ -71,6 +85,9 @@ func (s *roleService) Add(req *model.RoleAddReq, userId int) (int64, error) {
 }
 
 func (s *roleService) Update(req *model.RoleUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 获取记录信息
 	info, err := dao.Role.FindOne("id=?", req.Id)
 	if err != nil {
@@ -101,6 +118,9 @@ func (s *roleService) Update(req *model.RoleUpdateReq, userId int) (int64, error
 }
 
 func (s *roleService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	result, err := dao.Role.Delete("id in (?)", idsArr)
@@ -116,7 +136,10 @@ func (s *roleService) Delete(ids string) (int64, error) {
 	return count, nil
 }
 
-func (s *roleService) Staus(req *model.RoleStatusReq, userId int) (int64, error) {
+func (s *roleService) Status(req *model.RoleStatusReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.Role.FindOne("id=?", req.Id)
 	if err != nil {

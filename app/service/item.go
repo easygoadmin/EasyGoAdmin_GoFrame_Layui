@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 站点管理-服务类
+ * @author 半城风雨
  * @since 2021/7/24
  * @File : item
  */
@@ -68,6 +78,9 @@ func (s *itemService) GetList(req *model.ItemPageReq) ([]model.ItemInfoVo, int, 
 }
 
 func (s *itemService) Add(req *model.ItemAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化对象
 	var entity model.Item
 	entity.Name = req.Name
@@ -102,6 +115,9 @@ func (s *itemService) Add(req *model.ItemAddReq, userId int) (int64, error) {
 }
 
 func (s *itemService) Update(req *model.ItemUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.Item.FindOne("id=?", req.Id)
 	if err != nil {
@@ -143,6 +159,9 @@ func (s *itemService) Update(req *model.ItemUpdateReq, userId int) (int64, error
 }
 
 func (s *itemService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	result, err := dao.Item.Delete("id in (?)", idsArr)

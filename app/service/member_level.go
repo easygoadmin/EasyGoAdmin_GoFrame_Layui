@@ -1,6 +1,16 @@
+// +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ EasyGoAdmin ]
+// +----------------------------------------------------------------------
+// | 版权所有 2021 EasyGoAdmin深圳研发中心
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: 半城风雨 <easygoadmin@163.com>
+// +----------------------------------------------------------------------
+
 /**
- *
- * @author 摆渡人
+ * 会员等级-服务类
+ * @author 半城风雨
  * @since 2021/7/29
  * @File : member_level
  */
@@ -9,6 +19,7 @@ package service
 import (
 	"easygoadmin/app/dao"
 	"easygoadmin/app/model"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/os/gtime"
@@ -45,6 +56,9 @@ func (s *memberLevelService) GetList(req *model.MemberLevelPageReq) ([]model.Mem
 }
 
 func (s *memberLevelService) Add(req *model.MemberLevelAddReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 实例化对象
 	var entity model.MemberLevel
 	entity.Name = req.Name
@@ -68,6 +82,9 @@ func (s *memberLevelService) Add(req *model.MemberLevelAddReq, userId int) (int6
 }
 
 func (s *memberLevelService) Update(req *model.MemberLevelUpdateReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 查询记录
 	info, err := dao.MemberLevel.FindOne("id=?", req.Id)
 	if err != nil {
@@ -98,6 +115,9 @@ func (s *memberLevelService) Update(req *model.MemberLevelUpdateReq, userId int)
 }
 
 func (s *memberLevelService) Delete(ids string) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
 	// 记录ID
 	idsArr := convert.ToInt64Array(ids, ",")
 	// 删除记录
