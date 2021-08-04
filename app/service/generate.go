@@ -89,37 +89,44 @@ func (s *generateService) Generate(r *ghttp.Request) (int64, error) {
 	// 作者名称
 	authorName := "半城风雨"
 
-	// 生成模型
-	err := GenerateModel(r, tableName, authorName, moduleName, moduleTitle)
+	// 获取字段列表
+	columnList, err := GetColumnList(tableName)
 	if err != nil {
+		return 0, err
+	}
+
+	// 生成控制器
+	if err := GenerateController(r, tableName, authorName, moduleName, moduleTitle); err != nil {
+		return 0, err
+	}
+
+	// 生成服务类
+	if err := GenerateService(r, columnList, authorName, moduleName, moduleTitle); err != nil {
+		return 0, err
+	}
+
+	// 生成模块index.html
+	if err := GenerateIndex(r, columnList, moduleName, moduleTitle); err != nil {
 		return 0, err
 	}
 
 	return 1, nil
 }
 
-func GenerateModel(r *ghttp.Request, tableName string, authorName string, moduleName string, moduleTitle string) error {
+// 生成控制器
+func GenerateController(r *ghttp.Request, tableName string, authorName string, moduleName string, moduleTitle string) error {
 	// 获取字段列表
 	columnList, err := GetColumnList(tableName)
 	if err != nil {
 		return err
 	}
-	fmt.Println(columnList)
 
-	//$param = [
-	//'author' => $author,
-	//'since' => date('Y/m/d', time()),
-	//'moduleName' => $moduleName,
-	//'moduleTitle' => $moduleTitle,
-	//'tableName' => $tableName,
-	//'columnList' => $columnList,
-	//'moduleImage' => $moduleImage,
-	//];
-
+	// 读取HTML模板并绑定数据
 	if filePath, err := r.Response.ParseTpl("tpl/controller.html", g.Map{
 		"author":      authorName,
 		"since":       gtime.Now().Format("Y/m/d"),
 		"moduleName":  moduleName,
+		"entityName":  gstr.UcWords(moduleName),
 		"moduleTitle": moduleTitle,
 		"columnList":  columnList,
 	}); err == nil {
@@ -137,7 +144,62 @@ func GenerateModel(r *ghttp.Request, tableName string, authorName string, module
 			f.Close()
 		}
 	}
+	return nil
+}
 
+// 生成服务类
+func GenerateService(r *ghttp.Request, columnList *garray.Array, authorName string, moduleName string, moduleTitle string) error {
+	// 读取HTML模板并绑定数据
+	if filePath, err := r.Response.ParseTpl("tpl/service.html", g.Map{
+		"author":      authorName,
+		"since":       gtime.Now().Format("Y/m/d"),
+		"moduleName":  moduleName,
+		"entityName":  gstr.UcWords(moduleName),
+		"moduleTitle": moduleTitle,
+		"columnList":  columnList,
+	}); err == nil {
+		// 获取项目根目录
+		curDir, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		fileName := strings.Join([]string{curDir, "/app/service/", moduleName, ".go"}, "")
+		if !gfile.Exists(fileName) {
+			f, err := gfile.Create(fileName)
+			if err == nil {
+				f.WriteString(filePath)
+			}
+			f.Close()
+		}
+	}
+	return nil
+}
+
+func GenerateIndex(r *ghttp.Request, columnList *garray.Array, moduleName string, moduleTitle string) error {
+	// 读取HTML模板并绑定数据
+	if filePath, err := r.Response.ParseTpl("tpl/index.html", g.Map{
+		"queryList": columnList,
+
+		"funcList1": `{{query "查询"}}
+                {{add "添加` + moduleTitle + `" "{}"}}
+                {{dall "批量删除"}}`,
+		"funcList2": `{{edit "编辑"}}
+    {{delete "删除"}}`,
+	}); err == nil {
+		// 获取项目根目录
+		curDir, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		fileName := strings.Join([]string{curDir, "/template/", moduleName, "/index.html"}, "")
+		if !gfile.Exists(fileName) {
+			f, err := gfile.Create(fileName)
+			if err == nil {
+				f.WriteString(filePath)
+			}
+			f.Close()
+		}
+	}
 	return nil
 }
 

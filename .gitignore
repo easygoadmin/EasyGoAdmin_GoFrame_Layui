@@ -20,7 +20,7 @@ main
 .vscode
 go.sum
 
-document
+document/easygoadmin.gf.layui.sql
 app/utils
 app/widget
 
@@ -28,6 +28,7 @@ node_modules/
 src/
 dist/
 template/tpl/
+app/service/generate.go
 package.json
 package-lock.json
 webpack.config.js

@@ -12,3 +12,33 @@ import (
 type Example internal.Example
 
 // Fill with you ideas below.
+
+// 列表查询条件
+type ExampleQueryReq struct {
+	Name  string `p:"name"` // 岗位名称
+	Page  int    `p:page`   // 页码
+	Limit int    `p:limit`  // 每页数
+}
+
+type ExampleAddReq struct {
+	Name   string `p:"name"        v:"required#名称不能为空"`   // 测试名称
+	Avatar string `p:"avatar"      v:"required#请上传头像"`    // 头像
+	Status int    `p:"status"      v:"required#请选择状态"`    // 状态：1正常 2停用
+	Type   int    `p:"type"        v:"required#请选择类型"`    // 类型：1京东 2淘宝 3拼多多 4唯品会
+	IsVip  int    `p:"is_vip"      v:"required#请选择是否VIP"` // 是否VIP：1是 2否
+	Sort   int    `p:"sort"        v:"required#排序号不能为空"`  // 显示顺序
+}
+
+type ExampleUpdateReq struct {
+	Id     int    `p:id v:"required#主键ID不能为空"`
+	Name   string `p:"name"        v:"required#名称不能为空"`   // 测试名称
+	Avatar string `p:"avatar"      v:"required#请上传头像"`    // 头像
+	Status int    `p:"status"      v:"required#请选择状态"`    // 状态：1正常 2停用
+	Type   int    `p:"type"        v:"required#请选择类型"`    // 类型：1京东 2淘宝 3拼多多 4唯品会
+	IsVip  int    `p:"is_vip"      v:"required#请选择是否VIP"` // 是否VIP：1是 2否
+	Sort   int    `p:"sort"        v:"required#排序号不能为空"`  // 显示顺序
+}
+
+type ExampleDeleteReq struct {
+	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+}
