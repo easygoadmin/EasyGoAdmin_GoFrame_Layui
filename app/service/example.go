@@ -11,7 +11,7 @@
 /**
  * 案例演示管理-服务类
  * @author 半城风雨
- * @since 2021/08/04
+ * @since 2021/08/05
  * @File : example
  */
 package service
@@ -22,6 +22,7 @@ import (
 	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/convert"
 	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/gtime"
 )
 
@@ -30,7 +31,7 @@ var Example = new(exampleService)
 
 type exampleService struct{}
 
-func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.Example, int, error) {
+func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInfoVo, int, error) {
 	// 创建查询对象
 	query := dao.Example.Where("mark=1")
 	// 查询条件
@@ -52,17 +53,46 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.Example, i
 	// 对象转换
 	var list []model.Example
 	query.Structs(&list)
-	return list, count, nil
+
+	// 数据处理
+	var result []model.ExampleInfoVo
+	for _, v := range list {
+		item := model.ExampleInfoVo{}
+		item.Example = v
+
+		// 头像
+		if v.Avatar != "" {
+			item.Avatar = utils.GetImageUrl(v.Avatar)
+		}
+
+		result = append(result, item)
+	}
+
+	// 返回结果
+	return result, count, nil
 }
 
 func (s *exampleService) Add(req *model.ExampleAddReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
+
 	// 实例化模型
 	var entity model.Example
+
 	entity.Name = req.Name
+	// 头像处理
+	if req.Avatar != "" {
+		avatar, err := utils.SaveImage(req.Avatar, "example")
+		if err != nil {
+			return 0, err
+		}
+		entity.Avatar = avatar
+	}
 	entity.Status = req.Status
+	entity.Type = req.Type
+	entity.Content = req.Content
+	entity.IsVip = req.IsVip
 	entity.Sort = req.Sort
 	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
@@ -94,9 +124,22 @@ func (s *exampleService) Update(req *model.ExampleUpdateReq, userId int) (int64,
 	if info == nil {
 		return 0, gerror.New("记录不存在")
 	}
+
 	// 对象赋值
+
 	info.Name = req.Name
+	// 头像处理
+	if req.Avatar != "" {
+		avatar, err := utils.SaveImage(req.Avatar, "example")
+		if err != nil {
+			return 0, err
+		}
+		info.Avatar = avatar
+	}
 	info.Status = req.Status
+	info.Type = req.Type
+	info.Content = req.Content
+	info.IsVip = req.IsVip
 	info.Sort = req.Sort
 	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
@@ -128,4 +171,60 @@ func (s *exampleService) Delete(ids string) (int64, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func (s *exampleService) Status(req *model.ExampleStatusReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	info, err := dao.Example.FindOne("id=?", req.Id)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+
+	// 设置状态
+	result, err := dao.Example.Data(g.Map{
+		"status":      req.Status,
+		"update_user": userId,
+		"update_time": gtime.Now(),
+	}).Where(dao.Example.Columns.Id, info.Id).Update()
+	if err != nil {
+		return 0, err
+	}
+	res, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return res, nil
+}
+
+func (s *exampleService) IsVip(req *model.ExampleStatusReq, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	info, err := dao.Example.FindOne("id=?", req.Id)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+
+	// 设置是否VIP
+	result, err := dao.Example.Data(g.Map{
+		"status":      req.Status,
+		"update_user": userId,
+		"update_time": gtime.Now(),
+	}).Where(dao.Example.Columns.Id, info.Id).Update()
+	if err != nil {
+		return 0, err
+	}
+	res, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return res, nil
 }

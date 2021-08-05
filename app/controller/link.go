@@ -81,8 +81,10 @@ func (c *linkCtl) Edit(r *ghttp.Request) {
 			})
 		}
 
-		// 设置图片链接
-		info.Image = utils.GetImageUrl(info.Image)
+		// 友链图片
+		if info.Image != "" {
+			info.Image = utils.GetImageUrl(info.Image)
+		}
 
 		// 渲染模板
 		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{

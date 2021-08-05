@@ -11,7 +11,7 @@
 /**
  * 案例演示管理-控制器
  * @author 半城风雨
- * @since 2021/08/04
+ * @since 2021/08/05
  * @File : example
  */
 package controller
@@ -75,6 +75,13 @@ func (c *exampleCtl) Edit(r *ghttp.Request) {
 				Msg:  err.Error(),
 			})
 		}
+
+		// 头像
+		if info.Avatar != "" {
+			info.Avatar = utils.GetImageUrl(info.Avatar)
+		}
+
+		// 渲染模板
 		response.BuildTpl(r, "public/form.html").WriteTpl(g.Map{
 			"mainTpl": "example/edit.html",
 			"info":    info,
@@ -162,5 +169,53 @@ func (c *exampleCtl) Delete(r *ghttp.Request) {
 			Msg:  "删除成功",
 		})
 
+	}
+}
+
+func (c *exampleCtl) Status(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		var req *model.ExampleStatusReq
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		result, err := service.Example.Status(req, utils.Uid(r.Session))
+		if err != nil || result == 0 {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		// 保存成功
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "设置成功",
+		})
+	}
+}
+
+func (c *exampleCtl) IsVip(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		var req *model.ExampleStatusReq
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		result, err := service.Example.IsVip(req, utils.Uid(r.Session))
+		if err != nil || result == 0 {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+		// 保存成功
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "设置成功",
+		})
 	}
 }

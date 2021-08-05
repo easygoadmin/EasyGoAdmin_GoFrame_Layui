@@ -21,22 +21,23 @@ type ExampleDao struct {
 	gmvc.M
 	DB      gdb.DB
 	Table   string
-	Columns exampleColumns
+	Columns ExampleColumns
 }
 
 // ExampleColumns defines and stores column names for table sys_example.
-type exampleColumns struct {
-	Id          string // 唯一性标识                         
-    Name        string // 测试名称                           
-    Avatar      string // 头像                               
-    Status      string // 状态：1正常 2停用                  
-    Type        string // 类型：1京东 2淘宝 3拼多多 4唯品会  
-    IsVip       string // 是否VIP：1是 2否                   
-    Sort        string // 显示顺序                           
-    CreateUser  string // 添加人                             
-    CreateTime  string // 添加时间                           
-    UpdateUser  string // 更新人                             
-    UpdateTime  string // 更新时间                           
+type ExampleColumns struct {
+	Id          string // 唯一性标识                                   
+    Name        string // 测试名称                                     
+    Avatar      string // 头像                                         
+    Status      string // 状态：1正常 2停用                            
+    Type        string // 类型：1京东 2淘宝 3拼多多 4唯品会 5小米有品  
+    Content     string // 内容简介                                     
+    IsVip       string // 是否VIP：1是 2否                             
+    Sort        string // 显示顺序                                     
+    CreateUser  string // 添加人                                       
+    CreateTime  string // 添加时间                                     
+    UpdateUser  string // 更新人                                       
+    UpdateTime  string // 更新时间                                     
     Mark        string // 有效标识
 }
 
@@ -46,12 +47,13 @@ var (
 		M:     g.DB("default").Model("sys_example").Safe(),
 		DB:    g.DB("default"),
 		Table: "sys_example",
-		Columns: exampleColumns{
+		Columns: ExampleColumns{
 			Id:         "id",           
             Name:       "name",         
             Avatar:     "avatar",       
             Status:     "status",       
             Type:       "type",         
+            Content:    "content",      
             IsVip:      "is_vip",       
             Sort:       "sort",         
             CreateUser: "create_user",  

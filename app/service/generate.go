@@ -19,7 +19,6 @@ package service
 import (
 	"easygoadmin/app/model"
 	"easygoadmin/app/utils"
-	"fmt"
 	"github.com/gogf/gf/container/garray"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
@@ -27,6 +26,7 @@ import (
 	"github.com/gogf/gf/os/gfile"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/text/gstr"
+	"github.com/gogf/gf/util/gconv"
 	"os"
 	"regexp"
 	"strings"
@@ -84,8 +84,6 @@ func (s *generateService) Generate(r *ghttp.Request) (int64, error) {
 	}
 	// 模型名称
 	moduleName := gstr.Replace(tableName, "sys_", "")
-	//// 控制器名
-	//controllerName := tableName
 	// 作者名称
 	authorName := "半城风雨"
 
@@ -96,7 +94,7 @@ func (s *generateService) Generate(r *ghttp.Request) (int64, error) {
 	}
 
 	// 生成控制器
-	if err := GenerateController(r, tableName, authorName, moduleName, moduleTitle); err != nil {
+	if err := GenerateController(r, columnList, authorName, moduleName, moduleTitle); err != nil {
 		return 0, err
 	}
 
@@ -110,15 +108,41 @@ func (s *generateService) Generate(r *ghttp.Request) (int64, error) {
 		return 0, err
 	}
 
+	// 生成模块Edit.html
+	if err := GenerateEdit(r, columnList, moduleName, moduleTitle); err != nil {
+		return 0, err
+	}
+
+	// 生成模块JS
+	if err := GenerateJs(r, columnList, authorName, moduleName, moduleTitle); err != nil {
+		return 0, err
+	}
+
 	return 1, nil
 }
 
 // 生成控制器
-func GenerateController(r *ghttp.Request, tableName string, authorName string, moduleName string, moduleTitle string) error {
-	// 获取字段列表
-	columnList, err := GetColumnList(tableName)
-	if err != nil {
-		return err
+func GenerateController(r *ghttp.Request, dataList *garray.Array, authorName string, moduleName string, moduleTitle string) error {
+	// 初始化表单数组
+	columnList := make([]map[string]interface{}, 0)
+	for i := 0; i < dataList.Len(); i++ {
+		// 当前元素
+		data, _ := dataList.Get(i)
+		// 类型转换
+		item := data.(map[string]interface{})
+		// 字段列名
+		columnName := gconv.String(item["columnName"])
+		// 移除部分非表单字段
+		if columnName == "id" ||
+			columnName == "create_user" ||
+			columnName == "create_time" ||
+			columnName == "update_user" ||
+			columnName == "update_time" ||
+			columnName == "mark" {
+			continue
+		}
+		// 加入数组
+		columnList = append(columnList, item)
 	}
 
 	// 读取HTML模板并绑定数据
@@ -148,7 +172,28 @@ func GenerateController(r *ghttp.Request, tableName string, authorName string, m
 }
 
 // 生成服务类
-func GenerateService(r *ghttp.Request, columnList *garray.Array, authorName string, moduleName string, moduleTitle string) error {
+func GenerateService(r *ghttp.Request, dataList *garray.Array, authorName string, moduleName string, moduleTitle string) error {
+	// 初始化表单数组
+	columnList := make([]map[string]interface{}, 0)
+	for i := 0; i < dataList.Len(); i++ {
+		// 当前元素
+		data, _ := dataList.Get(i)
+		// 类型转换
+		item := data.(map[string]interface{})
+		// 字段列名
+		columnName := gconv.String(item["columnName"])
+		// 移除部分非表单字段
+		if columnName == "id" ||
+			columnName == "create_user" ||
+			columnName == "create_time" ||
+			columnName == "update_user" ||
+			columnName == "update_time" ||
+			columnName == "mark" {
+			continue
+		}
+		// 加入数组
+		columnList = append(columnList, item)
+	}
 	// 读取HTML模板并绑定数据
 	if filePath, err := r.Response.ParseTpl("tpl/service.html", g.Map{
 		"author":      authorName,
@@ -175,11 +220,32 @@ func GenerateService(r *ghttp.Request, columnList *garray.Array, authorName stri
 	return nil
 }
 
+// 生成列表页
 func GenerateIndex(r *ghttp.Request, columnList *garray.Array, moduleName string, moduleTitle string) error {
+	// 初始化查询条件
+	queryList := make([]map[string]interface{}, 0)
+	for i := 0; i < columnList.Len(); i++ {
+		// 当前元素
+		data, _ := columnList.Get(i)
+		// 类型转换
+		item := data.(map[string]interface{})
+		// 字段列名
+		columnName := item["columnName"]
+		if columnName == "name" || columnName == "title" {
+			// 加入查询条件数组
+			queryList = append(queryList, item)
+		}
+		// 判断是否有columnValue键值
+		if _, ok := item["columnValue"]; ok {
+			// 加入查询条件数组
+			item["columnWidget"] = `{{select "` + gconv.String(columnName) + `|0|` + gconv.String(item["columnTitle"]) + `|name|id" "` + gconv.String(item["columnValue"]) + `" 0}}`
+			queryList = append(queryList, item)
+		}
+	}
+
 	// 读取HTML模板并绑定数据
 	if filePath, err := r.Response.ParseTpl("tpl/index.html", g.Map{
-		"queryList": columnList,
-
+		"queryList": queryList,
 		"funcList1": `{{query "查询"}}
                 {{add "添加` + moduleTitle + `" "{}"}}
                 {{dall "批量删除"}}`,
@@ -192,6 +258,173 @@ func GenerateIndex(r *ghttp.Request, columnList *garray.Array, moduleName string
 			return err
 		}
 		fileName := strings.Join([]string{curDir, "/template/", moduleName, "/index.html"}, "")
+		if !gfile.Exists(fileName) {
+			f, err := gfile.Create(fileName)
+			if err == nil {
+				f.WriteString(filePath)
+			}
+			f.Close()
+		}
+	}
+	return nil
+}
+
+// 生成编辑表单
+func GenerateEdit(r *ghttp.Request, dataList *garray.Array, moduleName string, moduleTitle string) error {
+	// 初始化表单数组
+	formList := make([]map[string]interface{}, 0)
+	// 初始化图片数组
+	imageList := make([]map[string]interface{}, 0)
+	// 初始化多行数组
+	rowsList := make([]map[string]interface{}, 0)
+	for i := 0; i < dataList.Len(); i++ {
+		// 当前元素
+		data, _ := dataList.Get(i)
+		// 类型转换
+		item := data.(map[string]interface{})
+		// 字段类型
+		dataType := gconv.String(item["dataType"])
+		// 字段列名
+		columnName := gconv.String(item["columnName"])
+		// 字段列表格式化
+		columnName2 := gconv.String(item["columnName2"])
+		// 字段标题
+		columnTitle := gconv.String(item["columnTitle"])
+		// 移除部分非表单字段
+		if columnName == "id" ||
+			columnName == "create_user" ||
+			columnName == "create_time" ||
+			columnName == "update_user" ||
+			columnName == "update_time" ||
+			columnName == "mark" {
+			continue
+		}
+		// 图片上传
+		if _, isImage := item["columnImage"]; isImage {
+			item["columnWidget"] = `{{upload_image "` + columnName + `|` + columnTitle + `|90x90|建议上传尺寸450x450" .info.` + columnName2 + ` "" 0}}`
+			// 加入数组
+			imageList = append(imageList, item)
+			continue
+		}
+
+		// 多行文本输入
+		if _, isText := item["columnText"]; isText {
+			if dataType == "text" {
+				item["columnWidget"] = `{{kindeditor "` + columnName + `" "default" "80%" 350}}`
+			}
+			// 加入数组
+			rowsList = append(rowsList, item)
+			continue
+		}
+		// 判断是否有columnValue键值
+		if _, ok := item["columnValue"]; ok {
+			if _, isSwitch := item["columnSwitch"]; isSwitch {
+				// 开关组件
+				item["columnWidget"] = `{{switch "` + columnName + `" "` + gconv.String(item["columnSwitchValue"]) + `" .info.` + columnName2 + `}}`
+			} else {
+				// 下拉单选组件
+				item["columnWidget"] = `{{select "` + columnName + `|0|` + columnTitle + `|name|id" "` + gconv.String(item["columnValue"]) + `" .info.` + columnName2 + `}}`
+			}
+			// 加入数组
+			formList = append(formList, item)
+			continue
+		}
+		// 日期组件
+		if dataType == "date" || dataType == "datetime" {
+			item["columnWidget"] = `{{date "` + columnName + `|1|` + columnTitle + `|` + dataType + `" .info.` + columnName2 + `}}`
+			formList = append(formList, item)
+			continue
+		}
+		// 加入数组
+		formList = append(formList, item)
+	}
+
+	// 初始化数据列数组
+	columnList := make([]map[string]interface{}, 0)
+
+	// 根据控制的个数实行分列显示(一行两列)
+	if len(formList)+len(imageList)+len(rowsList) > 10 {
+		// 一行两列排列
+	} else {
+		// 单行排列
+		columnList = formList
+		// 图片
+		if len(imageList) > 0 {
+			// 遍历
+			for _, v := range imageList {
+				columnList = append(columnList, v)
+			}
+		}
+		// 多行文本
+		if len(rowsList) > 0 {
+			// 遍历
+			for _, v := range rowsList {
+				columnList = append(columnList, v)
+			}
+		}
+	}
+
+	// 读取HTML模板并绑定数据
+	if filePath, err := r.Response.ParseTpl("tpl/edit.html", g.Map{
+		"columnList":   columnList,
+		"submitWidget": `{{submit "submit|立即保存,close|关闭" 1 ""}}`,
+	}); err == nil {
+		// 获取项目根目录
+		curDir, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		fileName := strings.Join([]string{curDir, "/template/", moduleName, "/edit.html"}, "")
+		if !gfile.Exists(fileName) {
+			f, err := gfile.Create(fileName)
+			if err == nil {
+				f.WriteString(filePath)
+			}
+			f.Close()
+		}
+	}
+	return nil
+}
+
+// 生成模块JS文件
+func GenerateJs(r *ghttp.Request, dataList *garray.Array, authorName string, moduleName string, moduleTitle string) error {
+	// 初始化表单数组
+	columnList := make([]map[string]interface{}, 0)
+	for i := 0; i < dataList.Len(); i++ {
+		// 当前元素
+		data, _ := dataList.Get(i)
+		// 类型转换
+		item := data.(map[string]interface{})
+		// 字段列名
+		columnName := gconv.String(item["columnName"])
+		// 移除部分非表单字段
+		if columnName == "id" ||
+			columnName == "create_user" ||
+			columnName == "create_time" ||
+			columnName == "update_user" ||
+			columnName == "update_time" ||
+			columnName == "mark" {
+			continue
+		}
+		// 加入数组
+		columnList = append(columnList, item)
+	}
+
+	// 读取HTML模板并绑定数据
+	if filePath, err := r.Response.ParseTpl("tpl/js.html", g.Map{
+		"author":      authorName,
+		"since":       gtime.Now().Format("Y/m/d"),
+		"moduleName":  moduleName,
+		"entityName":  gstr.UcWords(moduleName),
+		"moduleTitle": moduleTitle,
+		"columnList":  columnList,
+	}); err == nil {
+		// 获取项目根目录
+		curDir, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		fileName := strings.Join([]string{curDir, "/public/resource/module/easygoadmin_", moduleName, ".js"}, "")
 		if !gfile.Exists(fileName) {
 			f, err := gfile.Create(fileName)
 			if err == nil {
@@ -233,10 +466,27 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 			continue
 		}
 		item["columnName"] = columnName
+		// 字段名称驼峰格式一
+		columnName2 := gstr.UcWords(columnName)
+		if gstr.Contains(columnName, "_") {
+			nameArr := gstr.Split(columnName, "_")
+			columnName2 = gstr.UcWords(nameArr[0]) + gstr.UcWords(nameArr[1])
+		}
+		item["columnName2"] = columnName2
+
+		// 字段名称驼峰格式二
+		columnName3 := columnName
+		if gstr.Contains(columnName, "_") {
+			nameArr := gstr.Split(columnName, "_")
+			columnName3 = nameArr[0] + gstr.UcWords(nameArr[1])
+		}
+		item["columnName3"] = columnName3
+
 		// 字段默认值
 		item["columnDefault"] = v["COLUMN_DEFAULT"].String()
 		// 字段数据类型
-		item["dataType"] = v["DATA_TYPE"].String()
+		dataType := v["DATA_TYPE"].String()
+		item["dataType"] = dataType
 		// 字段描述
 		columnComment := v["COLUMN_COMMENT"].String()
 		item["columnComment"] = columnComment
@@ -245,7 +495,7 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 			// 正则根据冒号分裂字符串
 			re := regexp.MustCompile("[：；]")
 			commentItem := gstr.Split(re.ReplaceAllString(columnComment, "|"), "|")
-			// 字段描述
+			// 字段标题
 			item["columnTitle"] = commentItem[0]
 
 			// 字段描述数据处理
@@ -254,10 +504,11 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 
 			// 实例化字段描述参数数组
 			columnValue := make([]string, 0)
+			// 参数值Map列表
+			columnValueList := make(map[int]string)
 			// 实例化字段描述文字数组
 			columnSwitchValue := make([]string, 0)
 			for _, v := range commentArr {
-				fmt.Println(v)
 				// 正则提取数字键
 				regexp := regexp.MustCompile(`[0-9]+`)
 				vItem := regexp.FindStringSubmatch(v)
@@ -267,11 +518,16 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 				value := gstr.Replace(v, vItem[0], "")
 				// 加入数组
 				columnValue = append(columnValue, key+"="+value)
+				// 参数值Map
+				columnValueList[gconv.Int(key)] = value
+				// 开关专用参数值
 				columnSwitchValue = append(columnSwitchValue, value)
 			}
 			// 字符串逗号拼接
 			item["columnValue"] = gstr.Join(columnValue, ",")
-			// 开关参数处理
+			item["columnValueList"] = columnValueList
+
+			// 开关判断
 			if columnName == "status" || gstr.SubStr(columnName, 0, 3) == "is_" {
 				item["columnSwitch"] = true
 				item["columnSwitchValue"] = gstr.Join(columnSwitchValue, "|")
@@ -284,11 +540,9 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 					columnSwitchName = "set" + gstr.UcWords(columnName)
 				}
 				item["columnSwitchName"] = columnSwitchName
-			} else {
-				item["columnSwitch"] = false
 			}
 		} else {
-			// 字段描述
+			// 字段标题
 			item["columnTitle"] = columnComment
 		}
 
@@ -299,8 +553,6 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 			gstr.Contains(columnName, "logo") ||
 			gstr.Contains(columnName, "pic") {
 			item["columnImage"] = true
-		} else {
-			item["columnImage"] = false
 		}
 
 		// 判断是否多行文本或富文本
@@ -309,7 +561,7 @@ func GetColumnList(tableName string) (*garray.Array, error) {
 			gstr.Contains(columnName, "content") ||
 			gstr.Contains(columnName, "description") ||
 			gstr.Contains(columnName, "intro") {
-			item["columnTextArea"] = true
+			item["columnText"] = true
 		}
 
 		// 加入数组

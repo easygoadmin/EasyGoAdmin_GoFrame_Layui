@@ -1,0 +1,78 @@
+<form class="layui-form model-form" action="">
+	<input name="id" id="id" type="hidden" value="{{.info.Id}}">
+	
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">测试名称：</label>
+		<div class="layui-input-block">
+			
+			<input name="name" value="{{.info.Name}}" lay-verify="required" autocomplete="off" placeholder="请输入测试名称" class="layui-input" type="text">
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">状态：</label>
+		<div class="layui-input-block">
+			
+			{{switch "status" "正常|停用" .info.Status}}
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">类型：</label>
+		<div class="layui-input-block">
+			
+			{{select "type|0|类型|name|id" "1=京东,2=淘宝,3=拼多多,4=唯品会,5=小米有品" .info.Type}}
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">是否VIP：</label>
+		<div class="layui-input-block">
+			
+			{{switch "is_vip" "是|否" .info.IsVip}}
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">显示顺序：</label>
+		<div class="layui-input-block">
+			
+			<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入显示顺序" class="layui-input" type="text">
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">头像：</label>
+		{{upload_image "avatar|头像|90x90|建议上传尺寸450x450" .info.Avatar "" 0}}
+	</div>
+	
+	
+	
+	
+	<div class="layui-form-item layui-form-text" style="width:665px;">
+		<label class="layui-form-label">内容简介：</label>
+		<div class="layui-input-block">
+			<textarea name="content" placeholder="请输入内容简介" class="layui-textarea">{{.info.Content}}</textarea>
+		</div>
+	</div>
+	
+	
+	
+	{{submit "submit|立即保存,close|关闭" 1 ""}}
+</form>
