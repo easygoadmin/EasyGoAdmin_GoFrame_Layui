@@ -177,7 +177,7 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Url, req.Pid)
+	setPermission(req.Type, req.Func, req.Url, req.Id)
 
 	// 获取数影响的行数
 	rows, err := result.RowsAffected()
@@ -219,7 +219,7 @@ func (s *menuService) Delete(ids string) (int64, error) {
 
 // 添加节点
 func setPermission(menuType int, funcIds string, url string, pid int) {
-	if menuType == 0 || funcIds == "" || url == "" {
+	if menuType != 0 || funcIds == "" || url == "" {
 		return
 	}
 	// 删除现有节点

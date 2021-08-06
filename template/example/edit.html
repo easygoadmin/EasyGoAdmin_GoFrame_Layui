@@ -28,7 +28,7 @@
 		<label class="layui-form-label">类型：</label>
 		<div class="layui-input-block">
 			
-			{{select "type|0|类型|name|id" "1=京东,2=淘宝,3=拼多多,4=唯品会,5=小米有品" .info.Type}}
+			{{select "type|0|类型|name|id" "1=京东,2=淘宝,3=拼多多,4=唯品会" .info.Type}}
 			
 		</div>
 	</div>
@@ -47,10 +47,10 @@
 	
 	
 	<div class="layui-form-item">
-		<label class="layui-form-label">显示顺序：</label>
+		<label class="layui-form-label">排序号：</label>
 		<div class="layui-input-block">
 			
-			<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入显示顺序" class="layui-input" type="text">
+			<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入排序号" class="layui-input" type="text">
 			
 		</div>
 	</div>
@@ -66,9 +66,9 @@
 	
 	
 	<div class="layui-form-item layui-form-text" style="width:665px;">
-		<label class="layui-form-label">内容简介：</label>
+		<label class="layui-form-label">内容：</label>
 		<div class="layui-input-block">
-			<textarea name="content" placeholder="请输入内容简介" class="layui-textarea">{{.info.Content}}</textarea>
+			<textarea name="content" placeholder="请输入内容" class="layui-textarea">{{.info.Content}}</textarea>
 		</div>
 	</div>
 	

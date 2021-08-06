@@ -99,15 +99,15 @@ layui.use(['func', 'common', 'form', 'transfer'], function () {
          * 提交表单
          */
         form.on('submit(submitForm2)', function (data) {
-            if (data.field['type'] == 3) {
+            if (data.field['type'] == 0) {
                 // 获取穿梭组件的选中值
-                var funcList = transfer.getData('funcIds'); //获取右侧数据
+                var funcList = transfer.getData('func'); //获取右侧数据
                 // 重组数据并赋值给字段
                 var item = [];
                 $.each(funcList, function (key, val) {
                     item.push(val['value']);
                 });
-                data.field['funcIds'] = item.join(",");
+                data.field['func'] = item.join(",");
             }
             // 提交表单
             common.submitForm(data.field, null, function (res, success) {

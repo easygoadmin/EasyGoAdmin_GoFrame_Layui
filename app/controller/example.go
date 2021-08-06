@@ -11,7 +11,7 @@
 /**
  * 案例演示管理-控制器
  * @author 半城风雨
- * @since 2021/08/05
+ * @since 2021/08/06
  * @File : example
  */
 package controller
@@ -198,7 +198,7 @@ func (c *exampleCtl) Status(r *ghttp.Request) {
 
 func (c *exampleCtl) IsVip(r *ghttp.Request) {
 	if r.IsAjaxRequest() {
-		var req *model.ExampleStatusReq
+		var req *model.ExampleIsVipReq
 		if err := r.Parse(&req); err != nil {
 			r.Response.WriteJsonExit(common.JsonResult{
 				Code: -1,

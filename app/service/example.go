@@ -11,7 +11,7 @@
 /**
  * 案例演示管理-服务类
  * @author 半城风雨
- * @since 2021/08/05
+ * @since 2021/08/06
  * @File : example
  */
 package service
@@ -36,10 +36,31 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInf
 	query := dao.Example.Where("mark=1")
 	// 查询条件
 	if req != nil {
-		// 岗位名称
+
+		// 测试名称
+
 		if req.Name != "" {
 			query = query.Where("name like ?", "%"+req.Name+"%")
 		}
+
+		// 状态：1正常 2停用
+
+		if req.Status > 0 {
+			query = query.Where("status = ?", req.Status)
+		}
+
+		// 类型：1京东 2淘宝 3拼多多 4唯品会
+
+		if req.Type > 0 {
+			query = query.Where("type = ?", req.Type)
+		}
+
+		// 是否VIP：1是 2否
+
+		if req.IsVip > 0 {
+			query = query.Where("is_vip = ?", req.IsVip)
+		}
+
 	}
 	// 获取记录总数
 	count, err := query.Count()
@@ -89,9 +110,9 @@ func (s *exampleService) Add(req *model.ExampleAddReq, userId int) (int64, error
 		}
 		entity.Avatar = avatar
 	}
+	entity.Content = req.Content
 	entity.Status = req.Status
 	entity.Type = req.Type
-	entity.Content = req.Content
 	entity.IsVip = req.IsVip
 	entity.Sort = req.Sort
 	entity.CreateUser = userId
@@ -136,9 +157,9 @@ func (s *exampleService) Update(req *model.ExampleUpdateReq, userId int) (int64,
 		}
 		info.Avatar = avatar
 	}
+	info.Content = req.Content
 	info.Status = req.Status
 	info.Type = req.Type
-	info.Content = req.Content
 	info.IsVip = req.IsVip
 	info.Sort = req.Sort
 	info.UpdateUser = userId
@@ -201,7 +222,7 @@ func (s *exampleService) Status(req *model.ExampleStatusReq, userId int) (int64,
 	return res, nil
 }
 
-func (s *exampleService) IsVip(req *model.ExampleStatusReq, userId int) (int64, error) {
+func (s *exampleService) IsVip(req *model.ExampleIsVipReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
@@ -215,7 +236,7 @@ func (s *exampleService) IsVip(req *model.ExampleStatusReq, userId int) (int64, 
 
 	// 设置是否VIP
 	result, err := dao.Example.Data(g.Map{
-		"status":      req.Status,
+		"is_vip":      req.IsVip,
 		"update_user": userId,
 		"update_time": gtime.Now(),
 	}).Where(dao.Example.Columns.Id, info.Id).Update()

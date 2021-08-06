@@ -11,7 +11,7 @@
 /**
  * 案例演示管理
  * @author 半城风雨
- * @since 2021/08/05
+ * @since 2021/08/06
  */
 layui.use(['func'], function () {
 
@@ -39,6 +39,10 @@ layui.use(['func'], function () {
                 }
             }
 			
+        
+             
+			, {field: 'content', width: 100, title: '内容', align: 'center'}
+            
         
             
             , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
@@ -69,19 +73,9 @@ layui.use(['func'], function () {
 						return '<span class="layui-btn layui-btn-primary layui-btn-xs">唯品会</span>';
 					} 
 					
-					else {
-						// 小米有品
-						return '<span class="layui-btn layui-btn-normal layui-btn-xs">小米有品</span>';
-					}
-					
-					
 				}
 			}
 			
-        
-             
-			, {field: 'content', width: 100, title: '内容简介', align: 'center'}
-            
         
             
             , {field: 'is_vip', width: 100, title: '是否VIP', align: 'center', templet: function (d) {
@@ -90,7 +84,7 @@ layui.use(['func'], function () {
             
         
              
-			, {field: 'sort', width: 100, title: '显示顺序', align: 'center'}
+			, {field: 'sort', width: 100, title: '排序号', align: 'center'}
             
         
             , {field: 'createTime', width: 180, title: '添加时间', align: 'center'}
@@ -112,12 +106,12 @@ layui.use(['func'], function () {
 		
 	
 		
+	
+		
 		//【设置状态】
         func.formSwitch('Status', null, function (data, res) {
             console.log("开关回调成功");
         });
-		
-	
 		
 	
 		
