@@ -15,15 +15,15 @@ type Example internal.Example
 
 // 列表查询条件
 type ExampleQueryReq struct {
-	Name   string `p:name"`    // 测试名称
-	Status int    `p:"status"` // 状态：1正常 2停用
-	Type   int    `p:"type"`   // 类型：1京东 2淘宝 3拼多多 4唯品会
-	IsVip  int    `p:"is_vip"` // 是否VIP：1是 2否
-	Page   int    `p:page`     // 页码
-	Limit  int    `p:limit`    // 每页数
+	Name   string `p:"name"` // 测试名称
+	Status int    `p:status` // 状态：1正常 2停用
+	Type   int    `p:type`   // 类型：1京东 2淘宝 3拼多多 4唯品会
+	IsVip  int    `p:is_vip` // 是否VIP：1是 2否
+	Page   int    `p:page`   // 页码
+	Limit  int    `p:limit`  // 每页数
 }
 
-// 添加案例演示
+// 添加演示一
 type ExampleAddReq struct {
 	Name    string `p:"name"        v:"required#测试名称不能为空"`   // 测试名称
 	Avatar  string `p:"avatar"      v:"required#请上传头像"`      // 头像
@@ -32,10 +32,9 @@ type ExampleAddReq struct {
 	Type    int    `p:"type"        v:"required#请选择类型"`      // 类型：1京东 2淘宝 3拼多多 4唯品会
 	IsVip   int    `p:"is_vip"        v:"required#请选择是否VIP"` // 是否VIP：1是 2否
 	Sort    int    `p:"sort"        v:"required#排序号不能为空"`    // 排序号
-
 }
 
-// 更新案例演示
+// 更新演示一
 type ExampleUpdateReq struct {
 	Id      int    `p:id 			v:"required#主键ID不能为空"`
 	Name    string `p:"name"        v:"required#测试名称不能为空"`   // 测试名称
@@ -47,7 +46,7 @@ type ExampleUpdateReq struct {
 	Sort    int    `p:"sort"        v:"required#排序号不能为空"`    // 排序号
 }
 
-// 删除案例演示
+// 删除演示一
 type ExampleDeleteReq struct {
 	Ids string `p:ids 				v:"required#请选择需要删除的数据记录"`
 }
@@ -64,10 +63,10 @@ type ExampleIsVipReq struct {
 	IsVip int `p:"is_vip"    		v:"required#是否VIP不能为空"`
 }
 
-// 案例演示信息Vo
+// 演示一信息Vo
 type ExampleInfoVo struct {
 	Example
-	StatusName int `json:"statusName"` // 类型
-	TypeName   int `json:"typeName"`   // 类型
-	IsVipName  int `json:"isVipName"`  // 类型
+	StatusName int `json:"statusName"` // 状态名称
+	TypeName   int `json:"typeName"`   // 类型名称
+	IsVipName  int `json:"isVipName"`  // 是否VIP名称
 }

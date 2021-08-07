@@ -9,10 +9,10 @@
 // +----------------------------------------------------------------------
 
 /**
- * 演示一管理-服务类
+ * 演示二管理-服务类
  * @author 半城风雨
  * @since 2021/08/07
- * @File : example
+ * @File : example2
  */
 package service
 
@@ -27,17 +27,17 @@ import (
 )
 
 // 中间件管理服务
-var Example = new(exampleService)
+var Example2 = new(example2Service)
 
-type exampleService struct{}
+type example2Service struct{}
 
-func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInfoVo, int, error) {
+func (s *example2Service) GetList(req *model.Example2QueryReq) ([]model.Example2InfoVo, int, error) {
 	// 创建查询对象
-	query := dao.Example.Where("mark=1")
+	query := dao.Example2.Where("mark=1")
 	// 查询条件
 	if req != nil {
 
-		// 测试名称
+		// 演示名称
 
 		if req.Name != "" {
 			query = query.Where("name like ?", "%"+req.Name+"%")
@@ -47,18 +47,6 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInf
 
 		if req.Status > 0 {
 			query = query.Where("status = ?", req.Status)
-		}
-
-		// 类型：1京东 2淘宝 3拼多多 4唯品会
-
-		if req.Type > 0 {
-			query = query.Where("type = ?", req.Type)
-		}
-
-		// 是否VIP：1是 2否
-
-		if req.IsVip > 0 {
-			query = query.Where("is_vip = ?", req.IsVip)
 		}
 
 	}
@@ -72,19 +60,14 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInf
 	// 分页
 	query = query.Page(req.Page, req.Limit)
 	// 对象转换
-	var list []model.Example
+	var list []model.Example2
 	query.Structs(&list)
 
 	// 数据处理
-	var result []model.ExampleInfoVo
+	var result []model.Example2InfoVo
 	for _, v := range list {
-		item := model.ExampleInfoVo{}
-		item.Example = v
-
-		// 头像
-		if v.Avatar != "" {
-			item.Avatar = utils.GetImageUrl(v.Avatar)
-		}
+		item := model.Example2InfoVo{}
+		item.Example2 = v
 
 		result = append(result, item)
 	}
@@ -93,34 +76,23 @@ func (s *exampleService) GetList(req *model.ExampleQueryReq) ([]model.ExampleInf
 	return result, count, nil
 }
 
-func (s *exampleService) Add(req *model.ExampleAddReq, userId int) (int64, error) {
+func (s *example2Service) Add(req *model.Example2AddReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
 
 	// 实例化模型
-	var entity model.Example
+	var entity model.Example2
 
 	entity.Name = req.Name
-	// 头像处理
-	if req.Avatar != "" {
-		avatar, err := utils.SaveImage(req.Avatar, "example")
-		if err != nil {
-			return 0, err
-		}
-		entity.Avatar = avatar
-	}
-	entity.Content = req.Content
 	entity.Status = req.Status
-	entity.Type = req.Type
-	entity.IsVip = req.IsVip
 	entity.Sort = req.Sort
 	entity.CreateUser = userId
 	entity.CreateTime = gtime.Now()
 	entity.Mark = 1
 
 	// 插入数据
-	result, err := dao.Example.Insert(entity)
+	result, err := dao.Example2.Insert(entity)
 	if err != nil {
 		return 0, err
 	}
@@ -133,12 +105,12 @@ func (s *exampleService) Add(req *model.ExampleAddReq, userId int) (int64, error
 	return id, nil
 }
 
-func (s *exampleService) Update(req *model.ExampleUpdateReq, userId int) (int64, error) {
+func (s *example2Service) Update(req *model.Example2UpdateReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
 	// 获取记录信息
-	info, err := dao.Example.FindOne("id=?", req.Id)
+	info, err := dao.Example2.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
 	}
@@ -149,23 +121,12 @@ func (s *exampleService) Update(req *model.ExampleUpdateReq, userId int) (int64,
 	// 对象赋值
 
 	info.Name = req.Name
-	// 头像处理
-	if req.Avatar != "" {
-		avatar, err := utils.SaveImage(req.Avatar, "example")
-		if err != nil {
-			return 0, err
-		}
-		info.Avatar = avatar
-	}
-	info.Content = req.Content
 	info.Status = req.Status
-	info.Type = req.Type
-	info.IsVip = req.IsVip
 	info.Sort = req.Sort
 	info.UpdateUser = userId
 	info.UpdateTime = gtime.Now()
 	// 调用更新方法
-	result, err := dao.Example.Save(info)
+	result, err := dao.Example2.Save(info)
 	if err != nil {
 		return 0, err
 	}
@@ -177,12 +138,12 @@ func (s *exampleService) Update(req *model.ExampleUpdateReq, userId int) (int64,
 	return rows, nil
 }
 
-func (s *exampleService) Delete(ids string) (int64, error) {
+func (s *example2Service) Delete(ids string) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
 	idsArr := convert.ToInt64Array(ids, ",")
-	result, err := dao.Example.Delete("id in (?)", idsArr)
+	result, err := dao.Example2.Delete("id in (?)", idsArr)
 	if err != nil {
 		return 0, err
 	}
@@ -194,11 +155,11 @@ func (s *exampleService) Delete(ids string) (int64, error) {
 	return count, nil
 }
 
-func (s *exampleService) Status(req *model.ExampleStatusReq, userId int) (int64, error) {
+func (s *example2Service) Status(req *model.Example2StatusReq, userId int) (int64, error) {
 	if utils.AppDebug() {
 		return 0, gerror.New("演示环境，暂无权限操作")
 	}
-	info, err := dao.Example.FindOne("id=?", req.Id)
+	info, err := dao.Example2.FindOne("id=?", req.Id)
 	if err != nil {
 		return 0, err
 	}
@@ -207,39 +168,11 @@ func (s *exampleService) Status(req *model.ExampleStatusReq, userId int) (int64,
 	}
 
 	// 设置状态
-	result, err := dao.Example.Data(g.Map{
+	result, err := dao.Example2.Data(g.Map{
 		"status":      req.Status,
 		"update_user": userId,
 		"update_time": gtime.Now(),
-	}).Where(dao.Example.Columns.Id, info.Id).Update()
-	if err != nil {
-		return 0, err
-	}
-	res, err := result.RowsAffected()
-	if err != nil {
-		return 0, err
-	}
-	return res, nil
-}
-
-func (s *exampleService) IsVip(req *model.ExampleIsVipReq, userId int) (int64, error) {
-	if utils.AppDebug() {
-		return 0, gerror.New("演示环境，暂无权限操作")
-	}
-	info, err := dao.Example.FindOne("id=?", req.Id)
-	if err != nil {
-		return 0, err
-	}
-	if info == nil {
-		return 0, gerror.New("记录不存在")
-	}
-
-	// 设置是否VIP
-	result, err := dao.Example.Data(g.Map{
-		"is_vip":      req.IsVip,
-		"update_user": userId,
-		"update_time": gtime.Now(),
-	}).Where(dao.Example.Columns.Id, info.Id).Update()
+	}).Where(dao.Example2.Columns.Id, info.Id).Update()
 	if err != nil {
 		return 0, err
 	}

@@ -2,11 +2,11 @@
 <form class="layui-form toolbar">
     <div class="layui-form-item">
         
-         <!-- 测试名称 -->
+         <!-- 演示名称 -->
         <div class="layui-inline">
-            <label class="layui-form-label w-auto">测试名称：</label>
+            <label class="layui-form-label w-auto">演示名称：</label>
             <div class="layui-input-inline">
-                <input type="text" name="name" placeholder="请输入测试名称" autocomplete="off" class="layui-input">
+                <input type="text" name="name" placeholder="请输入演示名称" autocomplete="off" class="layui-input">
             </div>
         </div>  
          <!-- 状态：1正常 2停用 -->
@@ -16,24 +16,10 @@
                 {{select "status|0|状态|name|id" "1=正常,2=停用" 0}}
             </div>
         </div>  
-         <!-- 类型：1京东 2淘宝 3拼多多 4唯品会 -->
-        <div class="layui-inline">
-            <label class="layui-form-label w-auto">类型：</label>
-            <div class="layui-input-inline">
-                {{select "type|0|类型|name|id" "1=京东,2=淘宝,3=拼多多,4=唯品会" 0}}
-            </div>
-        </div>  
-         <!-- 是否VIP：1是 2否 -->
-        <div class="layui-inline">
-            <label class="layui-form-label w-auto">是否VIP：</label>
-            <div class="layui-input-inline">
-                {{select "is_vip|0|是否VIP|name|id" "1=是,2=否" 0}}
-            </div>
-        </div>  
         <div class="layui-inline">
             <div class="layui-input-inline" style="width: auto;">
                 {{query "查询"}}
-                {{add "添加演示一" "{}"}}
+                {{add "添加演示二" "{}"}}
                 {{dall "批量删除"}}
             </div>
         </div>
