@@ -65,7 +65,7 @@ func (s *menuService) GetPermissionList(userId int) interface{} {
 // 获取子级菜单
 func (s *menuService) GetTreeList() ([]*model.TreeNode, error) {
 	var menuNode model.TreeNode
-	data, err := dao.Menu.Where("type=0 and status=1 and mark=1").Fields("id,name,pid,icon,url,target").Order("sort").FindAll()
+	data, err := dao.Menu.Where("type=0 and mark=1").Fields("id,name,pid,icon,url,target").Order("sort").FindAll()
 	if err != nil {
 		return nil, errors.New("系统错误")
 	}
@@ -137,7 +137,7 @@ func (s *menuService) Add(req *model.MenuAddReq, userId int) (int64, error) {
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Url, gconv.Int(id))
+	setPermission(req.Type, req.Func, req.Url, gconv.Int(id), userId)
 
 	return id, nil
 }
@@ -177,7 +177,7 @@ func (s *menuService) Update(req *model.MenuUpdateReq, userId int) (int64, error
 	}
 
 	// 添加节点
-	setPermission(req.Type, req.Func, req.Url, req.Id)
+	setPermission(req.Type, req.Func, req.Url, req.Id, userId)
 
 	// 获取数影响的行数
 	rows, err := result.RowsAffected()
@@ -218,7 +218,7 @@ func (s *menuService) Delete(ids string) (int64, error) {
 }
 
 // 添加节点
-func setPermission(menuType int, funcIds string, url string, pid int) {
+func setPermission(menuType int, funcIds string, url string, pid int, userId int) {
 	if menuType != 0 || funcIds == "" || url == "" {
 		return
 	}
@@ -279,10 +279,16 @@ func setPermission(menuType int, funcIds string, url string, pid int) {
 				entity.Permission = "sys:" + moduleName + ":collapse"
 			}
 			entity.Pid = pid
-			entity.Type = 4
+			entity.Type = 1
 			entity.Status = 1
 			entity.Target = 1
 			entity.Sort = value
+			entity.CreateUser = userId
+			entity.CreateTime = gtime.Now()
+			entity.UpdateUser = userId
+			entity.UpdateTime = gtime.Now()
+			entity.Mark = 1
+
 			// 插入节点
 			dao.Menu.Insert(entity)
 		}

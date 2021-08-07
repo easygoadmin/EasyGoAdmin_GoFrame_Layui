@@ -357,3 +357,48 @@ func (s *userService) UpdateUserInfo(req *model.UserInfoReq, session *ghttp.Sess
 	session.Set("userInfo", userInfo)
 	return rows, nil
 }
+
+func (s *userService) UpdatePwd(req *model.UpdatePwd, userId int) (int64, error) {
+	if utils.AppDebug() {
+		return 0, gerror.New("演示环境，暂无权限操作")
+	}
+	// 查询信息
+	info, err := dao.User.FindOne("id=?", userId)
+	if err != nil {
+		return 0, err
+	}
+	if info == nil {
+		return 0, gerror.New("记录不存在")
+	}
+	// 比对旧密码
+	oldPwd, err := utils.Md5(req.OldPassword + info.Username)
+	if err != nil {
+		return 0, err
+	}
+	if oldPwd != info.Password {
+		return 0, gerror.New("旧密码不正确")
+	}
+
+	// 设置新密码
+	if req.NewPassword != req.RePassword {
+		return 0, gerror.New("两次输入的新密码不一致")
+	}
+	newPwd, err := utils.Md5(req.NewPassword + info.Username)
+	if err != nil {
+		return 0, err
+	}
+
+	result, err := dao.User.Data(g.Map{
+		"password": newPwd,
+	}).Where(dao.User.Columns.Id, userId).Update()
+	if err != nil {
+		return 0, err
+	}
+
+	// 获取受影响函数
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return rows, nil
+}

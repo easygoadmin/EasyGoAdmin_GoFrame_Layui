@@ -39,6 +39,7 @@ func init() {
 		group.GET("/index", controller.Index.Index)
 		group.GET("/main", controller.Index.Main)
 		group.ALL("/userInfo", controller.Index.UserInfo)
+		group.ALL("/updatePwd", controller.Index.UpdatePwd)
 		group.GET("/logout", controller.Index.Logout)
 	})
 
