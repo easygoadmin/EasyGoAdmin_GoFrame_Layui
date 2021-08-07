@@ -37,6 +37,12 @@ type configWeb struct{}
 
 func (c *configWeb) Index(r *ghttp.Request) {
 	if r.IsAjaxRequest() {
+		if utils.AppDebug() {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  "演示环境，暂无权限操作",
+			})
+		}
 		// key：string类型，value：interface{}  类型能存任何数据类型
 		var jsonObj map[string]interface{}
 		json.Unmarshal(r.GetBody(), &jsonObj)
