@@ -21,7 +21,6 @@ main
 go.sum
 
 document/easygoadmin.gf.layui.sql
-app/utils
 app/widget
 
 node_modules/
