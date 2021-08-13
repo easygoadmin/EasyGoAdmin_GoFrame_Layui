@@ -26,7 +26,6 @@ app/widget
 node_modules/
 src/
 dist/
-template/tpl/
 app/service/generate.go
 package.json
 package-lock.json
