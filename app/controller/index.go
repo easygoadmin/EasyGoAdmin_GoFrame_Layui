@@ -19,6 +19,7 @@ package controller
 import (
 	"easygoadmin/app/model"
 	"easygoadmin/app/service"
+	"easygoadmin/app/utils"
 	"easygoadmin/app/utils/common"
 	"easygoadmin/app/utils/function"
 	"easygoadmin/app/utils/response"
@@ -86,6 +87,35 @@ func (c *indexCtl) UserInfo(r *ghttp.Request) {
 		"mainTpl":  "user_info.html",
 		"userInfo": userInfo,
 	})
+}
+
+// 更新密码
+func (c *indexCtl) UpdatePwd(r *ghttp.Request) {
+	if r.IsAjaxRequest() {
+		// 参数验证
+		var req *model.UpdatePwd
+		if err := r.Parse(&req); err != nil {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+
+		// 调用更新密码方法
+		rows, err := service.User.UpdatePwd(req, utils.Uid(r.Session))
+		if err != nil || rows == 0 {
+			r.Response.WriteJsonExit(common.JsonResult{
+				Code: -1,
+				Msg:  err.Error(),
+			})
+		}
+
+		// 返回结果
+		r.Response.WriteJsonExit(common.JsonResult{
+			Code: 0,
+			Msg:  "更新密码成功",
+		})
+	}
 }
 
 // 退出登录

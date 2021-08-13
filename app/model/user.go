@@ -104,3 +104,10 @@ type UserInfoVo struct {
 	DeptName     string      `json:"deptName"`     // 部门
 	RoleIds      interface{} `json:"RoleIds"`      // 角色ID
 }
+
+// 更新密码
+type UpdatePwd struct {
+	OldPassword string `p:"oldPassword"      v:"required#旧密码不能为空"` // 旧密码
+	NewPassword string `p:"newPassword"      v:"required#新密码不能为空"` // 新密码
+	RePassword  string `p:"rePassword"      v:"required#确认密码不能为空"` // 确认密码
+}

@@ -39,6 +39,7 @@ func init() {
 		group.GET("/index", controller.Index.Index)
 		group.GET("/main", controller.Index.Main)
 		group.ALL("/userInfo", controller.Index.UserInfo)
+		group.ALL("/updatePwd", controller.Index.UpdatePwd)
 		group.GET("/logout", controller.Index.Logout)
 	})
 
@@ -258,18 +259,6 @@ func init() {
 		group.GET("/index", controller.Generate.Index)
 		group.POST("/list", controller.Generate.List)
 		group.POST("/generate", controller.Generate.Generate)
-	})
-
-	/* 案例演示 */
-	s.Group("example", func(group *ghttp.RouterGroup) {
-		group.GET("/index", controller.Example.Index)
-		group.POST("/list", controller.Example.List)
-		group.GET("/edit", controller.Example.Edit)
-		group.POST("/add", controller.Example.Add)
-		group.POST("/update", controller.Example.Update)
-		group.POST("/delete", controller.Example.Delete)
-		group.POST("/setStatus", controller.Example.Status)
-		group.POST("/setIsVip", controller.Example.IsVip)
 	})
 
 }
