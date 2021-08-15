@@ -209,4 +209,4 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 
 All rights reserved。
 
-更多细节参阅 [LICENSE.txt](LICENSE.txt)
+更多细节参阅 [LICENSE](LICENSE)
