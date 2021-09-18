@@ -17,8 +17,8 @@ type Member internal.Member
 // 分页查询条件
 type MemberPageReq struct {
 	Username string `p:"username"` // 用户名
-	Page     int    `p:page`       // 页码
-	Limit    int    `p:limit`      // 每页数
+	Page     int    `p:"page"`     // 页码
+	Limit    int    `p:"limit"`    // 每页数
 }
 
 // 添加会员

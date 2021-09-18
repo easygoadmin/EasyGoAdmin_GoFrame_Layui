@@ -26,8 +26,8 @@ type GenerateInfo struct {
 type GeneratePageReq struct {
 	Name    string `p:"name"`    // 表名称
 	Comment string `p:"comment"` // 表描述
-	Page    int    `p:page`      // 页码
-	Limit   int    `p:limit`     // 每页数
+	Page    int    `p:"page"`    // 页码
+	Limit   int    `p:"limit"`   // 每页数
 }
 
 // 生成文件

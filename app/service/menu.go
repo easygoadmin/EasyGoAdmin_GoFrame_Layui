@@ -35,7 +35,7 @@ var Menu = new(menuService)
 type menuService struct{}
 
 // 获取菜单权限列表
-func (s *menuService) GetPermissionList(userId int) interface{} {
+func (s *menuService) GetPermissionMenuList(userId int) interface{} {
 	if userId == 1 {
 		// 管理员(拥有全部权限)
 		menuList, _ := Menu.GetTreeList()
@@ -277,6 +277,22 @@ func setPermission(menuType int, funcIds string, url string, pid int, userId int
 				entity.Name = "全部折叠"
 				entity.Url = "/" + moduleName + "/collapse"
 				entity.Permission = "sys:" + moduleName + ":collapse"
+			} else if value == 50 {
+				entity.Name = "导出数据"
+				entity.Url = "/" + moduleName + "/export"
+				entity.Permission = "sys:" + moduleName + ":export"
+			} else if value == 55 {
+				entity.Name = "导入数据"
+				entity.Url = "/" + moduleName + "/import"
+				entity.Permission = "sys:" + moduleName + ":import"
+			} else if value == 60 {
+				entity.Name = "分配权限"
+				entity.Url = "/" + moduleName + "/permission"
+				entity.Permission = "sys:" + moduleName + ":permission"
+			} else if value == 65 {
+				entity.Name = "重置密码"
+				entity.Url = "/" + moduleName + "/resetPwd"
+				entity.Permission = "sys:" + moduleName + ":resetPwd"
 			}
 			entity.Pid = pid
 			entity.Type = 1

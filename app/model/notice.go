@@ -15,10 +15,10 @@ type Notice internal.Notice
 
 // 分页查询
 type NoticePageReq struct {
-	Title  string `p:"title"` // 通知标题
-	Source int    `p:source`  // 通知来源
-	Page   int    `p:page`    // 页码
-	Limit  int    `p:limit`   // 每页数
+	Title  string `p:"title"`  // 通知标题
+	Source int    `p:"source"` // 通知来源
+	Page   int    `p:"page"`   // 页码
+	Limit  int    `p:"limit"`  // 每页数
 }
 
 // 添加通知公告

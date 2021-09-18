@@ -15,10 +15,10 @@ type Example2 internal.Example2
 
 // 列表查询条件
 type Example2QueryReq struct {
-	Name   string `p:"name"` // 演示名称
-	Status int    `p:status` // 状态：1正常 2停用
-	Page   int    `p:page`   // 页码
-	Limit  int    `p:limit`  // 每页数
+	Name   string `p:"name"`   // 演示名称
+	Status int    `p:"status"` // 状态：1正常 2停用
+	Page   int    `p:"page"`   // 页码
+	Limit  int    `p:"limit"`  // 每页数
 }
 
 // 添加演示二
@@ -30,7 +30,7 @@ type Example2AddReq struct {
 
 // 更新演示二
 type Example2UpdateReq struct {
-	Id     int    `p:id 			v:"required#主键ID不能为空"`
+	Id     int    `p:"id" 			v:"required#主键ID不能为空"`
 	Name   string `p:"name"        v:"required#演示名称不能为空"` // 演示名称
 	Status int    `p:"status"        v:"required#请选择状态"`  // 状态：1正常 2停用
 	Sort   int    `p:"sort"        v:"required#排序号不能为空"`  // 排序号
@@ -38,7 +38,7 @@ type Example2UpdateReq struct {
 
 // 删除演示二
 type Example2DeleteReq struct {
-	Ids string `p:ids 				v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" 				v:"required#请选择需要删除的数据记录"`
 }
 
 // 设置状态

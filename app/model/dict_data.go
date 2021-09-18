@@ -15,10 +15,10 @@ type DictData internal.DictData
 
 // 字典项列表查询条件
 type DictDataPageReq struct {
-	DictId int    `p:dictId` // 字典ID
-	Name   string `p:"name"` // 字典项名称
-	Page   int    `p:page`   // 页码
-	Limit  int    `p:limit`  // 每页数
+	DictId int    `p:"dictId"` // 字典ID
+	Name   string `p:"name"`   // 字典项名称
+	Page   int    `p:"page"`   // 页码
+	Limit  int    `p:"limit"`  // 每页数
 }
 
 // 添加字典项
@@ -32,7 +32,7 @@ type DictDataAddReq struct {
 
 // 更新字典项
 type DictDataUpdateReq struct {
-	Id     int    `p:id v:"required#主键ID不能为空"`
+	Id     int    `p:"id" v:"required#主键ID不能为空"`
 	Name   string `p:"name,unique" v:"required#字典项名称不能为空"` // 字典项名称
 	Code   string `p:"code"        v:"required#字典项编码不能为空"` // 字典项值
 	DictId int    `p:"dict_id"     v:"required#字典ID不能为空"`  // 字典类型ID
@@ -42,5 +42,5 @@ type DictDataUpdateReq struct {
 
 // 删除字典项
 type DictDataDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }

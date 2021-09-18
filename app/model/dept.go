@@ -22,27 +22,27 @@ type DeptAddReq struct {
 	Name     string `p:"name" v:"required#部门名称不能为空"`
 	Code     string `p:"code" v:"required#部门编码不能为空"`
 	Fullname string `p:"fullname" v:"required#部门全称不能为空"`
-	Type     int    `p:type v:"required#请选择部门类型"`
+	Type     int    `p:"type" v:"required#请选择部门类型"`
 	Pid      int    `p:"pid"` // 上级ID
-	Sort     int    `p:sort v:"required#部门排序不能为空"`
+	Sort     int    `p:"sort" v:"required#部门排序不能为空"`
 	Note     string
 }
 
 // 部门编辑
 type DeptUpdateReq struct {
-	Id       int    `p:id v:"required#主键ID不能为空"`
+	Id       int    `p:"id" v:"required#主键ID不能为空"`
 	Name     string `p:"name" v:"required#部门名称不能为空"`
 	Code     string `p:"code" v:"required#部门编码不能为空"`
 	Fullname string `p:"fullname" v:"required#部门全称不能为空"`
-	Type     int    `p:type v:"required#请选择部门类型"`
+	Type     int    `p:"type" v:"required#请选择部门类型"`
 	Pid      int    `p:"pid"` // 上级ID
-	Sort     int    `p:sort v:"required#部门排序不能为空"`
+	Sort     int    `p:"sort" v:"required#部门排序不能为空"`
 	Note     string
 }
 
 // 部门删除
 type DeptDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }
 
 // 部门树结构

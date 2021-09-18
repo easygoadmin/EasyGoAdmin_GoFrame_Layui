@@ -23,6 +23,6 @@ type RoleMenuInfo struct {
 }
 
 type RoleMenuSaveReq struct {
-	RoleId  int    `p:roleId v:"required#角色ID不能为空"`
-	MenuIds string `p:menuIds v:"required#菜单权限节点不能为空"`
+	RoleId  int    `p:"roleId" v:"required#角色ID不能为空"`
+	MenuIds string `p:"menuIds" v:"required#菜单权限节点不能为空"`
 }

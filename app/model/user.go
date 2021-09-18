@@ -16,9 +16,9 @@ type User internal.User
 
 type UserPageReq struct {
 	Realname string `p:"realname"` // 用户姓名
-	Gender   int    `p:gender`     // 性别:1男 2女 3保密
-	Page     int    `p:page`       // 页码
-	Limit    int    `p:limit`      // 每页数
+	Gender   int    `p:"gender"`   // 性别:1男 2女 3保密
+	Page     int    `p:"page"`     // 页码
+	Limit    int    `p:"limit"`    // 每页数
 }
 
 type UserAddReq struct {
@@ -103,6 +103,7 @@ type UserInfoVo struct {
 	PositionName string      `json:"positionName"` // 岗位
 	DeptName     string      `json:"deptName"`     // 部门
 	RoleIds      interface{} `json:"RoleIds"`      // 角色ID
+	RoleName     string      `json:"roleName"`     // 角色名称
 }
 
 // 更新密码

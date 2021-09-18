@@ -28,7 +28,7 @@ type DictAddReq struct {
 
 // 修改字典
 type DictUpdateReq struct {
-	Id   int    `p:id v:"required#主键ID不能为空"`      // 主键ID
+	Id   int    `p:"id" v:"required#主键ID不能为空"`    // 主键ID
 	Name string `p:"name"  v:"required#字典名称不能为空"` // 字典名称
 	Code string `p:"code"  v:"required#字典编码不能为空"` // 字典值
 	Sort int    `p:"sort"  v:"required#字典排序不能为空"` // 显示顺序
@@ -37,5 +37,5 @@ type DictUpdateReq struct {
 
 // 删除字典
 type DictDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }

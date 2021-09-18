@@ -15,9 +15,9 @@ type MemberLevel internal.MemberLevel
 
 // 查询会员等级
 type MemberLevelPageReq struct {
-	Name  string `p:"name"` // 等级名称
-	Page  int    `p:page`   // 页码
-	Limit int    `p:limit`  // 每页数
+	Name  string `p:"name"`  // 等级名称
+	Page  int    `p:"page"`  // 页码
+	Limit int    `p:"limit"` // 每页数
 }
 
 // 添加会员等级

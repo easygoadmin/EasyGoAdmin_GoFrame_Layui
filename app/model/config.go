@@ -26,12 +26,12 @@ type ConfigAddReq struct {
 
 // 修改配置
 type ConfigUpdateReq struct {
-	Id   int    `p:id v:"required#主键ID不能为空"`      // 主键ID
+	Id   int    `p:"id" v:"required#主键ID不能为空"`    // 主键ID
 	Name string `p:"name"  v:"required#配置名称不能为空"` // 配置名称
 	Sort int    `p:"sort"  v:"required#配置排序不能为空"` // 显示顺序
 }
 
 // 删除配置
 type ConfigDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }

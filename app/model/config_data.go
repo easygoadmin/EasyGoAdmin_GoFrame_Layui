@@ -15,10 +15,10 @@ type ConfigData internal.ConfigData
 
 // 字典项列表查询条件
 type ConfigDataPageReq struct {
-	ConfigId int    `p:configId` // 字典ID
-	Title    string `p:"name"`   // 配置标题
-	Page     int    `p:page`     // 页码
-	Limit    int    `p:limit`    // 每页数
+	ConfigId int    `p:"configId"` // 字典ID
+	Title    string `p:"name"`     // 配置标题
+	Page     int    `p:"page"`     // 页码
+	Limit    int    `p:"limit"`    // 每页数
 }
 
 // 添加字典项
@@ -35,7 +35,7 @@ type ConfigDataAddReq struct {
 
 // 更新字典项
 type ConfigDataUpdateReq struct {
-	Id       int    `p:id v:"required#主键ID不能为空"`
+	Id       int    `p:"id" v:"required#主键ID不能为空"`
 	Title    string `p:"title"       v:"required#配置项标题不能为空"`  // 配置标题
 	Code     string `p:"code"        v:"required#配置项编码不能为空"`  // 配置编码
 	Value    string `p:"value"`                               // 配置值
@@ -48,7 +48,7 @@ type ConfigDataUpdateReq struct {
 
 // 删除字典项
 type ConfigDataDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }
 
 // 设置状态

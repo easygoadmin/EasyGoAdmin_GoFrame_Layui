@@ -17,8 +17,8 @@ type Ad internal.Ad
 // 列表查询
 type AdPageReq struct {
 	Title string `p:"title"` // 广告标题
-	Page  int    `p:page`    // 页码
-	Limit int    `p:limit`   // 每页数
+	Page  int    `p:"page"`  // 页码
+	Limit int    `p:"limit"` // 每页数
 }
 
 // 添加广告
@@ -40,7 +40,7 @@ type AdAddReq struct {
 
 // 更新广告
 type AdUpdateReq struct {
-	Id          int         `p:id v:"required#主键ID不能为空"`
+	Id          int         `p:"id" v:"required#主键ID不能为空"`
 	Title       string      `p:"title"       v:"required#广告标题不能为空"`    // 广告标题
 	AdSortId    int         `p:"ad_sort_id"  v:"required#广告位描述ID不能为空"` // 广告位ID
 	Cover       string      `p:"cover"`                                // 广告图片
@@ -58,7 +58,7 @@ type AdUpdateReq struct {
 
 // 删除广告
 type AdDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }
 
 // 设置状态

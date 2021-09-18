@@ -15,24 +15,24 @@ type Position internal.Position
 
 // 列表查询条件
 type PositionQueryReq struct {
-	Name  string `p:"name"` // 岗位名称
-	Page  int    `p:page`   // 页码
-	Limit int    `p:limit`  // 每页数
+	Name  string `p:"name"`  // 岗位名称
+	Page  int    `p:"page"`  // 页码
+	Limit int    `p:"limit"` // 每页数
 }
 
 type PositionAddReq struct {
 	Name   string `p:"name" v:"required#岗位名称不能为空"`
-	Status int    `p:sort v:"required#岗位状态不能为空"`
-	Sort   int    `p:sort v:"required#岗位排序不能为空"`
+	Status int    `p:"status" v:"required#岗位状态不能为空"`
+	Sort   int    `p:"sort" v:"required#岗位排序不能为空"`
 }
 
 type PositionUpdateReq struct {
-	Id     int    `p:id v:"required#主键ID不能为空"`
+	Id     int    `p:"id" v:"required#主键ID不能为空"`
 	Name   string `p:"name" v:"required#岗位名称不能为空"`
-	Status int    `p:sort v:"required#岗位状态不能为空"`
-	Sort   int    `p:sort v:"required#岗位排序不能为空"`
+	Status int    `p:"status" v:"required#岗位状态不能为空"`
+	Sort   int    `p:"sort" v:"required#岗位排序不能为空"`
 }
 
 type PositionDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }

@@ -105,6 +105,28 @@ func (s *userService) GetList(req *model.UserPageReq) ([]model.UserInfoVo, int, 
 		if v.DeptId > 0 {
 			item.DeptName = deptMap[v.DeptId]
 		}
+		// 角色信息
+		queryRole := dao.Role.As("r").Clone()
+		queryRole = queryRole.InnerJoin("sys_user_role as ur", "r.id = ur.role_id")
+		queryRole = queryRole.Where("ur.user_id=? AND r.mark=1", v.Id)
+		// 获取字段
+		queryRole.Fields("r.*")
+		// 排序
+		queryRole = queryRole.Order("r.sort asc")
+		// 数据转换
+		var roles []*model.Role
+		queryRole.Structs(&roles)
+		// 数据重组
+		roleList := make([]string, 0)
+		if len(roles) > 0 {
+			for _, val := range roles {
+				roleList = append(roleList, val.Name)
+			}
+		}
+		if len(roleList) > 0 {
+			item.RoleName = strings.Join(roleList, "、")
+		}
+
 		result = append(result, item)
 	}
 	return result, count, nil
@@ -161,12 +183,15 @@ func (s *userService) Add(req *model.UserAddReq, userId int) (int64, error) {
 	}
 
 	// 删除用户角色关系
-	dao.UserRole.Delete("user_id=?", userId)
+	dao.UserRole.Delete("user_id=?", entity.Id)
 	// 创建人员角色关系
 	roleIds := strings.Split(req.RoleIds, ",")
 	for _, v := range roleIds {
+		if gconv.Int(v) == 0 {
+			continue
+		}
 		var userRole model.UserRole
-		userRole.UserId = userId
+		userRole.UserId = entity.Id
 		userRole.RoleId = gconv.Int(v)
 		dao.UserRole.Insert(userRole)
 	}
@@ -236,12 +261,15 @@ func (s *userService) Update(req *model.UserUpdateReq, userId int) (int64, error
 	}
 
 	// 删除用户角色关系
-	dao.UserRole.Delete("user_id=?", userId)
+	dao.UserRole.Delete("user_id=?", info.Id)
 	// 创建人员角色关系
 	roleIds := strings.Split(req.RoleIds, ",")
 	for _, v := range roleIds {
+		if gconv.Int(v) == 0 {
+			continue
+		}
 		var userRole model.UserRole
-		userRole.UserId = userId
+		userRole.UserId = info.Id
 		userRole.RoleId = gconv.Int(v)
 		dao.UserRole.Insert(userRole)
 	}

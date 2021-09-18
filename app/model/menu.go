@@ -42,13 +42,13 @@ type MenuAddReq struct {
 
 // 更新菜单
 type MenuUpdateReq struct {
-	Id         int    `p:id v:"required#主键ID不能为空"`
+	Id         int    `p:"id" v:"required#主键ID不能为空"`
 	Name       string `p:"name" v:"required#菜单名称不能为空"`  // 菜单名称
 	Icon       string `p:"icon" v:"required#请选择菜单图标"`   // 图标
 	Url        string `p:"url" v:"required#菜单URL不能为空"`  // URL地址
 	Param      string `p:"param"`                       // 参数
 	Pid        int    `p:"pid"`                         // 上级ID
-	Type       int    `p:"type"v:"required#请选择菜单类型"`    // 类型：1模块 2导航 3菜单 4节点
+	Type       int    `p:"type" v:"required#请选择菜单类型"`   // 类型：1模块 2导航 3菜单 4节点
 	Permission string `p:"permission"`                  // 权限标识
 	Status     int    `p:"status" v:"required#请选择菜单状态"` // 是否显示：1显示 2不显示
 	Target     int    `p:"target" v:"required#请选择打开方式"` // 打开方式：1内部打开 2外部打开
@@ -58,7 +58,7 @@ type MenuUpdateReq struct {
 }
 
 type MenuDeleteReq struct {
-	Ids string `p:ids v:"require#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"require#请选择需要删除的数据记录"`
 }
 
 // 菜单树结构

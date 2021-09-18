@@ -38,7 +38,7 @@ func (c *indexCtl) Index(r *ghttp.Request) {
 		// 获取用户信息
 		userInfo := service.Login.GetProfile(r.Session)
 		// 获取菜单列表
-		menuList := service.Menu.GetPermissionList(userInfo.Id)
+		menuList := service.Menu.GetPermissionMenuList(userInfo.Id)
 		// 渲染模板并绑定数据
 		response.BuildTpl(r, "index.html").WriteTpl(g.Map{
 			"userInfo": userInfo,

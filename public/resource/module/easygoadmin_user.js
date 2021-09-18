@@ -52,6 +52,7 @@ layui.use(['func'], function () {
                     return '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.status == 1 ? 'checked' : '') + '>';
                 }
             }
+            , {field: 'roleName', width: 150, title: '角色名称', align: 'center'}
             , {field: 'deptName', width: 150, title: '所属部门', align: 'center'}
             , {field: 'levelName', width: 120, title: '职级名称', align: 'center'}
             , {field: 'positionName', width: 120, title: '岗位名称', align: 'center'}

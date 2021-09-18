@@ -15,9 +15,9 @@ type AdSort internal.AdSort
 
 // 列表查询条件
 type AdSortPageReq struct {
-	Description string `p:"name"` // 广告位描述
-	Page        int    `p:page`   // 页码
-	Limit       int    `p:limit`  // 每页数
+	Description string `p:"name"`  // 广告位描述
+	Page        int    `p:"page"`  // 页码
+	Limit       int    `p:"limit"` // 每页数
 }
 
 // 添加广告位
@@ -32,7 +32,7 @@ type AdSortAddReq struct {
 
 // 更新广告位
 type AdSortUpdateReq struct {
-	Id          int    `p:id v:"required#主键ID不能为空"`
+	Id          int    `p:"id" v:"required#主键ID不能为空"`
 	Description string `p:"description" v:"required#广告位描述不能为空"` // 广告位描述
 	ItemId      int    `p:"item_id"     v:"required#请选择站点"`     // 站点ID
 	CateId      int    `p:"cate_id"     v:"required#请选择栏目"`     // 栏目ID
@@ -42,7 +42,7 @@ type AdSortUpdateReq struct {
 }
 
 type AdSortDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }
 
 // 广告位信息

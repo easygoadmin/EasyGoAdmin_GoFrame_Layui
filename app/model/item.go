@@ -15,10 +15,10 @@ type Item internal.Item
 
 // 分页查询条件
 type ItemPageReq struct {
-	Name  string `p:"name"` // 站点名称
-	Type  int    `p:type`   // 站点类型
-	Page  int    `p:page`   // 页码
-	Limit int    `p:limit`  // 每页数
+	Name  string `p:"name"`  // 站点名称
+	Type  int    `p:"type"`  // 站点类型
+	Page  int    `p:"page"`  // 页码
+	Limit int    `p:"limit"` // 每页数
 }
 
 // 站点信息Vo

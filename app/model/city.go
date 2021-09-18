@@ -21,7 +21,7 @@ type CityInfoVo struct {
 // 列表查询条件
 type CityQueryReq struct {
 	Name string `p:"name"` // 城市名称
-	Pid  int    `p:pid`    // 上级ID
+	Pid  int    `p:"pid"`  // 上级ID
 }
 
 // 添加城市
@@ -39,7 +39,7 @@ type CityAddReq struct {
 
 // 编辑城市
 type CityUpdateReq struct {
-	Id       int    `p:id v:"required#主键ID不能为空"`            // 主键ID
+	Id       int    `p:"id" v:"required#主键ID不能为空"`          // 主键ID
 	Pid      int    `p:"pid"`                               // 父级编号
 	Level    int    `p:"level"       v:"required#请选择城市等级"`  // 城市级别：1省 2市 3区
 	Name     string `p:"name"        v:"required#城市名称不能为空"` // 城市名称
@@ -53,10 +53,10 @@ type CityUpdateReq struct {
 
 // 删除城市
 type CityDeleteReq struct {
-	Ids string `p:ids v:"required#请选择需要删除的数据记录"`
+	Ids string `p:"ids" v:"required#请选择需要删除的数据记录"`
 }
 
 // 获取子级城市
 type CityChildReq struct {
-	CityCode string `p:id v:"required#上级城市编码不能为空"`
+	CityCode string `p:"id" v:"required#上级城市编码不能为空"`
 }

@@ -15,8 +15,8 @@ type ItemCate internal.ItemCate
 
 // 栏目查询条件
 type ItemCateQueryReq struct {
-	Name   string `p:"name"`  // 栏目名称
-	ItemId int    `p:item_id` // 站点ID
+	Name   string `p:"name"`    // 栏目名称
+	ItemId int    `p:"item_id"` // 站点ID
 }
 
 // 添加站点
