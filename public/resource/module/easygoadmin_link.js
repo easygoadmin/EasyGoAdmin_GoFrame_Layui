@@ -78,14 +78,6 @@ layui.use(['func'], function () {
                     return '<span class="layui-btn ' + cls + ' layui-btn-xs">' + d.formName + '</span>';
                 }
             }
-            , {field: 'image', width: 100, title: '友链图片', align: 'center', templet: function (d) {
-                    var imageStr = "";
-                    if (d.imageUrl) {
-                        imageStr = '<a href="' + d.imageUrl + '" target="_blank"><img src="' + d.imageUrl + '" height="26" /></a>';
-                    }
-                    return imageStr;
-                }
-            }
             , {field: 'status', width: 100, title: '状态', align: 'center', templet: function (d) {
                     return '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" ' + (d.status == 1 ? 'checked' : '') + '>';
                 }

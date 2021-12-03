@@ -62,6 +62,29 @@ func (s *menuService) GetPermissionMenuList(userId int) interface{} {
 	}
 }
 
+// 获取权限节点列表
+func (s *menuService) GetPermissionsList(userId int) []string {
+	if userId == 1 {
+		// 管理员,管理员拥有全部权限
+		list, _ := dao.Menu.Fields("permission").Where("type=1").Where("mark=1").Array()
+		permissionList := gconv.Strings(list)
+		return permissionList
+	} else {
+		// 非管理员
+		// 创建查询实例
+		query := dao.Menu.As("m").Clone()
+		// 内联查询
+		query = query.InnerJoin("sys_role_menu as r", "m.id = r.menu_id")
+		query = query.InnerJoin("sys_user_role ur", "ur.role_id=r.role_id")
+		query = query.Where("ur.user_id=? AND m.type=1 AND m.`status`=1 AND m.mark=1", userId)
+		// 获取字段
+		query = query.Fields("m.permission")
+		list, _ := query.Array()
+		permissionList := gconv.Strings(list)
+		return permissionList
+	}
+}
+
 // 获取子级菜单
 func (s *menuService) GetTreeList() ([]*model.TreeNode, error) {
 	var menuNode model.TreeNode

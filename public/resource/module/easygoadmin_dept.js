@@ -52,7 +52,7 @@ layui.use(['func'], function () {
         func.treetable(cols, "tableList");
 
         //【设置弹框】
-        func.setWin("部门", 500, 420);
+        func.setWin("部门", 500, 530);
 
     }
 });

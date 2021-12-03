@@ -29,9 +29,7 @@ layui.use(['func'], function () {
                 return  '<input type="checkbox" name="status" value="' + d.id + '" lay-skin="switch" lay-text="正常|禁用" lay-filter="status" '+(d.status==1 ? 'checked' : '')+'>';
             }}
             , {field: 'sort', width: 100, title: '显示顺序', align: 'center'}
-            , {field: 'createUserName', width: 100, title: '添加人', align: 'center'}
             , {field: 'createTime', width: 180, title: '创建时间', align: 'center'}
-            , {field: 'updateUserName', width: 100, title: '更新人', align: 'center'}
             , {field: 'updateTime', width: 180, title: '更新时间', align: 'center'}
             , {fixed: 'right', width: 150, title: '功能操作', align: 'center', toolbar: '#toolBar'}
         ];

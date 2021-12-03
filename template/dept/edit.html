@@ -31,5 +31,11 @@
 			<input name="sort" value="{{.info.Sort}}" lay-verify="required|number" autocomplete="off" placeholder="请输入序号" class="layui-input" type="text">
 		</div>
 	</div>
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">备注：</label>
+		<div class="layui-input-block">
+			<textarea name="note" placeholder="请输入备注" class="layui-textarea">{{.info.Note}}</textarea>
+		</div>
+	</div>
 	{{submit "submit|立即保存,close|关闭" 1 ""}}
 </form>
