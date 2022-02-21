@@ -33,12 +33,12 @@
 * 系统名称：EasyGoAdmin敏捷开发框架GoFrame+Layui版本
 * 作者：半城风雨
 * 作者QQ：[1260211623](http://wpa.qq.com/msgrd?v=3&amp;uin=1260211623&amp;site=qq&amp;menu=yes)
-* 官网网址：[http://www.easygoadmin.vip/](http://www.easygoadmin.vip/)
-* 文档网址：[http://docs.goframe.layui.easygoadmin.vip/](http://docs.goframe.layui.easygoadmin.vip/)
+* 官网网址：[http://www.easygoadmin.vip](http://www.easygoadmin.vip)
+* 文档网址：[http://docs.goframe.layui.easygoadmin.vip](http://docs.goframe.layui.easygoadmin.vip)
 
 ## 🎨 系统演示
 
-+ 演示地址：http://goframe.layui.rxthink.cn/login
++ 演示地址：http://manage.goframe.layui.easygoadmin.vip
 
 账号 | 密码| 操作权限
 ---|---|---
@@ -197,11 +197,13 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 
 ## 📚 版权信息
 
-商业版使用需授权，未授权禁止恶意传播和用于商业用途，否则将追究相关人的法律责任。
+商业版使用需授权，未授权禁止恶意传播和用于商业用途，任何个人、单位、组织授权所获取的框架源码禁止分享、转售、恶意传播、开源(包括框架源码及二次开发后的产品)、禁止简单更改包装声称是自己的产品，否则将追究相关人的法律责任。
+
+本软件框架禁止任何单位和个人用于任何违法、侵害他人合法利益等恶意的行为，禁止用于任何违反我国法律法规的一切平台研发，任何单位和个人使用本软件框架用于产品研发而产生的任何意外、疏忽、合约毁坏、诽谤、版权或知识产权侵犯及其造成的损失 (包括但不限于直接、间接、附带或衍生的损失等)，本团队不承担任何法律责任。本软件框架只能用于公司和个人内部的法律所允许的合法合规的软件产品研发，详细声明内容请阅读《框架免责声明》附件；
 
 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
-版权所有Copyright © 2021 easygoadmin.vip (http://www.easygoadmin.vip)
+版权所有Copyright © 2019~2022 [easygoadmin.vip](http://www.easygoadmin.vip)
 
 All rights reserved。
 
