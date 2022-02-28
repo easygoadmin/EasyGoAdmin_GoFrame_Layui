@@ -182,8 +182,6 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 
 ![效果图](./public/uploads/demo/24.png)
 
-![效果图](./public/uploads/demo/25.png)
-
 
 ## 🍻 贡献者名单
 
