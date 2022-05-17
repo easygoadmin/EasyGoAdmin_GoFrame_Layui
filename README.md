@@ -31,7 +31,7 @@
 
 ## 👷 软件信息
 * 软件名称：EasyGoAdmin敏捷开发框架GoFrame+Layui版本
-* 软件作者：@半城风雨
+* 软件作者：@半城风雨 团队荣誉出品
 * 软件出处：深圳EasyGoAdmin研发中心
 * 软件协议：LGPL-3.0
 * 官网网址：[http://www.easygoadmin.vip](http://www.easygoadmin.vip)
@@ -174,10 +174,6 @@ Iris+AntdVue前后端分离版 | 采用Iris、Vue、AntDesign等框架研发前�
 ![效果图](./public/uploads/demo/21.png)
 
 ![效果图](./public/uploads/demo/22.png)
-
-![效果图](./public/uploads/demo/23.png)
-
-![效果图](./public/uploads/demo/24.png)
 
 ## ✨  特别鸣谢
 感谢[GoFrame](https://goframe.org/#all-updates)、[Layui](http://www.layui.com)等优秀开源项目。
