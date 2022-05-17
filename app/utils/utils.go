@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -29,6 +39,7 @@ import (
 	"github.com/gogf/gf/util/gconv"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -109,6 +120,15 @@ func GetImageUrl(path string) string {
 	return ImgUrl() + path
 }
 
+func InStringArray(value string, array []string) bool {
+	for _, v := range array {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
+
 func SaveImage(url string, dirname string) (string, error) {
 	// 判断文件地址是否为空
 	if gstr.Equal(url, "") {
@@ -147,6 +167,33 @@ func SaveImage(url string, dirname string) (string, error) {
 	return "", gerror.New("保存文件异常")
 }
 
+// 处理富文本
+func SaveImageContent(content string, title string, dirname string) string {
+	str := `<img src="(?s:(.*?))"`
+	//解析、编译正则
+	ret := regexp.MustCompile(str)
+	// 提取图片信息
+	alls := ret.FindAllStringSubmatch(content, -1)
+	// 遍历图片数据
+	for _, v := range alls {
+		// 获取图片地址
+		item := v[1]
+		if item == "" {
+			continue
+		}
+		// 保存图片至正式目录
+		image, _ := SaveImage(item, dirname)
+		if image != "" {
+			content = strings.ReplaceAll(content, item, "[IMG_URL]"+image)
+		}
+	}
+	// 设置ALT标题
+	if strings.Contains(content, "alt=\"\"") && title != "" {
+		content = strings.ReplaceAll(content, "alt=\"\"", "alt=\""+title+"\"")
+	}
+	return content
+}
+
 func Md5(password string) (string, error) {
 	// 第一次MD5加密
 	password, err := gmd5.Encrypt(password)
@@ -174,6 +221,13 @@ func InArray(value string, array []interface{}) bool {
 // 登录用户ID
 func Uid(session *ghttp.Session) int {
 	return session.GetInt("userId")
+}
+
+// 判断用户登录状态
+func IsLogin(session *ghttp.Session) bool {
+	// 获取用户ID
+	userId := session.GetInt("userId")
+	return userId > 0
 }
 
 // 获取数据库表

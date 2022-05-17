@@ -98,7 +98,7 @@ layui.extend({
                         height: saveH
                     }).toBlob(function (blob) {
                         var formData = new FormData();
-                        formData.append('file', blob, 'head.jpg');
+                        formData.append('file', blob, 'logo.png');
 
                         var index = layer.msg('图片保存中，请稍候', {icon: 16, time: false, shade: 0.2});
 

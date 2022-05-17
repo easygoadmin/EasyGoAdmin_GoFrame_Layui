@@ -1,4 +1,14 @@
 // +----------------------------------------------------------------------
+// | EasyGoAdmin敏捷开发框架 [ 赋能开发者，助力企业发展 ]
+// +----------------------------------------------------------------------
+// | 版权所有 2019~2022 深圳EasyGoAdmin研发中心
+// +----------------------------------------------------------------------
+// | Licensed LGPL-3.0 EasyGoAdmin并不是自由软件，未经许可禁止去掉相关版权
+// +----------------------------------------------------------------------
+// | 官方网站: http://www.easygoadmin.vip
+// +----------------------------------------------------------------------
+// | Author: @半城风雨 团队荣誉出品
+// +----------------------------------------------------------------------
 // | 版权和免责声明:
 // | 本团队对该软件框架产品拥有知识产权（包括但不限于商标权、专利权、著作权、商业秘密等）
 // | 均受到相关法律法规的保护，任何个人、组织和单位不得在未经本团队书面授权的情况下对所授权
@@ -61,7 +71,7 @@ layui.use(['func'], function () {
             , {field: 'positionName', width: 120, title: '岗位名称', align: 'center'}
             , {field: 'mobile', width: 130, title: '手机号码', align: 'center'}
             , {field: 'email', width: 200, title: '邮箱地址', align: 'center'}
-            , {field: 'birthday', width: 120, title: '出生日期', align: 'center'}
+            , {field: 'birthday', width: 120, title: '出生日期', align: 'center', templet:"<div>{{layui.util.toDateString(d.create_time*1000, 'yyyy-MM-dd')}}</div>"}
             , {field: 'sort', width: 100, title: '排序号', align: 'center'}
             , {field: 'createTime', width: 180, title: '创建时间', align: 'center'}
             , {field: 'updateTime', width: 180, title: '更新时间', align: 'center'}

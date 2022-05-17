@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html>
+<!-- 引入头部 -->
+{{include "/public/header.html" .}}
+<body>
 <style>
     /* 用户信息 */
     .user-info-head {
@@ -92,99 +97,106 @@
         margin-left: 68px;
     }
 </style>
-<div class="layui-row layui-col-space15">
-    <!-- 左 -->
-    <div class="layui-col-sm12 layui-col-md3">
-        <div class="layui-card">
-            <div class="layui-card-body" style="padding: 25px;">
-                <div class="text-center layui-text">
-                    <div class="user-info-head" id="adminInfoHead">
-                        <img src="{{if eq .userInfo.Avatar nil}}/resource/images/logo_mini.png{{else}}{{.userInfo.Avatar}}{{end}}" alt="用户头像"/>
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <!-- 左 -->
+        <div class="layui-col-sm12 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding: 25px;">
+                    <div class="text-center layui-text">
+                        <div class="user-info-head" id="adminInfoHead">
+                            <img src="{{if eq .userInfo.Avatar nil}}/resource/images/logo_mini.png{{else}}{{.userInfo.Avatar}}{{end}}" alt="用户头像"/>
+                        </div>
+                        <h2 style="padding-top: 20px;">{{.userInfo.Realname}}</h2>
+                        <p style="padding-top: 8px;">{{.userInfo.Intro}}</p>
                     </div>
-                    <h2 style="padding-top: 20px;">{{.userInfo.Username}}</h2>
-                    <p style="padding-top: 8px;">{{.userInfo.Intro}}</p>
-                </div>
-                <div class="layui-text" style="padding-top: 30px;">
-                    <div class="user-info-list-item">
-                        <i class="layui-icon layui-icon-username"></i>
-                        <p>{{.userInfo.Realname}}-{{.userInfo.Nickname}}</p>
+                    <div class="layui-text" style="padding-top: 30px;">
+                        <div class="user-info-list-item">
+                            <i class="layui-icon layui-icon-username"></i>
+                            <p>{{.userInfo.Realname}}-{{.userInfo.Nickname}}</p>
+                        </div>
+                        <div class="user-info-list-item">
+                            <i class="layui-icon layui-icon-release"></i>
+                            <p>{{.userInfo.Email}}</p>
+                        </div>
+                        <div class="user-info-list-item">
+                            <i class="layui-icon layui-icon-location"></i>
+                            <p>{{.userInfo.Address}}</p>
+                        </div>
                     </div>
-                    <div class="user-info-list-item">
-                        <i class="layui-icon layui-icon-release"></i>
-                        <p>{{.userInfo.Email}}</p>
+                    <div class="layui-line-dash"></div>
+                    <h3>标签</h3>
+                    <div class="layui-badge-list" style="padding-top: 6px;">
+                        <span class="layui-badge layui-bg-gray">Golang语言</span>
+                        <span class="layui-badge layui-bg-gray">GoFrame后端框架</span>
+                        <span class="layui-badge layui-bg-gray">Layui前端UI</span>
+                        <span class="layui-badge layui-bg-gray">Vue(前后端分离)</span>
+                        <span class="layui-badge layui-bg-gray">ElementUI(饿了吗)</span>
+                        <span class="layui-badge layui-bg-gray">AntDesign(蚂蚁)</span>
                     </div>
-                    <div class="user-info-list-item">
-                        <i class="layui-icon layui-icon-location"></i>
-                        <p>{{.userInfo.Address}}</p>
-                    </div>
-                </div>
-                <div class="layui-line-dash"></div>
-                <h3>标签</h3>
-                <div class="layui-badge-list" style="padding-top: 6px;">
-                    <span class="layui-badge layui-bg-gray">Golang语言</span>
-                    <span class="layui-badge layui-bg-gray">GoFrame后端框架</span>
-                    <span class="layui-badge layui-bg-gray">Layui前端UI</span>
-                    <span class="layui-badge layui-bg-gray">Vue(前后端分离)</span>
-                    <span class="layui-badge layui-bg-gray">ElementUI(饿了吗)</span>
-                    <span class="layui-badge layui-bg-gray">AntDesign(蚂蚁)</span>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 右 -->
-    <div class="layui-col-sm12 layui-col-md9">
-        <div class="layui-card">
-            <!-- 选项卡开始 -->
-            <div class="layui-tab layui-tab-brief" lay-filter="adminInfoTab">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">基本信息</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <!-- tab1 -->
-                    <div class="layui-tab-item layui-show">
-                        <form class="layui-form" id="userInfoSubmit" lay-filter="userInfoSubmit"
-                              style="max-width: 400px;padding: 25px 10px 0 0;">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label layui-form-required">真实名称:</label>
-                                <div class="layui-input-block">
-                                    <input name="realname" value="{{.userInfo.Realname}}" class="layui-input" lay-verify="required" required/>
+        <!-- 右 -->
+        <div class="layui-col-sm12 layui-col-md9">
+            <div class="layui-card">
+                <!-- 选项卡开始 -->
+                <div class="layui-tab layui-tab-brief" lay-filter="adminInfoTab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">基本信息</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <!-- tab1 -->
+                        <div class="layui-tab-item layui-show">
+                            <form class="layui-form" id="userInfoSubmit" lay-filter="userInfoSubmit"
+                                  style="max-width: 400px;padding: 25px 10px 0 0;">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label layui-form-required">真实名称:</label>
+                                    <div class="layui-input-block">
+                                        <input name="realname" value="{{.userInfo.Realname}}" class="layui-input" lay-verify="required" required/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label layui-form-required">邮箱:</label>
-                                <div class="layui-input-block">
-                                    <input name="email" value="{{.userInfo.Email}}" class="layui-input" lay-verify="required" required/>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label layui-form-required">邮箱:</label>
+                                    <div class="layui-input-block">
+                                        <input name="email" value="{{.userInfo.Email}}" class="layui-input" lay-verify="required" required/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">联系电话:</label>
-                                <div class="layui-input-block">
-                                    <input name="mobile" value="{{.userInfo.Mobile}}" lay-verify="required|phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input" type="tel">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">联系电话:</label>
+                                    <div class="layui-input-block">
+                                        <input name="mobile" value="{{.userInfo.Mobile}}" lay-verify="required|phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input" type="tel">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">街道地址:</label>
-                                <div class="layui-input-block">
-                                    <input name="address" value="{{.userInfo.Address}}" class="layui-input"/>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">街道地址:</label>
+                                    <div class="layui-input-block">
+                                        <input name="address" value="{{.userInfo.Address}}" class="layui-input"/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">个人简介:</label>
-                                <div class="layui-input-block">
-                                    <textarea name="intro" placeholder="个人简介" class="layui-textarea">{{.userInfo.Intro}}</textarea>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">个人简介:</label>
+                                    <div class="layui-input-block">
+                                        <textarea name="intro" placeholder="个人简介" class="layui-textarea">{{.userInfo.Intro}}</textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-filter="userInfoSubmit" lay-submit>更新基本信息
-                                    </button>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-filter="userInfoSubmit" lay-submit>更新基本信息
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                <!-- //选项卡结束 -->
             </div>
-            <!-- //选项卡结束 -->
         </div>
     </div>
 </div>
+<!-- 引入脚部 -->
+{{include "/public/footer.html" .}}
+</body>
+</html>
