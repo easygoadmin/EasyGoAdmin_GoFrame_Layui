@@ -62,7 +62,7 @@ func (s *menuService) GetPermissionMenuList(userId int) interface{} {
 		query = query.InnerJoin("sys_user_role ur", "ur.role_id=r.role_id")
 		query = query.Where("ur.user_id=? AND m.type=0 AND m.`status`=1 AND m.mark=1", userId)
 		// 获取字段
-		query.Fields("m.*")
+		query = query.Fields("m.*")
 		// 排序
 		query = query.Order("m.id asc")
 		// 数据转换
